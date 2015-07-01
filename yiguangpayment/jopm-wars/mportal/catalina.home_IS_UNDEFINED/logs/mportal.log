@@ -1,0 +1,1 @@
+2015-06-04 16:58:43,406 [main] INFO  o.s.b.f.xml.XmlBeanDefinitionReader - Loading XML bean definitions from class path resource [applicationContext-common.xml]

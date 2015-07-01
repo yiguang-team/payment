@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title>小部件 - 后台管理系统</title>
+
+		<meta name="description" content="Draggabble Widget Boxes &amp; Containers" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="../assets/css/bootstrap.css" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.css" />
+
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="../assets/css/jquery-ui.custom.css" />
+
+		<!-- text fonts -->
+		<link rel="stylesheet" href="../assets/css/ace-fonts.css" />
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="../assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+<link rel="stylesheet" href="../assets/css/ace-ie7.css" />
+
+		<!--[if lte IE 9]>
+			<link rel="stylesheet" href="../assets/css/ace-part2.css" class="ace-main-stylesheet" />
+		<![endif]-->
+
+		<!--[if lte IE 9]>
+		  <link rel="stylesheet" href="../assets/css/ace-ie.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+		<script src="../assets/js/ace-extra.js"></script>
+
+		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+		<!--[if lte IE 8]>
+		<script src="../assets/js/html5shiv.js"></script>
+		<script src="../assets/js/respond.js"></script>
+		<![endif]-->
+        <style type="text/css">
+		</style>
+	</head>
+
+	<body class="no-skin">
+		<!-- #section:basics/navbar.layout -->
+		<div id="navbar" class="navbar navbar-default">
+			<script type="text/javascript">
+				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="navbar-container" id="navbar-container">
+				<!-- #section:basics/sidebar.mobile.toggle -->
+				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+					<span class="sr-only">切换栏</span>
+
+					<span class="icon-bar"></span>
+
+					<span class="icon-bar"></span>
+
+					<span class="icon-bar"></span>
+				</button>
+
+				<!-- /section:basics/sidebar.mobile.toggle -->
+				<div class="navbar-header pull-left">
+					<!-- #section:basics/navbar.layout.brand -->
+					<a href="index.html" class="navbar-brand"> <small> 后台管理系统 </small> </a> <!-- /section:basics/navbar.layout.brand -->
+
+					<!-- #section:basics/navbar.toggle -->
+
+					<!-- /section:basics/navbar.toggle -->
+				</div>
+
+				<!-- #section:basics/navbar.dropdown -->
+				<div class="navbar-buttons navbar-header pull-right" role="navigation">
+					<ul class="nav ace-nav">
+						<li class="blue"> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <i class="ace-icon fa fa-tasks" title="任务"></i> <span class="badge badge-grey">4</span> </a>
+
+							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header"> <i class="ace-icon fa fa-check"></i> 任务（4） </li>
+
+								<li class="dropdown-content">
+									<ul class="dropdown-menu dropdown-navbar">
+										<li>
+											<a href="#">
+												<div class="clearfix"> <span class="pull-left">软件更新</span> <span class="pull-right">65%</span> </div>
+
+												<div class="progress progress-mini">
+													<div style="width:65%" class="progress-bar"></div>
+												</div>
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<div class="clearfix"> <span class="pull-left">硬件升级</span> <span class="pull-right">35%</span> </div>
+
+												<div class="progress progress-mini">
+													<div style="width:35%" class="progress-bar progress-bar-danger"></div>
+												</div>
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<div class="clearfix"> <span class="pull-left">单元测试</span> <span class="pull-right">15%</span> </div>
+
+												<div class="progress progress-mini">
+													<div style="width:15%" class="progress-bar progress-bar-warning"></div>
+												</div>
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<div class="clearfix"> <span class="pull-left">错误修复</span> <span class="pull-right">90%</span> </div>
+
+												<div class="progress progress-mini progress-striped active">
+													<div style="width:90%" class="progress-bar progress-bar-success"></div>
+												</div>
+											</a>
+										</li>
+									</ul>
+								</li>
+
+								<li class="dropdown-footer"> <a href="#"> 查看任务列表 <i class="ace-icon fa fa-arrow-right"></i> </a> </li>
+							</ul>
+						</li>
+
+						<li class="blue"> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <i class="ace-icon fa fa-bell icon-animated-bell" title="通知"></i> <span class="badge badge-important">8</span> </a>
+
+							<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header"> <i class="ace-icon fa fa-exclamation-triangle"></i> 通知（8） </li>
+
+								<li class="dropdown-content">
+									<ul class="dropdown-menu dropdown-navbar navbar-pink">
+										<li>
+											<a href="#">
+												<div class="clearfix"> <span class="pull-left">  新评论 </span> <span class="pull-right badge badge-info">+12</span> </div>
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												
+												Bob just signed up as an editor ...
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<div class="clearfix"> <span class="pull-left"> 新订单 </span> <span class="pull-right badge badge-success">+8</span> </div>
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<div class="clearfix"> <span class="pull-left"> 关注 </span> <span class="pull-right badge badge-info">+11</span> </div>
+											</a>
+										</li>
+									</ul>
+								</li>
+
+								<li class="dropdown-footer"> <a href="#"> 查看所有通知 <i class="ace-icon fa fa-arrow-right"></i> </a> </li>
+							</ul>
+						</li>
+
+						<li class="blue"> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <i class="ace-icon fa fa-envelope icon-animated-vertical" title="消息"></i> <span class="badge badge-success">5</span> </a>
+
+							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header"> <i class="ace-icon fa fa-envelope-o"></i> 消息（5） </li>
+
+								<li class="dropdown-content">
+									<ul class="dropdown-menu dropdown-navbar">
+										<li>
+											<a href="#" class="clearfix">
+												<img src="../assets/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Alex:</span>
+														Ciao sociis natoque penatibus et auctor ...
+													</span>
+
+													<span class="msg-time">
+														
+														<span>a moment ago</span>
+													</span>
+												</span>
+											</a>
+										</li>
+
+										<li>
+											<a href="#" class="clearfix">
+												<img src="../assets/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Susan:</span>
+														Vestibulum id ligula porta felis euismod ...
+													</span>
+
+													<span class="msg-time">
+														
+														<span>20 minutes ago</span>
+													</span>
+												</span>
+											</a>
+										</li>
+
+										<li>
+											<a href="#" class="clearfix">
+												<img src="../assets/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Bob:</span>
+														Nullam quis risus eget urna mollis ornare ...
+													</span>
+
+													<span class="msg-time">
+														
+														<span>3:15 pm</span>
+													</span>
+												</span>
+											</a>
+										</li>
+
+										<li>
+											<a href="#" class="clearfix">
+												<img src="../assets/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Kate:</span>
+														Ciao sociis natoque eget urna mollis ornare ...
+													</span>
+
+													<span class="msg-time">
+														
+														<span>1:33 pm</span>
+													</span>
+												</span>
+											</a>
+										</li>
+
+										<li>
+											<a href="#" class="clearfix">
+												<img src="../assets/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Fred:</span>
+														Vestibulum id penatibus et auctor  ...
+													</span>
+
+													<span class="msg-time">
+														
+														<span>10:09 am</span>
+													</span>
+												</span>
+											</a>
+										</li>
+									</ul>
+								</li>
+
+								 <li class="dropdown-footer"> <a href="inbox.html"> 所有消息 <i class="ace-icon fa fa-arrow-right"></i> </a> </li>
+							</ul>
+						</li>
+
+						<!-- #section:basics/navbar.user_menu -->
+						<li class="blue">
+							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+								<img class="nav-user-photo" src="../assets/avatars/user.jpg" alt="Jason's Photo" />
+								<span class="user-info">
+									<small>欢迎您,</small> admin </span>
+
+								<i class="ace-icon fa fa-caret-down"></i>
+							</a>
+
+							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+								<li> <a href="#"> <i class="ace-icon fa fa-cog"></i> 设置 </a> </li>
+            <li> <a href="profile.html"> <i class="ace-icon fa fa-user"></i> 个人资料 </a> </li>
+            <li class="divider"></li>
+            <li> <a href="#"> <i class="ace-icon fa fa-power-off"></i> 退出 </a> </li>
+							</ul>
+						</li>
+
+						<!-- /section:basics/navbar.user_menu -->
+					</ul>
+				</div>
+
+				<!-- /section:basics/navbar.dropdown -->
+			</div><!-- /.navbar-container -->
+		</div>
+
+		<!-- /section:basics/navbar.layout -->
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<!-- #section:basics/sidebar -->
+			<div id="sidebar" class="sidebar                  responsive">
+				<script type="text/javascript">
+					try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+				</script>
+
+				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+					<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+						<button class="btn btn-success">
+							<i class="ace-icon fa fa-signal"></i>
+						</button>
+
+						<button class="btn btn-info">
+							<i class="ace-icon fa fa-pencil"></i>
+						</button>
+
+						<!-- #section:basics/sidebar.layout.shortcuts -->
+						<button class="btn btn-warning">
+							<i class="ace-icon fa fa-users"></i>
+						</button>
+
+						<button class="btn btn-danger">
+							<i class="ace-icon fa fa-cogs"></i>
+						</button>
+
+						<!-- /section:basics/sidebar.layout.shortcuts -->
+					</div>
+
+					<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+						<span class="btn btn-success"></span>
+
+						<span class="btn btn-info"></span>
+
+						<span class="btn btn-warning"></span>
+
+						<span class="btn btn-danger"></span>
+					</div>
+				</div><!-- /.sidebar-shortcuts -->
+
+				<ul class="nav nav-list">
+					<li class="">
+						<a href="index.html">
+							<i class="menu-icon fa fa-tachometer"></i>
+							<span class="menu-text"> 指示板 </span>
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-desktop"></i>
+							<span class="menu-text"> UI和元素 </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class=""> <a href="typography.html"> <i class="menu-icon fa fa-caret-right"></i> 排版 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="elements.html"> <i class="menu-icon fa fa-caret-right"></i> 元素 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="buttons.html"> <i class="menu-icon fa fa-caret-right"></i> 按钮和图标 </a> <b class="arrow"></b> </li>
+          
+          <li class=""> <a href="treeview.html"> <i class="menu-icon fa fa-caret-right"></i> 树状视图 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="jquery-ui.html"> <i class="menu-icon fa fa-caret-right"></i> jQuery UI </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="nestable-list.html"> <i class="menu-icon fa fa-caret-right"></i> 嵌套列表 </a> <b class="arrow"></b> </li>
+						</ul>
+					</li>
+
+					<li class=""> <a href="#" class="dropdown-toggle"> <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 表格 </span> <b class="arrow fa fa-angle-down"></b> </a> <b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class=""> <a href="tables.html"> <i class="menu-icon fa fa-caret-right"></i> 简单和动态 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="jqgrid.html"> <i class="menu-icon fa fa-caret-right"></i> jqGrid插件 </a> <b class="arrow"></b> </li>
+						</ul>
+					</li>
+
+					 <li class=""> <a href="#" class="dropdown-toggle"> <i class="menu-icon fa fa-pencil-square-o"></i> <span class="menu-text"> 表单 </span> <b class="arrow fa fa-angle-down"></b> </a> <b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class=""> <a href="form-elements.html"> <i class="menu-icon fa fa-caret-right"></i> 表单元素 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="form-elements-2.html"> <i class="menu-icon fa fa-caret-right"></i> 表单元素2 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="form-wizard.html"> <i class="menu-icon fa fa-caret-right"></i> 向导和验证 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="wysiwyg.html"> <i class="menu-icon fa fa-caret-right"></i> 编辑器 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="dropzone.html"> <i class="menu-icon fa fa-caret-right"></i> 拖拽上传文件 </a> <b class="arrow"></b> </li>
+						</ul>
+					</li>
+
+					<li class="active">
+						<a href="widgets.html"> <i class="menu-icon fa fa-list-alt"></i> <span class="menu-text"> 小部件 </span> </a>
+
+						<b class="arrow"></b>
+					</li>
+
+					<li class="">
+						<a href="gallery.html"> <i class="menu-icon fa fa-picture-o"></i> <span class="menu-text"> 图片 </span> </a>
+
+						<b class="arrow"></b>
+					</li>
+
+					<li class="">
+						<a href="#" class="dropdown-toggle"> <i class="menu-icon fa fa-tag"></i> <span class="menu-text"> 更多页面 </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class=""> <a href="profile.html"> <i class="menu-icon fa fa-caret-right"></i> 个人资料 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="inbox.html"> <i class="menu-icon fa fa-caret-right"></i> 收件箱 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="pricing.html"> <i class="menu-icon fa fa-caret-right"></i> 定价表 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="invoice.html"> <i class="menu-icon fa fa-caret-right"></i> 发票 </a> <b class="arrow"></b> </li>
+          
+          <li class=""> <a target="_blank" href="login.html"> <i class="menu-icon fa fa-caret-right"></i> 登录和注册 </a> <b class="arrow"></b> </li>
+						</ul>
+					</li>
+
+					<li class="">
+						<a href="#" class="dropdown-toggle"> <i class="menu-icon fa fa-file-o"></i> <span class="menu-text"> 其他页面
+
+								<!-- #section:basics/sidebar.layout.badge -->
+								<span class="badge badge-primary">5</span>
+
+								<!-- /section:basics/sidebar.layout.badge -->
+							</span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="faq.html"> <i class="menu-icon fa fa-caret-right"></i> 帮助中心 </a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="error-404.html"> <i class="menu-icon fa fa-caret-right"></i> 404错误页面 </a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="error-500.html"> <i class="menu-icon fa fa-caret-right"></i> 500错误页面 </a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="grid.html"> <i class="menu-icon fa fa-caret-right"></i> 栅格 </a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="blank.html"> <i class="menu-icon fa fa-caret-right"></i> 空白页 </a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
+				</ul><!-- /.nav-list -->
+
+				<!-- #section:basics/sidebar.layout.minimize -->
+				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+					<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+				</div>
+
+				<!-- /section:basics/sidebar.layout.minimize -->
+				<script type="text/javascript">
+					try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+				</script>
+			</div>
+
+			<!-- /section:basics/sidebar -->
+			<div class="main-content">
+				<div class="main-content-inner">
+					<!-- #section:basics/content.breadcrumbs -->
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li> <i class="ace-icon fa fa-home home-icon"></i> <a href="index.html">首页</a> <span class="noshow jt">></span></li>
+							<li class="active">小部件</li>
+						</ul><!-- /.breadcrumb -->
+
+						<!-- #section:basics/content.searchbox -->
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="ace-icon fa fa-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- /.nav-search -->
+
+						<!-- /section:basics/content.searchbox -->
+					</div>
+
+					<!-- /section:basics/content.breadcrumbs -->
+					<div class="page-content">
+						<div class="page-header">
+							<h1>
+								小部件
+								<small>
+									<i class="ace-icon fa fa-angle-double-right"></i>
+									可拖动部件框和容器
+								</small>
+							</h1>
+						</div><!-- /.page-header -->
+
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+								<div class="row">
+									<div class="col-xs-12 col-sm-6 widget-container-col">
+										<!-- #section:custom/widget-box -->
+										<div class="widget-box">
+											<div class="widget-header">
+												<h5 class="widget-title">默认部件框</h5>
+
+												<!-- #section:custom/widget-box.toolbar -->
+												<div class="widget-toolbar">
+													<div class="widget-menu">
+														<a href="#" data-action="settings" data-toggle="dropdown" title="下拉菜单">
+															<i class="ace-icon fa fa-bars"></i>
+														</a>
+
+														<ul class="dropdown-menu dropdown-menu-right dropdown-light-blue dropdown-caret dropdown-closer">
+															<li>
+																<a data-toggle="tab" href="#dropdown1">选项#1</a>
+															</li>
+
+															<li>
+																<a data-toggle="tab" href="#dropdown2">选项#2</a>
+															</li>
+														</ul>
+													</div>
+
+													<a href="#" data-action="fullscreen" class="orange2" title="最大化">
+														<i class="ace-icon fa fa-expand"></i>
+													</a>
+
+													<a href="#" data-action="reload" title="刷新">
+														<i class="ace-icon fa fa-refresh"></i>
+													</a>
+
+													<a href="#" data-action="collapse" title="收起">
+														<i class="ace-icon fa fa-chevron-up"></i>
+													</a>
+
+													<a href="#" data-action="close" title="关闭">
+														<i class="ace-icon fa fa-times"></i>
+													</a>
+												</div>
+
+												<!-- /section:custom/widget-box.toolbar -->
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main">
+													<p class="alert alert-info">
+														继LBS事业部架构大调整后，百度又悄然成立电影业务部，该业务部组织结构相对独立，由百度原商业知心产品高级总监徐勇明负责。让一个负责百度游戏、教育、医疗、电商等多个核心产品的负责人单独负责一个电影业务，百度这是为哪般？
+													</p>
+													<p class="alert alert-success">
+														百度电影业务布局：全链路触及用户观影过程，打造垂直O2O新玩法
+													</p>
+												</div>
+											</div>
+										</div>
+
+										<!-- /section:custom/widget-box -->
+									</div>
+
+									<div class="col-xs-12 col-sm-6 widget-container-col">
+										<div class="widget-box widget-color-blue">
+											<!-- #section:custom/widget-box.options -->
+											<div class="widget-header">
+												<h5 class="widget-title bigger lighter">
+													<i class="ace-icon fa fa-table"></i>
+													表格（可切换颜色）
+												</h5>
+
+												<div class="widget-toolbar widget-toolbar-light no-border">
+													<select id="simple-colorpicker-1" class="hide">
+														<option selected="" data-class="blue" value="#307ECC">#307ECC</option>
+														<option data-class="blue2" value="#5090C1">#5090C1</option>
+														<option data-class="blue3" value="#6379AA">#6379AA</option>
+														<option data-class="green" value="#82AF6F">#82AF6F</option>
+														<option data-class="green2" value="#2E8965">#2E8965</option>
+														<option data-class="green3" value="#5FBC47">#5FBC47</option>
+														<option data-class="red" value="#E2755F">#E2755F</option>
+														<option data-class="red2" value="#E04141">#E04141</option>
+														<option data-class="red3" value="#D15B47">#D15B47</option>
+														<option data-class="orange" value="#FFC657">#FFC657</option>
+														<option data-class="purple" value="#7E6EB0">#7E6EB0</option>
+														<option data-class="pink" value="#CE6F9E">#CE6F9E</option>
+														<option data-class="dark" value="#404040">#404040</option>
+														<option data-class="grey" value="#848484">#848484</option>
+														<option data-class="default" value="#EEE">#EEE</option>
+													</select>
+												</div>
+											</div>
+
+											<!-- /section:custom/widget-box.options -->
+											<div class="widget-body">
+												<div class="widget-main no-padding">
+													<table class="table table-striped table-bordered table-hover">
+														<thead class="thin-border-bottom">
+															<tr>
+																<th>
+																	<i class="ace-icon fa fa-user"></i>
+																	用户
+																</th>
+
+																<th>
+																	<i>@</i>
+																	邮箱
+																</th>
+																<th class="hidden-480">状态</th>
+															</tr>
+														</thead>
+
+														<tbody>
+															<tr>
+																<td class="">小米</td>
+
+																<td>
+																	<a href="#">alex@email.com</a>
+																</td>
+
+																<td class="hidden-480">
+																	<span class="label label-warning">在线</span>
+																</td>
+															</tr>
+
+															<tr>
+																<td class="">小红</td>
+
+																<td>
+																	<a href="#">fred@email.com</a>
+																</td>
+
+																<td class="hidden-480">
+																	<span class="label label-success arrowed-in arrowed-in-right">离开</span>
+																</td>
+															</tr>
+
+															<tr>
+																<td class="">潇潇</td>
+
+																<td>
+																	<a href="#">jack@email.com</a>
+																</td>
+
+																<td class="hidden-480">
+																	<span class="label label-warning">在线</span>
+																</td>
+															</tr>
+
+															<tr>
+																<td class="">眉飞色舞</td>
+
+																<td>
+																	<a href="#">john@email.com</a>
+																</td>
+
+																<td class="hidden-480">
+																	<span class="label label-inverse arrowed">下线</span>
+																</td>
+															</tr>
+
+															<tr>
+																<td class="">James</td>
+
+																<td>
+																	<a href="#">james@email.com</a>
+																</td>
+
+																<td class="hidden-480">
+																	<span class="label label-info arrowed-in arrowed-in-right">在线</span>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div><!-- /.span -->
+								</div><!-- /.row -->
+
+								<div class="space-24"></div>
+
+								<div class="row">
+									<div class="col-xs-12 col-sm-6 widget-container-col">
+										<div class="widget-box widget-color-orange collapsed">
+											<!-- #section:custom/widget-box.options.collapsed -->
+											<div class="widget-header widget-header-small">
+												<h6 class="widget-title">
+													<i class="ace-icon fa fa-sort"></i>
+													小标题和折叠框
+												</h6>
+
+												<div class="widget-toolbar">
+													<a href="#" data-action="settings" title="设置">
+														<i class="ace-icon fa fa-cog"></i>
+													</a>
+
+													<a href="#" data-action="reload" title="刷新">
+														<i class="ace-icon fa fa-refresh"></i>
+													</a>
+
+													<a href="#" data-action="collapse" title="展开/收起">
+														<i class="ace-icon fa fa-plus" data-icon-show="fa-plus" data-icon-hide="fa-minus"></i>
+													</a>
+
+													<a href="#" data-action="close" title="关闭">
+														<i class="ace-icon fa fa-times"></i>
+													</a>
+												</div>
+											</div>
+
+											<!-- /section:custom/widget-box.options.collapsed -->
+											<div class="widget-body">
+												<div class="widget-main">
+													<p class="alert alert-info">
+														扩大入口优势：百度将电影票业务作为垂直O2O战略发展，集中现有大搜索流量资源重新整合。据悉，百度搜索将建立全新的"电影知心"搜索结果，在PC和移动端提供电影资讯和影评的同时为用户提供相关的在售电影票服务。从布局图中可以看出，百度地图作为电影票业务的移动端引流入口已远远不够，百度还将通过糯米团APP和百度搜索APP中增加附近电影院在线购票业务扩大其在电影票市场的覆盖力度。另外在爱奇艺和百度视频中的电影预告片嵌入电影票应用，也真是力证了百度在巩固和扩大入口地位上的无所不用其极的手段。
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-xs-12 col-sm-6 widget-container-col">
+										<div class="widget-box">
+											<!-- #section:custom/widget-box.header.options -->
+											<div class="widget-header widget-header-large">
+												<h4 class="widget-title">大标题</h4>
+
+												<div class="widget-toolbar">
+													<a href="#" data-action="settings" title="设置">
+														<i class="ace-icon fa fa-cog"></i>
+													</a>
+
+													<a href="#" data-action="reload" title="刷新">
+														<i class="ace-icon fa fa-refresh"></i>
+													</a>
+
+													<a href="#" data-action="collapse" title="展开/收起">
+														<i class="ace-icon fa fa-plus" data-icon-show="fa-plus" data-icon-hide="fa-minus"></i>
+													</a>
+
+													<a href="#" data-action="close" title="关闭">
+														<i class="ace-icon fa fa-times"></i>
+													</a>
+												</div>
+											</div>
+
+											<!-- /section:custom/widget-box.header.options -->
+											<div class="widget-body">
+												<div class="widget-main">
+													<p class="alert alert-info">
+														扩大入口优势：百度将电影票业务作为垂直O2O战略发展，集中现有大搜索流量资源重新整合。据悉，百度搜索将建立全新的"电影知心"搜索结果，在PC和移动端提供电影资讯和影评的同时为用户提供相关的在售电影票服务。从布局图中可以看出，百度地图作为电影票业务的移动端引流入口已远远不够，百度还将通过糯米团APP和百度搜索APP中增加附近电影院在线购票业务扩大其在电影票市场的覆盖力度。另外在爱奇艺和百度视频中的电影预告片嵌入电影票应用，也真是力证了百度在巩固和扩大入口地位上的无所不用其极的手段。
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="space-24"></div>
+
+								<div class="row">
+									<div class="col-xs-12 col-sm-3 widget-container-col">
+										<div class="widget-box">
+											<div class="widget-header">
+												<h5 class="widget-title smaller">带标签的</h5>
+
+												<div class="widget-toolbar">
+													<span class="label label-success">
+														16%
+														<i class="ace-icon fa fa-arrow-up"></i>
+													</span>
+												</div>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main padding-6">
+													<div class="alert alert-info"> 你好，2015! </div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-xs-12 col-sm-3 widget-container-col">
+										<div class="widget-box widget-color-dark light-border">
+											<div class="widget-header">
+												<h5 class="widget-title smaller">带标记的</h5>
+
+												<div class="widget-toolbar">
+													<span class="badge badge-danger">警报</span>
+												</div>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main padding-6">
+													<div class="alert alert-info"> 你好，2015!  </div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-xs-12 col-sm-6 widget-container-col">
+										<div class="widget-box widget-color-dark">
+											<div class="widget-header widget-header-small">
+												<h6 class="widget-title smaller">带标签和标记的</h6>
+
+												<div class="widget-toolbar no-border">
+													<label>
+														<input type="checkbox" class="ace ace-switch ace-switch-3" />
+														<span class="lbl middle"></span>
+													</label>
+												</div>
+
+												<div class="widget-toolbar">
+													<span class="label label-warning">
+														1.2%
+														<i class="ace-icon fa fa-arrow-down"></i>
+													</span>
+													<span class="badge badge-info">信息</span>
+												</div>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main">
+													<div class="alert alert-info">
+														众所周知，"在线选座"是整个在线电影票业务的核心，也是打通线上线下闭环服务中最关键的体验。正好比电商流程中物流的最后一公里一样
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="space"></div>
+
+								<div class="row">
+									<div class="col-xs-12 col-sm-6 widget-container-col">
+										<div class="widget-box widget-color-dark">
+											<div class="widget-header">
+												<h5 class="widget-title bigger lighter">带工具箱的</h5>
+
+												<div class="widget-toolbar">
+													<div class="progress progress-mini progress-striped active pos-rel" style="width:100px;" data-percent="61%">
+														<div class="progress-bar progress-bar-danger" style="width:61%"></div>
+													</div>
+												</div>
+											</div>
+
+											<div class="widget-body">
+												<!-- #section:custom/widget-box.toolbox -->
+												<div class="widget-toolbox">
+													<div class="btn-toolbar">
+														<div class="btn-group">
+															<button class="btn btn-sm btn-success btn-white btn-round">
+																<i class="ace-icon fa fa-check bigger-110 green"></i>
+																批准
+															</button>
+
+															<button class="btn btn-sm btn-danger btn-white btn-round">
+																<i class="ace-icon fa fa-times bigger-110 red2"></i>
+																驳回
+															</button>
+														</div>
+
+														<div data-toggle="buttons" class="btn-group">
+															<label class="btn btn-sm btn-default btn-white btn-round">
+																<i class="icon-only ace-icon fa fa-bold bigger-110" title="加粗"></i>
+
+																<input type="checkbox" value="1" />
+															</label>
+
+															<label class="btn btn-sm btn-default btn-white btn-round">
+																<i class="icon-only ace-icon fa fa-italic bigger-110" title="斜体"></i>
+
+																<input type="checkbox" value="2" />
+															</label>
+														</div>
+
+														<div data-toggle="buttons" class="btn-group">
+															<label class="btn btn-sm btn-primary btn-white btn-round">
+																<i class="icon-only ace-icon fa fa-align-left bigger-110" title="左对齐"></i>
+
+																<input type="radio" value="1" />
+															</label>
+
+															<label class="btn btn-sm btn-primary btn-white btn-round">
+																<i class="icon-only ace-icon fa fa-align-center bigger-110" title="居中对齐"></i>
+
+																<input type="radio" value="2" />
+															</label>
+
+															<label class="btn btn-sm btn-primary btn-white btn-round">
+																<i class="icon-only ace-icon fa fa-align-right bigger-110" title="右对齐"></i>
+
+																<input type="radio" value="3" />
+															</label>
+														</div>
+													</div>
+												</div>
+
+												<!-- /section:custom/widget-box.toolbox -->
+												<div class="widget-main padding-16">
+													<p>据传百度已密谋联络万达、中影集团等国内主要院线开展售票系统、在线选座甚至包括取票终端和手机验票在内的系统研发层面的深度合作沟通。财大气粗的互联网土豪高调入场，也许不久将建立以围绕信息搜索和基于地图的本地生活服务为入口，以百度糯米为电影票线上业务平台的一整套观影解决方案，利用互联网在系统、支付、用户体验等方面的技术优势将全新的观影体验做到极致。</p>
+                                                    <p>通过影片打分、影评互动完成社交化元素（Social），以百度地图和百度搜索、糯米APP为突破口分别串联本地化（Local）、移动化（Mobile）布局，最后通过广告变现、支付提成、大数据服务完美实现商业化（Commercial），百度电影票SoLoMoCo布局不言而喻。
+                                                    </p>
+                                                    
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-xs-12 col-sm-6 widget-container-col">
+										<div class="widget-box widget-color-pink">
+											<div class="widget-header">
+												<h5 class="widget-title">底部工具箱(页脚)</h5>
+
+												<div class="widget-toolbar">
+													<a href="#" data-action="collapse">
+														<i class="1 ace-icon fa fa-chevron-up bigger-125"></i>
+													</a>
+												</div>
+
+												<div class="widget-toolbar no-border">
+													<button class="btn btn-xs btn-light bigger">
+														<i class="ace-icon fa fa-arrow-left"></i>
+														上一页
+													</button>
+
+													<button class="btn btn-xs bigger btn-yellow dropdown-toggle" data-toggle="dropdown">
+														下一页
+														<i class="ace-icon fa fa-chevron-down icon-on-right"></i>
+													</button>
+
+													<ul class="dropdown-menu dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+														<li>
+															<a href="#">菜单1</a>
+														</li>
+
+														<li>
+															<a href="#">菜单2</a>
+														</li>
+
+														<li>
+															<a href="#">其他</a>
+														</li>
+
+														<li class="divider"></li>
+
+														<li>
+															<a href="#">其他</a>
+														</li>
+													</ul>
+												</div>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main">
+													<p class="alert alert-info">
+														前涉及线上电影票业务的应用已俞数十种，这其中以主打"低价团购券"的团购网站和"在线选座"的垂直电影站点两大阵营最为典型。数据反映，电影团购券销售额在国内三大团购网站美团、大众点评、百度糯米中所占销售额比例都很强劲。而格瓦拉、时光网、猫眼电影这类垂直站点更几乎以销售在线电影票为生。
+													</p>
+													<p class="alert alert-success">
+														无论是百度糯米抑或是百度地图，电影票业务都只是其中一小块业务，如果不深度垂直化，百度电影票始终是抢占不到百度流量的一级入口的。
+													</p>
+												</div>
+
+												<div class="widget-toolbox padding-8 clearfix">
+													<button class="btn btn-xs btn-danger pull-left">
+														<i class="ace-icon fa fa-times"></i>
+														<span class="bigger-110">我不同意</span>
+													</button>
+
+													<button class="btn btn-xs btn-success pull-right">
+														<span class="bigger-110">我同意</span>
+
+														<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="space"></div>
+
+								<div class="row">
+									<div class="col-sm-6 widget-container-col">
+										<div class="widget-box">
+											<div class="widget-header widget-header-small">
+												<h5 class="widget-title smaller">Tab切换</h5>
+
+												<!-- #section:custom/widget-box.tabbed -->
+												<div class="widget-toolbar no-border">
+													<ul class="nav nav-tabs" id="myTab">
+														<li class="active">
+															<a data-toggle="tab" href="#home">菜单1</a>
+														</li>
+
+														<li>
+															<a data-toggle="tab" href="#profile">菜单2</a>
+														</li>
+
+														<li>
+															<a data-toggle="tab" href="#info">菜单 3</a>
+														</li>
+													</ul>
+												</div>
+
+												<!-- /section:custom/widget-box.tabbed -->
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main padding-6">
+													<div class="tab-content">
+														<div id="home" class="tab-pane in active">
+															<p>你好，2015！</p>
+														</div>
+
+														<div id="profile" class="tab-pane">
+															<p>既然传统的O2O闭环模式体系下百度电影票很难在短期内对格瓦拉、时光网、猫眼电影构成市场威胁，那就一边先分食着蛋糕，另一边百度再想其它的招去。互联网行业唯快不破，微创新不缺。</p>
+														</div>
+
+														<div id="info" class="tab-pane">
+															<p>最后，BAT巨头涉足传统行业市场早已屡见不鲜，搅局成功与否不是我们普通网民该操心的事，我们更关心的是可否给我们带来更好的消费体验，拭目以待吧。</p>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-6 widget-container-col">
+										<div class="widget-box widget-color-dark">
+											<div class="widget-header">
+												<h6 class="widget-title">内容滚动</h6>
+
+												<div class="widget-toolbar">
+													<a href="#" data-action="settings" title="设置">
+														<i class="ace-icon fa fa-cog"></i>
+													</a>
+
+													<a href="#" data-action="reload" title="刷新">
+														<i class="ace-icon fa fa-refresh"></i>
+													</a>
+
+													<a href="#" data-action="collapse" title="展开/收起">
+														<i class="ace-icon fa fa-chevron-up"></i>
+													</a>
+
+													<a href="#" data-action="close" title="关闭">
+														<i class="ace-icon fa fa-times"></i>
+													</a>
+
+													<a href="#" data-action="fullscreen" class="orange2" title="最大化">
+														<i class="ace-icon fa fa-expand"></i>
+													</a>
+												</div>
+											</div>
+
+											<div class="widget-body">
+												<!-- #section:custom/scrollbar -->
+												<div class="widget-main padding-4 scrollable" data-size="125">
+													<div class="content">
+														<div class="alert alert-info">
+															电影行业也玩大数据
+														</div>
+														<div class="alert alert-danger">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-success">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-info">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-danger">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-success">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-info">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-danger">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-success">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-info">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-danger">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-success">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-info">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-danger">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-success">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-info">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-danger">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-success">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-info">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-success">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert">
+															提示文字提示文字提示文字提示文字
+														</div>
+														<div class="alert alert-info">
+															提示文字提示文字提示文字提示文字
+														</div>
+													</div>
+												</div>
+
+												<!-- /section:custom/scrollbar -->
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="space-24"></div>
+
+								<div class="row">
+									<div class="col-sm-6 widget-container-col">
+										<!-- #section:custom/widget-box.options.transparent -->
+										<div class="widget-box transparent">
+											<div class="widget-header">
+												<h4 class="widget-title lighter">无边框</h4>
+
+												<div class="widget-toolbar no-border">
+													<a href="#" data-action="settings" title="设置">
+														<i class="ace-icon fa fa-cog"></i>
+													</a>
+
+													<a href="#" data-action="reload" title="刷新">
+														<i class="ace-icon fa fa-refresh"></i>
+													</a>
+
+													<a href="#" data-action="collapse" title="展开/收起">
+														<i class="ace-icon fa fa-chevron-up"></i>
+													</a>
+
+													<a href="#" data-action="close" title="关闭">
+														<i class="ace-icon fa fa-times"></i>
+													</a>
+												</div>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main padding-6 no-padding-left no-padding-right">
+													串联产业链，搭建消费闭环：电影发行方一般都会在影片上映前做足营销宣传，最常见的就是在视频网站和各媒体平台投放预告片。百度视频通过让用户观看预告片产生去线下观影的需求，近而提供水到渠成式的在线购票入口，将用户需求到消费在一个应用内做到极致，这种产品创新或许能加快百度电影票的发展步伐。
+												</div>
+											</div>
+										</div>
+
+										<!-- /section:custom/widget-box.options.transparent -->
+									</div>
+
+									<div class="col-sm-6 widget-container-col">
+										<div class="widget-box transparent">
+											<div class="widget-header">
+												<h4 class="widget-title lighter">Tabs内容可滚动</h4>
+
+												<div class="widget-toolbar no-border">
+													<ul class="nav nav-tabs" id="myTab2">
+														<li class="active">
+															<a data-toggle="tab" href="#home2">菜单1</a>
+														</li>
+
+														<li>
+															<a data-toggle="tab" href="#profile2">菜单2</a>
+														</li>
+
+														<li>
+															<a data-toggle="tab" href="#info2">菜单3</a>
+														</li>
+													</ul>
+												</div>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main padding-12 no-padding-left no-padding-right">
+													<div class="tab-content padding-4">
+														<div id="home2" class="tab-pane in active">
+															<!-- #section:custom/scrollbar.horizontal -->
+															<div class="scrollable-horizontal" data-size="800">
+																<b>"烂片退票"，一石惊起千层浪</b>
+																随着电影产业飞速发展，影片质量也参差不齐，烂片很多。百度这种互联网土豪还真是既能抓住用户需求痛点，又有钱烧，打着"烂片退票"这种噱头捕获了大批互联网屌丝用户。先不说百度这种退票反补的运作能持续多久，也不说所谓的"烂片"的标准评价体系如何的建立，更别谈可能重写中国电影产业模式的豪言。单就凭此次活动的效果来讲"烂片退票"既是符合了广大用户内心对电影业服务持有改善、更高期待的需求，又赚足了广告媒体和用户对于百度电影票的眼球关注，的确是成功的创新尝试。
+															</div>
+
+															<!-- /section:custom/scrollbar.horizontal -->
+														</div>
+
+														<div id="profile2" class="tab-pane">
+															<div class="scrollable" data-size="100" data-position="left">
+																<b>"烂片退票"，一石惊起千层浪</b>
+																随着电影产业飞速发展，影片质量也参差不齐，烂片很多。百度这种互联网土豪还真是既能抓住用户需求痛点，又有钱烧，打着"烂片退票"这种噱头捕获了大批互联网屌丝用户。先不说百度这种退票反补的运作能持续多久，也不说所谓的"烂片"的标准评价体系如何的建立，更别谈可能重写中国电影产业模式的豪言。单就凭此次活动的效果来讲"烂片退票"既是符合了广大用户内心对电影业服务持有改善、更高期待的需求，又赚足了广告媒体和用户对于百度电影票的眼球关注，的确是成功的创新尝试。<b>"烂片退票"，一石惊起千层浪</b>
+																随着电影产业飞速发展，影片质量也参差不齐，烂片很多。百度这种互联网土豪还真是既能抓住用户需求痛点，又有钱烧，打着"烂片退票"这种噱头捕获了大批互联网屌丝用户。先不说百度这种退票反补的运作能持续多久，也不说所谓的"烂片"的标准评价体系如何的建立，更别谈可能重写中国电影产业模式的豪言。单就凭此次活动的效果来讲"烂片退票"既是符合了广大用户内心对电影业服务持有改善、更高期待的需求，又赚足了广告媒体和用户对于百度电影票的眼球关注，的确是成功的创新尝试。
+															</div>
+														</div>
+
+														<div id="info2" class="tab-pane">
+															<div class="scrollable" data-size="100">
+																<b>"烂片退票"，一石惊起千层浪</b>
+																随着电影产业飞速发展，影片质量也参差不齐，烂片很多。百度这种互联网土豪还真是既能抓住用户需求痛点，又有钱烧，打着"烂片退票"这种噱头捕获了大批互联网屌丝用户。先不说百度这种退票反补的运作能持续多久，也不说所谓的"烂片"的标准评价体系如何的建立，更别谈可能重写中国电影产业模式的豪言。单就凭此次活动的效果来讲"烂片退票"既是符合了广大用户内心对电影业服务持有改善、更高期待的需求，又赚足了广告媒体和用户对于百度电影票的眼球关注，的确是成功的创新尝试。<b>"烂片退票"，一石惊起千层浪</b>
+																随着电影产业飞速发展，影片质量也参差不齐，烂片很多。百度这种互联网土豪还真是既能抓住用户需求痛点，又有钱烧，打着"烂片退票"这种噱头捕获了大批互联网屌丝用户。先不说百度这种退票反补的运作能持续多久，也不说所谓的"烂片"的标准评价体系如何的建立，更别谈可能重写中国电影产业模式的豪言。单就凭此次活动的效果来讲"烂片退票"既是符合了广大用户内心对电影业服务持有改善、更高期待的需求，又赚足了广告媒体和用户对于百度电影票的眼球关注，的确是成功的创新尝试。<b>"烂片退票"，一石惊起千层浪</b>
+																随着电影产业飞速发展，影片质量也参差不齐，烂片很多。百度这种互联网土豪还真是既能抓住用户需求痛点，又有钱烧，打着"烂片退票"这种噱头捕获了大批互联网屌丝用户。先不说百度这种退票反补的运作能持续多久，也不说所谓的"烂片"的标准评价体系如何的建立，更别谈可能重写中国电影产业模式的豪言。单就凭此次活动的效果来讲"烂片退票"既是符合了广大用户内心对电影业服务持有改善、更高期待的需求，又赚足了广告媒体和用户对于百度电影票的眼球关注，的确是成功的创新尝试。<b>"烂片退票"，一石惊起千层浪</b>
+																随着电影产业飞速发展，影片质量也参差不齐，烂片很多。百度这种互联网土豪还真是既能抓住用户需求痛点，又有钱烧，打着"烂片退票"这种噱头捕获了大批互联网屌丝用户。先不说百度这种退票反补的运作能持续多久，也不说所谓的"烂片"的标准评价体系如何的建立，更别谈可能重写中国电影产业模式的豪言。单就凭此次活动的效果来讲"烂片退票"既是符合了广大用户内心对电影业服务持有改善、更高期待的需求，又赚足了广告媒体和用户对于百度电影票的眼球关注，的确是成功的创新尝试。<b>"烂片退票"，一石惊起千层浪</b>
+																随着电影产业飞速发展，影片质量也参差不齐，烂片很多。百度这种互联网土豪还真是既能抓住用户需求痛点，又有钱烧，打着"烂片退票"这种噱头捕获了大批互联网屌丝用户。先不说百度这种退票反补的运作能持续多久，也不说所谓的"烂片"的标准评价体系如何的建立，更别谈可能重写中国电影产业模式的豪言。单就凭此次活动的效果来讲"烂片退票"既是符合了广大用户内心对电影业服务持有改善、更高期待的需求，又赚足了广告媒体和用户对于百度电影票的眼球关注，的确是成功的创新尝试。
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div><!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div>
+			</div><!-- /.main-content -->
+
+			<div class="footer">
+				<div class="footer-inner">
+					<!-- #section:basics/footer -->
+					<div class="footer-content">
+						<span class="bigger-120">
+							 <span class="blue bolder">后台管理系统</span>
+							COPYRIGHT &copy; 2013-2014
+						</span>
+
+						&nbsp; &nbsp;
+						
+					</div>
+
+					<!-- /section:basics/footer -->
+				</div>
+			</div>
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+			</a>
+		</div><!-- /.main-container -->
+
+		<!-- basic scripts -->
+
+		<!--[if !IE]> -->
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../assets/js/jquery.js'>"+"<"+"/script>");
+		</script>
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+<script type="text/javascript">
+ window.jQuery || document.write("<script src='../assets/js/jquery1x.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+		<script type="text/javascript">
+			if('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");
+		</script>
+		<script src="../assets/js/bootstrap.js"></script>
+
+		<!-- page specific plugin scripts -->
+		<script src="../assets/js/jquery-ui.custom.js"></script>
+		<script src="../assets/js/jquery.ui.touch-punch.js"></script>
+
+		<!-- ace scripts -->
+		<script src="../assets/js/ace/elements.scroller.js"></script>
+		<script src="../assets/js/ace/elements.colorpicker.js"></script>
+		<script src="../assets/js/ace/elements.fileinput.js"></script>
+		<script src="../assets/js/ace/elements.typeahead.js"></script>
+		<script src="../assets/js/ace/elements.wysiwyg.js"></script>
+		<script src="../assets/js/ace/elements.spinner.js"></script>
+		<script src="../assets/js/ace/elements.treeview.js"></script>
+		<script src="../assets/js/ace/elements.wizard.js"></script>
+		<script src="../assets/js/ace/elements.aside.js"></script>
+		<script src="../assets/js/ace/ace.js"></script>
+		<script src="../assets/js/ace/ace.ajax-content.js"></script>
+		<script src="../assets/js/ace/ace.touch-drag.js"></script>
+		<script src="../assets/js/ace/ace.sidebar.js"></script>
+		<script src="../assets/js/ace/ace.sidebar-scroll-1.js"></script>
+		<script src="../assets/js/ace/ace.submenu-hover.js"></script>
+		<script src="../assets/js/ace/ace.widget-box.js"></script>
+		<script src="../assets/js/ace/ace.settings.js"></script>
+		<script src="../assets/js/ace/ace.settings-rtl.js"></script>
+		<script src="../assets/js/ace/ace.settings-skin.js"></script>
+		<script src="../assets/js/ace/ace.widget-on-reload.js"></script>
+		<script src="../assets/js/ace/ace.searchbox-autocomplete.js"></script>
+
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+			jQuery(function($) {
+			
+				$('#simple-colorpicker-1').ace_colorpicker({pull_right:true}).on('change', function(){
+					var color_class = $(this).find('option:selected').data('class');
+					var new_class = 'widget-box';
+					if(color_class != 'default')  new_class += ' widget-color-'+color_class;
+					$(this).closest('.widget-box').attr('class', new_class);
+				});
+			
+			
+				// scrollables
+				$('.scrollable').each(function () {
+					var $this = $(this);
+					$(this).ace_scroll({
+						size: $this.attr('data-size') || 100,
+						//styleClass: 'scroll-left scroll-margin scroll-thin scroll-dark scroll-light no-track scroll-visible'
+					});
+				});
+				$('.scrollable-horizontal').each(function () {
+					var $this = $(this);
+					$(this).ace_scroll(
+					  {
+						horizontal: true,
+						styleClass: 'scroll-top',//show the scrollbars on top(default is bottom)
+						size: $this.attr('data-size') || 500,
+						mouseWheelLock: true
+					  }
+					).css({'padding-top': 12});
+				});
+				
+				$(window).on('resize.scroll_reset', function() {
+					$('.scrollable-horizontal').ace_scroll('reset');
+				});
+			
+			
+				/**
+				//or use slimScroll plugin
+				$('.slim-scrollable').each(function () {
+					var $this = $(this);
+					$this.slimScroll({
+						height: $this.data('height') || 100,
+						railVisible:true
+					});
+				});
+				*/
+				
+			
+				/**$('.widget-box').on('setting.ace.widget' , function(e) {
+					e.preventDefault();
+				});*/
+			
+				/**
+				$('.widget-box').on('show.ace.widget', function(e) {
+					//e.preventDefault();
+					//this = the widget-box
+				});
+				$('.widget-box').on('reload.ace.widget', function(e) {
+					//this = the widget-box
+				});
+				*/
+			
+				//$('#my-widget-box').widget_box('hide');
+			
+				
+			
+				// widget boxes
+				// widget box drag & drop example
+			    $('.widget-container-col').sortable({
+			        connectWith: '.widget-container-col',
+					items:'> .widget-box',
+					handle: ace.vars['touch'] ? '.widget-header' : false,
+					cancel: '.fullscreen',
+					opacity:0.8,
+					revert:true,
+					forceHelperSize:true,
+					placeholder: 'widget-placeholder',
+					forcePlaceholderSize:true,
+					tolerance:'pointer',
+					start: function(event, ui) {
+						//when an element is moved, it's parent becomes empty with almost zero height.
+						//we set a min-height for it to be large enough so that later we can easily drop elements back onto it
+						ui.item.parent().css({'min-height':ui.item.height()})
+						//ui.sender.css({'min-height':ui.item.height() , 'background-color' : '#F5F5F5'})
+					},
+					update: function(event, ui) {
+						ui.item.parent({'min-height':''})
+						//p.style.removeProperty('background-color');
+					}
+			    });
+				
+			
+			
+			});
+		</script>
+
+		<!-- the following scripts are used in demo only for onpage help and you don't need them -->
+		<link rel="stylesheet" href="../assets/css/ace.onpage-help.css" />
+		<link rel="stylesheet" href="../docs/assets/js/themes/sunburst.css" />
+
+		<script type="text/javascript"> ace.vars['base'] = '..'; </script>
+		<script src="../assets/js/ace/elements.onpage-help.js"></script>
+		<script src="../assets/js/ace/ace.onpage-help.js"></script>
+		<script src="../docs/assets/js/rainbow.js"></script>
+		<script src="../docs/assets/js/language/generic.js"></script>
+		<script src="../docs/assets/js/language/html.js"></script>
+		<script src="../docs/assets/js/language/css.js"></script>
+		<script src="../docs/assets/js/language/javascript.js"></script>
+	</body>
+</html>

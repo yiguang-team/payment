@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd"
+	default-lazy-init="true">
+
+	<description>Dubbo Configuration</description>
+
+	<dubbo:consumer check="false" />
+	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="${dubbo.application.name}" />
+	<!-- 使用multicast广播注册中心暴露发现服务地址 -->
+	<dubbo:registry address="${dubbo.registry.address}" />
+	<!-- 用dubbo协议在20880端口暴露服务 -->
+	<dubbo:protocol name="dubbo" port="${dubbo.protocol.port}"
+		threadpool="fixed" threads="${dubbo.threads}" />
+
+		
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.common.numsection.service.ProvinceService"
+		ref="provinceService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.common.numsection.service.NumSectionService"
+		ref="numSectionService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.common.numsection.service.CityService"
+		ref="cityService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.common.numsection.service.CheckNumSectionService"
+		ref="checkNumSectionService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.common.numsection.service.CarrierInfoService"
+		ref="carrierInfoService" />
+
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.common.datasource.service.DataSourceService"
+		ref="dataSourceService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.common.errorcode.service.ErrorCodeService"
+		ref="errorCodeService" />
+		
+	<!-- keystore -->
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.common.security.service.SecurityKeystoreService"
+		ref="securityKeystoreService" />
+
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.rbac.service.UserService"
+		ref="userService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.rbac.service.MenuService"
+		ref="menuService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.rbac.service.RoleMenuService"
+		ref="roleMenuService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.rbac.service.UserInfoService"
+		ref="userInfoService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.rbac.service.RoleService"
+		ref="roleService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.rbac.service.RoleUserService"
+		ref="roleUserService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.rbac.service.PrivilegeService"
+		ref="privilegeService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.rbac.service.RolePrivilegeService"
+		ref="rolePrivilegeService" />	
+	
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.payment.service.MerchantService" ref="merchantService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.payment.service.CarrierChannelRelationService"
+		ref="carrierChannelRelationService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.payment.service.ChannelService" ref="channelService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.payment.service.ChannelParmsService" ref="channelParmsService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.payment.service.ChannelMerchantRelationService"
+		ref="channelMerchantRelationService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.payment.service.ChannelChargingCodeService"
+		ref="channelChargingCodeService" />
+
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.payment.service.BasicRuleService"
+		ref="basicRuleService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.payment.service.MerchantRejectionService"
+		ref="merchantRejectionService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.payment.service.BlackListService" ref="blackListService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.payment.service.WhiteListService" ref="whiteListService" />
+
+
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.business.product.service.ProductService"
+		ref="productService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.business.product.service.PointService"
+		ref="pointService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.business.product.service.PointChannelRelationService"
+		ref="pointChannelRelationService" />
+
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.depot.service.ProductBatchService" ref="productBatchService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.depot.service.ProductDepotService" ref="productDepotService" />
+
+
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.depot.service.ProductBatchService" ref="productBatchService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.depot.service.ProductDepotService" ref="productDepotService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.common.logging.service.LoginAndLogoutLogService"
+		ref="loginAndLogoutLogService" />
+	<dubbo:service timeout="120000" cluster="failsafe"
+		interface="com.yiguang.payment.common.logging.service.OperationLogService"
+		ref="operationLogService" />
+</beans>

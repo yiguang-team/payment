@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="/rest/view/default/css/1.css" type="text/css" rel="stylesheet" >
+<script src="/rest/view/default/js/jquery-1.9.0.js"></script>
+
+<script>
+$(function(){
+
+    $('.click1').click(function(){
+        $('.bg').fadeIn(200);
+        $('.content').fadeIn(400);
+	});
+
+	$('.bg').click(function(){
+	    $('.bg').fadeOut(800);
+	    $('.content').fadeOut(800);
+	});
+});
+function smspay()
+{	
+	var smscode = $("#smscode").val();
+	if(smscode== ""){
+		$("#user_account_msg").html("请输入验证码");
+		return false;
+	}
+	$('.tclayer').addClass("display");
+	$.post('junwang?action=pay',
+			{
+		timestamp:"$timestamp",
+		clientid:"$clientid",
+		keyversion:"$keyversion",
+		passcode:"$passcode",
+		usercode:"$usercode",
+		paycode:"$paycode",
+		orderid:"$order_id",
+		ordertype:"$ordertype",
+		paytype:"$paytype",
+		paycode:"$paycode",
+		username:"$username",
+		productid:"$productid",
+		productdesc:"$productdesc",
+		smscode:smscode},function(response){
+
+		if (response == 0)
+		{
+			window.location.href = "/rest/junwang?action=callback&order_id=$order_id";
+		}
+		else
+		{
+			alert(response);
+		}
+		$(".tclayer").removeClass("display");	
+	});
+}
+function getSmsCode(){
+
+	$('.tclayer').addClass("display");
+	
+	$.post('junwang?action=authcode',
+			{
+		timestamp:"$timestamp",
+		clientid:"$clientid",
+		keyversion:"$keyversion",
+		passcode:"$passcode",
+		usercode:"$usercode",
+		paycode:"$paycode"},function(response){
+
+		if (response == 0)
+		{
+			sendMessage();
+		}
+		else
+		{
+			alert(response);
+		}
+		
+		$(".tclayer").removeClass("display");	
+	});
+}
+
+/*-------------------------------------------*/
+var InterValObj; //timer变量，控制时间
+var count = 60; //间隔函数，1秒执行
+var curCount;//当前剩余秒数
+
+function sendMessage() {
+            curCount = count;
+            
+            //设置button效果，开始计时
+            $("#btnSendCode").attr("disabled", "true");
+            $("#btnSendCode").val("重新发送（" + curCount + "）");
+			$("#btnSendCode").addClass("disabled");
+            InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+            }
+        //timer处理函数
+function SetRemainTime() {
+            if (curCount == 0) {                
+                window.clearInterval(InterValObj);//停止计时器
+                $("#btnSendCode").removeAttr("disabled");//启用按钮
+                $("#btnSendCode").val("重新发送");
+				$("#btnSendCode").removeClass("disabled");
+                code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效    
+            }
+            else {
+                curCount--;
+                $("#btnSendCode").val("重新发送（" + curCount + "）");
+            }
+        }
+</script>
+<style type="text/css">
+.btns{ width:380px; height:51px;font: 18px/40px Arial, Microsoft YaHei!important;float:left; color:#fff; background:url(/rest/view/default/img/btns.gif) no-repeat; border:none; cursor:pointer; margin-top:15px;}
+.form-btn { display: inline-block; border: 0px none; background: none repeat scroll 0% 0% #FE8353; color: #FFF; text-align: center; height: 30px; padding: 0px; cursor: pointer; vertical-align: middle; font: 18px/30px Arial, Microsoft YaHei!important;margin-top:-12px}
+.disabled { background: #ccc; color: #999; text-shadow: 1px 1px 0 #fff; cursor:default;}
+
+.tclayer{ display:none; }
+.tclayer .tc-c{text-align:center; margin:0 auto; z-index:999; position:absolute; top:25%; width:1000px; text-align:center; left:50%; margin-left:-500px;}
+.tclayer .tc-zhezhao{width:100%; height:100%; position:absolute; top:0; left:0; z-index:998; background-color:#000;filter:alpha(opacity=50);-moz-opacity:0.5; opacity:0.5; }
+.tclayer .loading-c{ background-color:#fff;border: 5px solid #dedede;-moz-border-radius: 15px;-webkit-border-radius: 15px; border-radius:15px; padding:20px 30px;width:300px; display: inline-block; margin-top:100px;}
+.tclayer .loading-c img{ float:left;}
+.tclayer .loading-c span{font:18px/36px Microsoft YaHei; color:#333; margin-top:-10px;}
+.display{ display:block;}
+</style>
+</head>
+
+<body>
+
+<div class="bj">
+	<div class="bk">
+		<div class="logo"><strong><a href="#"><img src="/rest/view/default/img/logo.jpg" /></a></strong>
+			<span>
+				<img border="0" SRC="/rest/view/default/img/TEL.jpg">
+			 	<a target=blank href=http://wpa.qq.com/msgrd?V=1&uin=3157299628&Site=短信支付&Menu=yes><img border="0" SRC="/rest/view/default/img/QQ1.jpg" alt="点击这里给我发消息"></a>
+			 	<a target=blank href=http://wpa.qq.com/msgrd?V=1&uin=1767508243&Site=短信支付&Menu=yes><img border="0" SRC="/rest/view/default/img/QQ2.jpg" alt="点击这里给我发消息"></a>
+			</span>
+		</div>
+		<div class="lc"><img src="/rest/view/default/img/1.jpg" /></div>
+
+		<div class="zi">来自 <span>北京汇元网科技有限责任公司</span> 支付订单号：<span>$order_id</span><br />
+			商品信息：<span>骏卡一卡通J点</span>
+		</div>
+		
+		<div class="ne">			
+			<div class="zuo">
+				<form action="#" method="post" name="form1">
+					<div style="display:none">
+					<input type="hidden" name="orderid" value="$order_id"></input><br/>
+					<input type="hidden" name="ordertype" value="$ordertype"></input><br/>
+					<input type="hidden" name="paytype" value="$paytype"></input><br/>
+					<input type="hidden" name="paycode" value="$paycode"></input><br/>
+					<input type="hidden" name="username" value="$username"></input><br/>
+					<input type="hidden" name="productdesc" value="$productdesc"></input><br/>
+					<input type="hidden" name="productid" value="$productid"></input><br/>
+					</div>
+					<table width="582" height="236" border="0">
+				 	<tr>
+			     	 	<td width="300" align="right" style="padding-bottom:0;">产       品： <br /></td>
+			    	 	<td width="537" style="padding-bottom:0;">$productdesc</td>
+			  		</tr>
+					<tr>
+					    <td align="right" style="padding-bottom:0;">骏卡一卡通账号：</td>
+					    <td style="padding-bottom:0;">
+					    	$username
+					    </td>
+					</tr>
+					<tr>
+					    <td align="right" style="padding-bottom:0!important;">手机号码：</td>
+					    <td style="padding-bottom:0!important;">
+					    	$usercode
+					   	</td>
+					 </tr>
+					 <tr>
+					    <td align="right" style="padding-bottom:0;">验证码：</td>
+					    <td style="padding-bottom:0;">
+					    	<input style="height:30px; width:100px;" name="smscode" id="smscode" type="text" maxlength="6" />
+					    	<input class="form-btn" id="btnSendCode" type="button" value="发送验证码" onclick="getSmsCode()" />
+					    </td>
+					 </tr>
+					 <tr>
+					    <td>&nbsp;</td>
+					    <td><input name="pay" value="确认支付" id="pay" onclick="smspay()" type="button" class="btns"/></td>
+					    
+					 </tr>
+				</table>
+				</form>
+			</div>
+			
+			<div class="you">
+				<p><b>温馨提示：</b></p>
+				<p> 1、欢迎使用中国联通提供的话费支付功能，话费支付仅限于联通号码。单个联通手机号码每日限充值 20.00元，月限充值 50.00元。<br />
+					2、点击获取验证码，您将收到验证码短信，您可以在本页面输入验证码充值。<br />
+					3、如您在使用过程中碰到任何问题，请拨打客服电话073188920955进行咨询。
+					<p>在线客服1：<a target=blank href=http://wpa.qq.com/msgrd?V=1&uin=3157299628&Site=短信支付&Menu=yes><img border="0" SRC=http://wpa.qq.com/pa?p=1:3157299628:1 alt="点击这里给我发消息"></a></p>
+					<p>在线客服2：<a target=blank href=http://wpa.qq.com/msgrd?V=1&uin=1767508243&Site=短信支付&Menu=yes><img border="0" SRC=http://wpa.qq.com/pa?p=1:1767508243:1 alt="点击这里给我发消息"></a></p>
+			</div>
+			
+			<div class="ww">
+				<p><b>操作必读</b></p>
+				<p>输入支付号码：如号码归属地&quot;未知&quot;，则此号码不能完成支付，请与客服联系；<br />
+				  选择支付方式：如选择的支付方式下无可用支付通道，请选择其它支付方式；<br />
+				  选择支付通道：通常会有一个或多个支付通道，请根据每个支付通道标称的支付信息（支付费用、支付次数等），选择合适的支付通道进行提交；<br />
+				  提交支付：系统会根据你提交的商品、支付号码、支付通道等信息处理支付请求，如您提交的支付请求受系统限制而不能支付，请选择其它支付方式或隔日重试；<br />
+				  提交支付支付请求成功后，请按页面提示完成支付确认操作；<br />
+				  其它任务疑问，请咨询客服热线：400-829-9109。</p>
+			</div>
+		</div>	
+	</div>
+</div>
+
+
+<div class="wei">
+  <p><a href="#">公司概况 </a> &nbsp;|&nbsp;  <a href="#">联系我们 </a> &nbsp;|&nbsp;  <a href="#">合作伙伴</a> &nbsp;|&nbsp;  <a href="#">诚聘英才</a><br />
+	广州翼光网络科技有限公司 版权所有 2012-2014 粤ICP备14050898号-1  </p>
+</div>
+<div class="tclayer">
+    <div class="tc-c">
+    <div class="loading-c">
+    <img src="/rest/view/default/img/loading.gif" width="36" height="36"/>
+    <span class="txt">加载中，请稍候!</span>
+    </div>
+    </div>
+    <div class="tc-zhezhao"></div>
+</div>
+</body>
+</html>

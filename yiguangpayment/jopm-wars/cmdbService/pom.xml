@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.yiguang.jopm</groupId>
+		<artifactId>jopm-wars</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<artifactId>cmdbService</artifactId>
+	<packaging>war</packaging>
+	<name>cmdbService</name>
+	<version>1.0.0-SNAPSHOT</version>
+	<dependencies>
+		<dependency>
+			<groupId>com.yiguang.jopm</groupId>
+			<artifactId>jopm-common-utils</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yiguang.jopm</groupId>
+			<artifactId>jopm-common-cache</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yiguang.jopm</groupId>
+			<artifactId>jopm-common-bootstrap</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yiguang.jopm</groupId>
+			<artifactId>jopm-common-datasource</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yiguang.jopm</groupId>
+			<artifactId>jopm-common-log</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yiguang.jopm</groupId>
+			<artifactId>jopm-common-errorcode</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yiguang.jopm</groupId>
+			<artifactId>jopm-common-numsection</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yiguang.jopm</groupId>
+			<artifactId>jopm-common-persistence</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.yiguang.jopm</groupId>
+			<artifactId>jopm-common-security</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yiguang.jopm</groupId>
+			<artifactId>jopm-identity-rbac-app</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.yiguang.jopm</groupId>
+			<artifactId>jopm-payment-management-app</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yiguang.jopm</groupId>
+			<artifactId>jopm-payment-risk-app</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yiguang.jopm</groupId>
+			<artifactId>jopm-depot-management-app</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<!-- copy jBPM designer applet and it's icom to war -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.2</version>
+				<executions>
+					<execution>
+						<id>prepare-dependencies-repackage-copy</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<!-- <copy todir="target" overwrite="true"> <fileset dir="../rest/target"/> 
+									</copy> -->
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+
+	</profiles>
+</project>

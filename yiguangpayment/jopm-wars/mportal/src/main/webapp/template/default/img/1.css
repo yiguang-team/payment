@@ -1,0 +1,90 @@
+@charset "utf-8";
+/* CSS Document */
+
+html, body, ul, li, h1, h2, h3, h4, h5, h6, p, fieldset, legend {padding:0; margin:0;}
+body { font-size:12px;background:#f3f3f3; color: #000; line-height:25px; font-family:Verdana, Geneva, sans-serif;font-family:"微软雅黑";}
+ul,li {list-style-type:none; text-transform:capitalize;}
+img{ border:0;}
+.clear {clear:both;}
+a:link{ color:#000; text-decoration:none; border:0;}
+a:hover{ text-decoration:none; color:#ec8b00;}
+a:visited{  color:#000; text-decoration: none; }
+
+
+.k{width:1000px; margin:0 auto;}
+.bj{background:url(../img/bj.jpg) repeat-x; height:208px;}
+.logo{float:left; width:1000px;}
+.logo span{float:right;}
+.logo strong{float:left;}
+
+.zi{ font-size:16px; margin-top:20px; float:left;}
+.zi span{ color:#e08300;}
+
+.ne{background-color:#fff; margin-top:20px; float:left;}
+.dh{height:50px; background-color:#e7e7e7; line-height:50px;}
+.dh li{ padding-left:60px;width:120px; float:left;}
+
+.yd{background-color:#167dcc; width:160px; color:#FFF; background: url(../img/Y%20D.jpg) 20px 10px no-repeat;}
+.dx{background-color:#167dcc; width:160px; color:#FFF; background: url(../img/DX.jpg) 20px 10px no-repeat;}
+.lt{background-color:#167dcc; width:160px; color:#FFF; background: url(../img/LT.jpg) 20px 10px no-repeat;}
+
+
+.zuo{width:580px; height:328px; padding:50px 0 0 40px; border-right:1px #CCC dotted; float:left;}
+.you{float:right; width:280px; padding:40px 40px 0 40px; line-height:30px;}
+.you b{line-height:50px; font-size:16px;}
+
+.ww{width:880px; float:left; padding:40px 40px; line-height:30px;border-top:1px #CCC dotted; margin-left:20px;}
+.ww b{line-height:50px; font-size:16px;}
+
+.wei{ background:url(../img/wei.jpg) repeat-x; height:147px; float:left; color:#09a7f1; width:100%; font-size:14px; text-align:center; line-height:50px; margin-top:20px; padding-top:0px;}
+.wei a{color:#FFF;}
+.wei a:hover{color:#ffa312;}
+
+
+
+
+
+
+/* tanchu */
+
+.tc{width:520px; margin:200px auto; background-color:#FFF;}
+.xx{height:50px; background-color:#167dcc;}
+.xx img{float:right;}
+
+.bg{padding:20px 20px;}
+.sj{background-color:#e6f3f9; text-align:center; height:50px; line-height:50px; font-size:16px;}
+
+.cg{text-align:center; font-size:28px; color:#eca942; height:60px; padding:0px 10px; margin-top:25px; float:left;  }
+.cg b{ float:left; margin-top:10px; margin-left:10px;}
+.cg img{float:left; margin-left:125px;}
+
+
+.cg1{text-align:center; font-size:22px; color:#eca942; height:60px; padding:0px 10px; margin-top:25px; float:left;  }
+.cg1 b{ float:right; margin-top:10px; margin-left:10px;}
+.cg1 img{float:left; margin-left:0px;}
+
+.jf{background-color:#09a7f1; height:40px; width:140px; line-height:40px; text-align:center; color:#FFF; margin:15px auto; font-size:14px;}
+
+.jf a{color:#FFF;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

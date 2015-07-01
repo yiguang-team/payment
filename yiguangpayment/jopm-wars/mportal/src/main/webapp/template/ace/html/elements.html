@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title>UI Elements - 后台管理系统</title>
+
+		<meta name="description" content="Common UI Features &amp; Elements" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="../assets/css/bootstrap.css" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.css" />
+
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="../assets/css/jquery-ui.custom.css" />
+		<link rel="stylesheet" href="../assets/css/jquery.gritter.css" />
+
+		<!-- text fonts -->
+		<link rel="stylesheet" href="../assets/css/ace-fonts.css" />
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="../assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+<link rel="stylesheet" href="../assets/css/ace-ie7.css" />
+
+		<!--[if lte IE 9]>
+			<link rel="stylesheet" href="../assets/css/ace-part2.css" class="ace-main-stylesheet" />
+		<![endif]-->
+
+		<!--[if lte IE 9]>
+		  <link rel="stylesheet" href="../assets/css/ace-ie.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+		<style>
+			/* some elements used in demo only */
+			.spinner-preview {
+				width: 100px;
+				height: 100px;
+				text-align: center;
+				margin-top: 60px;
+			}
+			
+			.dropdown-preview {
+				margin: 0 5px;
+				display: inline-block;
+			}
+			.dropdown-preview  > .dropdown-menu {
+				display: block;
+				position: static;
+				margin-bottom: 5px;
+			}
+		</style>
+
+		<!-- ace settings handler -->
+		<script src="../assets/js/ace-extra.js"></script>
+
+		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+		<!--[if lte IE 8]>
+		<script src="../assets/js/html5shiv.js"></script>
+		<script src="../assets/js/respond.js"></script>
+		<![endif]-->
+	</head>
+
+	<body class="no-skin">
+		<!-- #section:basics/navbar.layout -->
+		<div id="navbar" class="navbar navbar-default">
+			<script type="text/javascript">
+				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="navbar-container" id="navbar-container">
+				<!-- #section:basics/sidebar.mobile.toggle -->
+				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+					<span class="sr-only">切换栏</span>
+
+					<span class="icon-bar"></span>
+
+					<span class="icon-bar"></span>
+
+					<span class="icon-bar"></span>
+				</button>
+
+				<!-- /section:basics/sidebar.mobile.toggle -->
+				<div class="navbar-header pull-left">
+					<!-- #section:basics/navbar.layout.brand -->
+					<a href="index.html" class="navbar-brand"> <small> 后台管理系统 </small> </a> <!-- /section:basics/navbar.layout.brand -->
+
+					<!-- #section:basics/navbar.toggle -->
+
+					<!-- /section:basics/navbar.toggle -->
+				</div>
+
+				<!-- #section:basics/navbar.dropdown -->
+				<div class="navbar-buttons navbar-header pull-right" role="navigation">
+					<ul class="nav ace-nav">
+						<li class="blue"> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <i class="ace-icon fa fa-tasks" title="任务"></i> <span class="badge badge-grey">4</span> </a>
+
+							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header"> <i class="ace-icon fa fa-check"></i> 任务（4） </li>
+
+								<li class="dropdown-content">
+									<ul class="dropdown-menu dropdown-navbar">
+										<li>
+											<a href="#">
+												<div class="clearfix"> <span class="pull-left">软件更新</span> <span class="pull-right">65%</span> </div>
+
+												<div class="progress progress-mini">
+													<div style="width:65%" class="progress-bar"></div>
+												</div>
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<div class="clearfix"> <span class="pull-left">硬件升级</span> <span class="pull-right">35%</span> </div>
+
+												<div class="progress progress-mini">
+													<div style="width:35%" class="progress-bar progress-bar-danger"></div>
+												</div>
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<div class="clearfix"> <span class="pull-left">单元测试</span> <span class="pull-right">15%</span> </div>
+
+												<div class="progress progress-mini">
+													<div style="width:15%" class="progress-bar progress-bar-warning"></div>
+												</div>
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<div class="clearfix"> <span class="pull-left">错误修复</span> <span class="pull-right">90%</span> </div>
+
+												<div class="progress progress-mini progress-striped active">
+													<div style="width:90%" class="progress-bar progress-bar-success"></div>
+												</div>
+											</a>
+										</li>
+									</ul>
+								</li>
+
+								<li class="dropdown-footer"> <a href="#"> 查看任务列表 <i class="ace-icon fa fa-arrow-right"></i> </a> </li>
+							</ul>
+						</li>
+
+						<li class="blue"> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <i class="ace-icon fa fa-bell icon-animated-bell" title="通知"></i> <span class="badge badge-important">8</span> </a>
+
+							<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header"> <i class="ace-icon fa fa-exclamation-triangle"></i> 通知（8） </li>
+
+								<li class="dropdown-content">
+									<ul class="dropdown-menu dropdown-navbar navbar-pink">
+										<li>
+											<a href="#">
+												<div class="clearfix"> <span class="pull-left">  新评论 </span> <span class="pull-right badge badge-info">+12</span> </div>
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												
+												Bob just signed up as an editor ...
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<div class="clearfix"> <span class="pull-left"> 新订单 </span> <span class="pull-right badge badge-success">+8</span> </div>
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<div class="clearfix"> <span class="pull-left"> 关注 </span> <span class="pull-right badge badge-info">+11</span> </div>
+											</a>
+										</li>
+									</ul>
+								</li>
+
+								<li class="dropdown-footer"> <a href="#"> 查看所有通知 <i class="ace-icon fa fa-arrow-right"></i> </a> </li>
+							</ul>
+						</li>
+
+						<li class="blue"> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <i class="ace-icon fa fa-envelope icon-animated-vertical" title="消息"></i> <span class="badge badge-success">5</span> </a>
+
+							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header"> <i class="ace-icon fa fa-envelope-o"></i> 消息（5） </li>
+
+								<li class="dropdown-content">
+									<ul class="dropdown-menu dropdown-navbar">
+										<li>
+											<a href="#" class="clearfix">
+												<img src="../assets/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Alex:</span>
+														Ciao sociis natoque penatibus et auctor ...
+													</span>
+
+													<span class="msg-time">
+														
+														<span>a moment ago</span>
+													</span>
+												</span>
+											</a>
+										</li>
+
+										<li>
+											<a href="#" class="clearfix">
+												<img src="../assets/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Susan:</span>
+														Vestibulum id ligula porta felis euismod ...
+													</span>
+
+													<span class="msg-time">
+														
+														<span>20 minutes ago</span>
+													</span>
+												</span>
+											</a>
+										</li>
+
+										<li>
+											<a href="#" class="clearfix">
+												<img src="../assets/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Bob:</span>
+														Nullam quis risus eget urna mollis ornare ...
+													</span>
+
+													<span class="msg-time">
+														
+														<span>3:15 pm</span>
+													</span>
+												</span>
+											</a>
+										</li>
+
+										<li>
+											<a href="#" class="clearfix">
+												<img src="../assets/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Kate:</span>
+														Ciao sociis natoque eget urna mollis ornare ...
+													</span>
+
+													<span class="msg-time">
+														
+														<span>1:33 pm</span>
+													</span>
+												</span>
+											</a>
+										</li>
+
+										<li>
+											<a href="#" class="clearfix">
+												<img src="../assets/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Fred:</span>
+														Vestibulum id penatibus et auctor  ...
+													</span>
+
+													<span class="msg-time">
+														
+														<span>10:09 am</span>
+													</span>
+												</span>
+											</a>
+										</li>
+									</ul>
+								</li>
+
+								 <li class="dropdown-footer"> <a href="inbox.html"> 所有消息 <i class="ace-icon fa fa-arrow-right"></i> </a> </li>
+							</ul>
+						</li>
+
+						<!-- #section:basics/navbar.user_menu -->
+						<li class="blue">
+							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+								<img class="nav-user-photo" src="../assets/avatars/user.jpg" alt="Jason's Photo" />
+								<span class="user-info">
+									<small>欢迎您,</small> admin </span>
+
+								<i class="ace-icon fa fa-caret-down"></i>
+							</a>
+
+							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+								<li> <a href="#"> <i class="ace-icon fa fa-cog"></i> 设置 </a> </li>
+            <li> <a href="profile.html"> <i class="ace-icon fa fa-user"></i> 个人资料 </a> </li>
+            <li class="divider"></li>
+            <li> <a href="#"> <i class="ace-icon fa fa-power-off"></i> 退出 </a> </li>
+							</ul>
+						</li>
+
+						<!-- /section:basics/navbar.user_menu -->
+					</ul>
+				</div>
+
+				<!-- /section:basics/navbar.dropdown -->
+			</div><!-- /.navbar-container -->
+		</div>
+
+		<!-- /section:basics/navbar.layout -->
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<!-- #section:basics/sidebar -->
+			<div id="sidebar" class="sidebar                  responsive">
+				<script type="text/javascript">
+					try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+				</script>
+
+				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+					<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+						<button class="btn btn-success">
+							<i class="ace-icon fa fa-signal"></i>
+						</button>
+
+						<button class="btn btn-info">
+							<i class="ace-icon fa fa-pencil"></i>
+						</button>
+
+						<!-- #section:basics/sidebar.layout.shortcuts -->
+						<button class="btn btn-warning">
+							<i class="ace-icon fa fa-users"></i>
+						</button>
+
+						<button class="btn btn-danger">
+							<i class="ace-icon fa fa-cogs"></i>
+						</button>
+
+						<!-- /section:basics/sidebar.layout.shortcuts -->
+					</div>
+
+					<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+						<span class="btn btn-success"></span>
+
+						<span class="btn btn-info"></span>
+
+						<span class="btn btn-warning"></span>
+
+						<span class="btn btn-danger"></span>
+					</div>
+				</div><!-- /.sidebar-shortcuts -->
+
+				<ul class="nav nav-list">
+					<li class="">
+						<a href="index.html">
+							<i class="menu-icon fa fa-tachometer"></i>
+							<span class="menu-text"> 指示板 </span>
+						</a>
+
+						<b class="arrow"></b>
+					</li>
+
+					<li class="active open">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-desktop"></i>
+							<span class="menu-text"> UI和元素 </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="typography.html"> <i class="menu-icon fa fa-caret-right"></i> 排版 </a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="active">
+								<a href="elements.html"> <i class="menu-icon fa fa-caret-right"></i> 元素 </a
+
+								><b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="buttons.html"> <i class="menu-icon fa fa-caret-right"></i> 按钮和图标 </a>
+
+								<b class="arrow"></b>
+							</li>
+
+							
+
+							<li class="">
+								<a href="treeview.html"> <i class="menu-icon fa fa-caret-right"></i> 树状视图 </a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="jquery-ui.html"> <i class="menu-icon fa fa-caret-right"></i> jQuery UI </a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="nestable-list.html"> <i class="menu-icon fa fa-caret-right"></i> 嵌套列表 </a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
+
+					<li class=""> <a href="#" class="dropdown-toggle"> <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 表格 </span> <b class="arrow fa fa-angle-down"></b> </a> <b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class=""> <a href="tables.html"> <i class="menu-icon fa fa-caret-right"></i> 简单和动态 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="jqgrid.html"> <i class="menu-icon fa fa-caret-right"></i> jqGrid插件 </a> <b class="arrow"></b> </li>
+						</ul>
+					</li>
+
+					 <li class=""> <a href="#" class="dropdown-toggle"> <i class="menu-icon fa fa-pencil-square-o"></i> <span class="menu-text"> 表单 </span> <b class="arrow fa fa-angle-down"></b> </a> <b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class=""> <a href="form-elements.html"> <i class="menu-icon fa fa-caret-right"></i> 表单元素 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="form-elements-2.html"> <i class="menu-icon fa fa-caret-right"></i> 表单元素2 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="form-wizard.html"> <i class="menu-icon fa fa-caret-right"></i> 向导和验证 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="wysiwyg.html"> <i class="menu-icon fa fa-caret-right"></i> 编辑器 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="dropzone.html"> <i class="menu-icon fa fa-caret-right"></i> 拖拽上传文件 </a> <b class="arrow"></b> </li>
+						</ul>
+					</li>
+
+					<li class="">
+						<a href="widgets.html"> <i class="menu-icon fa fa-list-alt"></i> <span class="menu-text"> 小部件 </span> </a>
+
+						<b class="arrow"></b>
+					</li>
+
+					<li class="">
+						<a href="gallery.html"> <i class="menu-icon fa fa-picture-o"></i> <span class="menu-text"> 图片 </span> </a>
+
+						<b class="arrow"></b>
+					</li>
+
+					<li class="">
+						<a href="#" class="dropdown-toggle"> <i class="menu-icon fa fa-tag"></i> <span class="menu-text"> 更多页面 </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class=""> <a href="profile.html"> <i class="menu-icon fa fa-caret-right"></i> 个人资料 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="inbox.html"> <i class="menu-icon fa fa-caret-right"></i> 收件箱 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="pricing.html"> <i class="menu-icon fa fa-caret-right"></i> 定价表 </a> <b class="arrow"></b> </li>
+          <li class=""> <a href="invoice.html"> <i class="menu-icon fa fa-caret-right"></i> 发票 </a> <b class="arrow"></b> </li>
+          
+          <li class=""> <a href="login.html" target="_blank"> <i class="menu-icon fa fa-caret-right"></i> 登录和注册 </a> <b class="arrow"></b> </li>
+						</ul>
+					</li>
+
+					<li class="">
+						<a href="#" class="dropdown-toggle"> <i class="menu-icon fa fa-file-o"></i> <span class="menu-text"> 其他页面
+
+								<!-- #section:basics/sidebar.layout.badge -->
+								<span class="badge badge-primary">5</span>
+
+								<!-- /section:basics/sidebar.layout.badge -->
+							</span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="faq.html"> <i class="menu-icon fa fa-caret-right"></i> 帮助中心 </a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="error-404.html"> <i class="menu-icon fa fa-caret-right"></i> 404错误页面 </a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="error-500.html"> <i class="menu-icon fa fa-caret-right"></i> 500错误页面 </a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="grid.html"> <i class="menu-icon fa fa-caret-right"></i> 栅格 </a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="blank.html"> <i class="menu-icon fa fa-caret-right"></i> 空白页 </a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
+				</ul><!-- /.nav-list -->
+
+				<!-- #section:basics/sidebar.layout.minimize -->
+				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+					<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+				</div>
+
+				<!-- /section:basics/sidebar.layout.minimize -->
+				<script type="text/javascript">
+					try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+				</script>
+			</div>
+
+			<!-- /section:basics/sidebar -->
+			<div class="main-content">
+				<div class="main-content-inner">
+					<!-- #section:basics/content.breadcrumbs -->
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li>
+								<i class="ace-icon fa fa-home home-icon"></i>
+								<a href="#">首页</a>
+							</li>
+
+							<li>
+								<a href="#">UI和元素</a>
+							</li>
+							<li class="active">元素</li>
+						</ul><!-- /.breadcrumb -->
+
+						<!-- #section:basics/content.searchbox -->
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="搜索 ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="ace-icon fa fa-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- /.nav-search -->
+
+						<!-- /section:basics/content.searchbox -->
+					</div>
+
+					<!-- /section:basics/content.breadcrumbs -->
+					<div class="page-content">
+						<div class="page-header">
+							<h1>
+								UI和元素
+								<small>
+									<i class="ace-icon fa fa-angle-double-right"></i>
+									常见的UI和元素
+								</small>
+							</h1>
+						</div><!-- /.page-header -->
+
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+								<div class="row">
+									<div class="col-sm-6">
+										<!-- #section:elements.tab -->
+										<div class="tabbable">
+											<ul class="nav nav-tabs" id="myTab">
+												<li class="active">
+													<a data-toggle="tab" href="#home">
+														<i class="green ace-icon fa fa-home bigger-120"></i>
+														首页
+													</a>
+												</li>
+
+												<li>
+													<a data-toggle="tab" href="#messages">
+														消息
+														<span class="badge badge-danger">4</span>
+													</a>
+												</li>
+
+												<li class="dropdown">
+													<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+														下拉列表 &nbsp;
+														<i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
+													</a>
+
+													<ul class="dropdown-menu dropdown-info">
+														<li>
+															<a data-toggle="tab" href="#dropdown1">下拉1</a>
+														</li>
+
+														<li>
+															<a data-toggle="tab" href="#dropdown2">下拉2</a>
+														</li>
+													</ul>
+												</li>
+											</ul>
+
+											<div class="tab-content">
+												<div id="home" class="tab-pane fade in active">
+													<p>真理惟一可靠的标准就是永远自相符合。</p>
+												</div>
+
+												<div id="messages" class="tab-pane fade">
+													<p>世界上一成不变的东西，只有"任何事物都是在不断变化的"这条真理。.</p>
+												</div>
+
+												<div id="dropdown1" class="tab-pane fade">
+													<p>我需要三件东西：爱情友谊和图书。然而这三者之间何其相通！炽热的爱情可以充实图书的内容，图书又是人们最忠实的朋友。</p>
+												</div>
+
+												<div id="dropdown2" class="tab-pane fade">
+													<p>世界上一成不变的东西，只有"任何事物都是在不断变化的"这条真理。 .</p>
+												</div>
+											</div>
+										</div>
+
+										<!-- /section:elements.tab -->
+									</div><!-- /.col -->
+
+									<div class="vspace-6-sm"></div>
+
+									<div class="col-sm-6">
+										<div class="tabbable tabs-below">
+											<div class="tab-content">
+												<div id="home2" class="tab-pane in active">
+													<p>
+真理惟一可靠的标准就是永远自相符合。 —— 欧文
+土地是以它的肥沃和收获而被估价的；才能也是土地，不过它生产的不是粮食，而是真理。如果只能滋生瞑想和幻想的话，即使再大的才能也只是砂地或盐池，那上面连小草也长不出来的。</p>
+												</div>
+
+												<div id="profile2" class="tab-pane">
+													<p>F世界上一成不变的东西，只有"任何事物都是在不断变化的"这条真理。 ood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.</p>
+												</div>
+
+												<div id="dropdown12" class="tab-pane">
+													<p>
+真理惟一可靠的标准就是永远自相符合。 —— 欧文
+土地是以它的肥沃和收获而被估价的；才能也是土地，不过它生产的不是粮食，而是真理。如果只能滋生瞑想和幻想的话，即使再大的才能也只是砂地或盐池，那上面连小草也长不出来的。Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.</p>
+												</div>
+											</div>
+
+											<ul class="nav nav-tabs" id="myTab2">
+												<li class="active">
+													<a data-toggle="tab" href="#home2">栏目1</a>
+												</li>
+
+												<li>
+													<a data-toggle="tab" href="#profile2">栏目2</a>
+												</li>
+
+												<li>
+													<a data-toggle="tab" href="#dropdown12">栏目3</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div><!-- /.row -->
+
+								<div class="space"></div>
+
+								<div class="row">
+									<div class="col-sm-6">
+										<!-- #section:elements.tab.position -->
+										<div class="tabbable tabs-left">
+											<ul class="nav nav-tabs" id="myTab3">
+												<li class="active">
+													<a data-toggle="tab" href="#home3">
+														<i class="pink ace-icon fa fa-tachometer bigger-110"></i>
+														首页
+													</a>
+												</li>
+
+												<li>
+													<a data-toggle="tab" href="#profile3">
+														<i class="blue ace-icon fa fa-user bigger-110"></i>
+														简介
+													</a>
+												</li>
+
+												<li>
+													<a data-toggle="tab" href="#dropdown13">
+														<i class="ace-icon fa fa-rocket"></i>
+														更多
+													</a>
+												</li>
+											</ul>
+
+											<div class="tab-content">
+												<div id="home3" class="tab-pane in active">
+													<p>真理惟一可靠的标准就是永远自相符合。 —— 欧文 土地是以它的肥沃和收获而被估价的；才能也是土地，不过它生产的不是粮食，而是真理。如果只能滋生瞑想和幻想的话，即使再大的才能也只是砂地或盐池，那上面连小草也长不出来的。</p>
+													<p>Raw denim you probably haven't heard of them jean shorts Austin.</p>
+												</div>
+
+												<div id="profile3" class="tab-pane">
+													<p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.</p>
+													<p>真理惟一可靠的标准就是永远自相符合。 —— 欧文 土地是以它的肥沃和收获而被估价的；才能也是土地，不过它生产的不是粮食，而是真理。如果只能滋生瞑想和幻想的话，即使再大的才能也只是砂地或盐池，那上面连小草也长不出来的。.</p>
+												</div>
+
+												<div id="dropdown13" class="tab-pane">
+													<p>真理惟一可靠的标准就是永远自相符合。 —— 欧文 土地是以它的肥沃和收获而被估价的；才能也是土地，不过它生产的不是粮食，而是真理。如果只能滋生瞑想和幻想的话，即使再大的才能也只是砂地或盐池，那上面连小草也长不出来的。</p>
+													<p>Raw denim you probably haven't heard of them jean shorts Austin.</p>
+												</div>
+											</div>
+										</div>
+
+										<!-- /section:elements.tab.position -->
+									</div><!-- /.col -->
+
+									<div class="vspace-6-sm"></div>
+
+									<div class="col-sm-6">
+										<!-- #section:elements.tab.option -->
+										<div class="tabbable">
+											<ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab4">
+												<li class="active">
+													<a data-toggle="tab" href="#home4">栏目1</a>
+												</li>
+
+												<li>
+													<a data-toggle="tab" href="#profile4">栏目2</a>
+												</li>
+
+												<li>
+													<a data-toggle="tab" href="#dropdown14">栏目3</a>
+												</li>
+											</ul>
+
+											<div class="tab-content">
+												<div id="home4" class="tab-pane in active">
+													<p>相信谎言的人必将在真理之前毁灭。</p>
+												</div>
+
+												<div id="profile4" class="tab-pane">
+													<p>希望是本无所谓有，无所谓无的。这正如地上的路；其实地上本没有路，走的人多了，也便成了路。   </p>
+												</div>
+
+												<div id="dropdown14" class="tab-pane">
+													<p>生命赐给我们，我们必须奉献生命，才能获得生命。</p>
+												</div>
+											</div>
+										</div>
+
+										<!-- /section:elements.tab.option -->
+									</div><!-- /.col -->
+								</div><!-- /.row -->
+
+								<div class="hr hr-double hr-dotted hr18"></div>
+
+								<div class="row">
+									<div class="col-sm-6">
+										<h3 class="row header smaller lighter blue">
+											<span class="col-xs-6"> 收缩列表 </span><!-- /.col -->
+
+											<span class="col-xs-6">
+												<span class="pull-right inline">
+													<span class="grey smaller-80 bolder">样式:</span>
+
+													<span class="btn-toolbar inline middle no-margin">
+														<span id="accordion-style" data-toggle="buttons" class="btn-group no-margin">
+															<label class="btn btn-xs btn-yellow active">
+																<input type="radio" value="1" />
+																1
+															</label>
+
+															<label class="btn btn-xs btn-yellow">
+																<input type="radio" value="2" />
+																2
+															</label>
+														</span>
+													</span>
+												</span>
+											</span><!-- /.col -->
+										</h3>
+
+										<!-- #section:elements.accordion -->
+										<div id="accordion" class="accordion-style1 panel-group">
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h4 class="panel-title">
+														<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+															<i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+															&nbsp;项目标题1
+														</a>
+													</h4>
+												</div>
+
+												<div class="panel-collapse collapse in" id="collapseOne">
+													<div class="panel-body">
+														发起Tengine开源项目——基于Nginx的高性能Web服务器，项目开发非常活跃，成果已被国内外很多家互联网公司使用；参与阿里巴巴集团开源项目组织和推进活动，协助促进公司内的项目进行开源；积极参与国内外的开源组织和活动  
+													</div>
+												</div>
+											</div>
+
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h4 class="panel-title">
+														<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+															<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+															&nbsp;项目标题2
+														</a>
+													</h4>
+												</div>
+
+												<div class="panel-collapse collapse" id="collapseTwo">
+													<div class="panel-body">
+														分享嘉宾： 程凯 @爱吃鱼的猫大哥 虚拟现实技术，它是一种将真实世界信息和虚拟世界信息"无缝"集成的新技术，随着科技巨头Apple、Google等公司的不断加入，这一领域将会成为新的科技战场。 程凯将为你分享虚拟现实案例，带你快速了解虚拟现实开发的世界。
+													</div>
+												</div>
+											</div>
+
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<h4 class="panel-title">
+														<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+															<i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+															&nbsp;项目标题3
+														</a>
+													</h4>
+												</div>
+
+												<div class="panel-collapse collapse" id="collapseThree">
+													<div class="panel-body">
+														去年12月29日，中共中央政治局召开会议指出："把党的纪律建设摆在更加突出的位置，强化纪律刚性约束，严明政治纪律和政治规矩，党内决不容忍搞团团伙伙、结党营私、拉帮结派。"昨天，新华社刊发文章指出，近年来落马的一些"大老虎"背后，多有一帮官员与之有着千丝万缕的利益勾连，形成一个个或明或暗，或松散或紧密的"帮派""团伙"，并首次公开给这些团伙命名为"石油帮"、"秘书帮"、"山西帮"。
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<!-- /section:elements.accordion -->
+									</div><!-- /.col -->
+
+									<div class="col-sm-6">
+										<h3 class="header smaller lighter green">进度条</h3>
+
+										<div class="row">
+											<div class="col-xs-8">
+												<!-- #section:elements.progressbar -->
+												<div class="progress pos-rel" data-percent="66%">
+													<div class="progress-bar" style="width:66%;"></div>
+												</div>
+
+												<div class="progress progress-striped pos-rel">
+													<div class="progress-bar progress-bar-success" style="width: 25%;"></div>
+												</div>
+
+												<!-- /section:elements.progressbar -->
+												<div class="progress progress-small progress-striped active">
+													<div class="progress-bar progress-bar-warning" style="width: 40%;"></div>
+												</div>
+
+												<div class="progress progress-mini">
+													<div class="progress-bar progress-danger" style="width: 35%;"></div>
+												</div>
+
+												<div class="progress">
+													<div class="progress-bar progress-bar-success" style="width: 35%;"></div>
+
+													<div class="progress-bar progress-bar-warning" style="width: 20%;"></div>
+
+													<div class="progress-bar progress-bar-danger" style="width: 10%;"></div>
+												</div>
+
+												<div class="progress progress-striped">
+													<div class="progress-bar progress-bar-purple" style="width: 65%"></div>
+												</div>
+
+												<div class="progress progress-striped">
+													<div class="progress-bar progress-bar-pink" style="width: 40%"></div>
+												</div>
+
+												<div class="progress progress-striped active">
+													<div class="progress-bar progress-bar-yellow" style="width: 60%"></div>
+												</div>
+
+												<div class="progress progress-striped">
+													<div class="progress-bar progress-bar-inverse" style="width: 80%"></div>
+												</div>
+											</div><!-- /.col -->
+
+											<div class="col-xs-4 center">
+												<!-- #section:plugins/charts.easypiechart -->
+												<div class="easy-pie-chart percentage" data-percent="20" data-color="#D15B47">
+													<span class="percent">20</span>%
+												</div>
+
+												<hr />
+												<div class="easy-pie-chart percentage" data-percent="55" data-color="#87CEEB">
+													<span class="percent">55</span>%
+												</div>
+
+												<hr />
+												<div class="easy-pie-chart percentage" data-percent="90" data-color="#87B87F">
+													<span class="percent">90</span>%
+												</div>
+
+												<!-- /section:plugins/charts.easypiechart -->
+											</div><!-- /.col -->
+										</div><!-- /.row -->
+									</div><!-- /.col -->
+								</div><!-- /.row -->
+
+								<hr />
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="widget-box">
+											<div class="widget-header">
+												<h4 class="smaller">
+													工具提示
+													<small>不同的方向和颜色</small>
+												</h4>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main">
+													<p class="muted">
+														我需要三件东西：
+														<a title="提示文字" data-rel="tooltip" href="#">提示1</a>
+														爱情友谊和图书
+														<a title="提示文字" data-rel="tooltip" href="#">提示2</a>
+														。然而这三者之间何其相通！
+														<a data-rel="tooltip" href="#" data-original-title="提示文字">提示3</a>
+														炽热的爱情可以充实图书的内容，图书又是人们最忠实的朋友
+														<a title="提示文字" data-rel="tooltip" href="#">提示4</a>
+													</p>
+
+													<hr />
+
+													<!-- #section:elements.tooltip -->
+													<p>
+														<span class="btn btn-sm" data-rel="tooltip" title="Default">默认</span>
+														<span class="btn btn-warning btn-sm tooltip-warning" data-rel="tooltip" data-placement="left" title="提示文字">左边提示</span>
+														<span class="btn btn-success btn-sm tooltip-success" data-rel="tooltip" data-placement="right" title="提示文字">右边提示</span>
+														<span class="btn btn-danger btn-sm tooltip-error" data-rel="tooltip" data-placement="top" title="提示文字">顶部提示</span>
+														<span class="btn btn-info btn-sm tooltip-info" data-rel="tooltip" data-placement="bottom" title="提示文字">底部提示</span>
+													</p>
+
+													<!-- /section:elements.tooltip -->
+												</div>
+											</div>
+										</div>
+									</div><!-- /.col -->
+
+									<div class="col-sm-6">
+										<div class="widget-box">
+											<div class="widget-header">
+												<h4 class="smaller">弹出提示 / Popovers</h4>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main">
+													<!-- #section:elements.popover -->
+													<p>
+														<span class="btn btn-sm" data-rel="popover" title="默认" data-content="提示内容提示内容提示内容提示内容提示内容">默认</span>
+														<span class="btn btn-success btn-sm popover-success" data-rel="popover" data-placement="right" title="<i class='ace-icon fa fa-check green'></i> 恭喜" data-content="干得好！奖励你30积分！">右边提示</span>
+														<span class="btn btn-warning btn-sm popover-warning" data-rel="popover" data-placement="left" title="<i class='ace-icon fa fa-exclamation-triangle orange'></i> 左边警告" data-content="警告!最好自我检查下哟,有点小问题。
+">左边提示</span>
+													</p>
+
+													<p>
+														<span class="btn btn-danger btn-sm popover-error" data-rel="popover" data-placement="top" data-original-title="<i class='ace-icon fa fa-bolt red'></i> 顶部危险" data-content="小心！这里很危险！">顶部提示</span>
+														<span class="btn btn-info btn-sm popover-info" data-rel="popover" data-placement="bottom" title="一些信息" data-content="小心!这个警报需要你的注意,但它不是超级重要。">底部提示</span>
+														<span class="btn btn-inverse btn-sm popover-notitle" data-rel="popover" data-placement="bottom" data-content="我没有标题!">无标题提示</span>
+													</p>
+
+													<!-- /section:elements.popover -->
+												</div>
+											</div>
+										</div>
+									</div><!-- /.col -->
+								</div><!-- /.row -->
+
+								<hr />
+								<div class="row">
+									<div class="col-sm-6">
+										<h3 class="header smaller lighter green">
+											<i class="ace-icon fa fa-bullhorn"></i>
+											警报
+										</h3>
+
+										<div class="alert alert-danger">
+											<button type="button" class="close" data-dismiss="alert">
+												<i class="ace-icon fa fa-times"></i>
+											</button>
+
+											<strong>
+												<i class="ace-icon fa fa-times"></i>
+												天啦!
+											</strong>
+
+											出了点问题,请尝试再次提交！
+											<br />
+										</div>
+
+										<div class="alert alert-warning">
+											<button type="button" class="close" data-dismiss="alert">
+												<i class="ace-icon fa fa-times"></i>
+											</button>
+											<strong>警告!</strong>
+
+											最好自我检查下哟,貌似有点小问题！
+
+											<br />
+										</div>
+
+										<div class="alert alert-block alert-success">
+											<button type="button" class="close" data-dismiss="alert">
+												<i class="ace-icon fa fa-times"></i>
+											</button>
+
+											<p>
+												<strong>
+													<i class="ace-icon fa fa-check"></i>
+													做得好!
+												</strong>
+												你成功地阅读这一重要警报消息。
+											</p>
+
+											<p>
+												<button class="btn btn-sm btn-success">这样做</button>
+												<button class="btn btn-sm">放弃</button>
+											</p>
+										</div>
+
+										<div class="alert alert-info">
+											<button type="button" class="close" data-dismiss="alert">
+												<i class="ace-icon fa fa-times"></i>
+											</button>
+											<strong>注意!</strong>
+
+											这个警报需要你的注意,但它不是超级重要。
+											<br />
+										</div>
+									</div><!-- /.col -->
+
+									<div class="col-sm-6">
+										<h3 class="row header smaller lighter orange">
+											<span class="col-sm-8">
+												<i class="ace-icon fa fa-bell"></i>
+												通知插件
+											</span><!-- /.col -->
+
+											<span class="col-sm-4">
+												<label class="pull-right inline">
+													<small class="muted">提示框为深色:</small>
+
+													<input id="gritter-light" checked="" type="checkbox" class="ace ace-switch ace-switch-5" />
+													<span class="lbl middle"></span>
+												</label>
+											</span><!-- /.col -->
+										</h3>
+
+										<p>
+											<i>点击查看效果</i>
+										</p>
+
+										<!-- #section:plugins/misc.gritter -->
+										<p>
+											<button class="btn" id="gritter-regular">常规提示</button>
+											<button class="btn btn-info" id="gritter-sticky">棘手的</button>
+											<button class="btn btn-success" id="gritter-without-image">没有图片的提示框</button>
+										</p>
+
+										<p>
+											<button class="btn btn-danger" id="gritter-error">错误提示</button>
+											<button class="btn btn-warning" id="gritter-max3">提示框 3</button>
+											<button class="btn btn-primary" id="gritter-center">居中的提示框</button>
+											<button class="btn btn-inverse" id="gritter-remove">移除提示框</button>
+										</p>
+
+										<!-- /section:plugins/misc.gritter -->
+									</div><!-- /.col -->
+								</div><!-- /.row -->
+
+								<hr />
+								<div class="row">
+									<div class="col-sm-6">
+										<div>
+											<h3 class="header smaller lighter purple">
+												弹出框
+												<small>(Bootbox.js)</small>
+											</h3>
+
+											<!-- #section:plugins/misc.bootbox -->
+											<p>
+												<button class="btn" id="bootbox-regular">常规对话框</button>
+												<button class="btn btn-info" id="bootbox-confirm">确认对话框</button>
+												<button class="btn btn-success" id="bootbox-options">更多的选择</button>
+											</p>
+
+											<!-- /section:plugins/misc.bootbox -->
+										</div><!-- /.row -->
+
+										<div class="space-24"></div>
+
+										<div class="row">
+											<div class="col-xs-12">
+												<h3 class="header smaller lighter grey">
+													<i class="ace-icon fa fa-spinner fa-spin orange bigger-125"></i>
+													加载图（loading）
+													<small>(spin.js)</small>
+												</h3>
+											</div>
+
+											<div class="col-xs-12">
+												<i>试着滑动划片改变图片参数</i>
+
+												<div class="pull-right center spinner-preview" id="spinner-preview"></div>
+
+												<form class="form-horizontal" id="spinner-opts">
+													<!-- #section:plugins/jquery.slider -->
+													<label class="inline">
+														<small class="lighter">行:</small>
+
+														<input class="hidden" type="text" name="lines" data-min="5" data-max="16" data-step="2" value="12" />
+													</label>
+
+													<div class="space-0"></div>
+
+													<label class="inline">
+														<small class="lighter">长度:</small>
+
+														<input class="hidden" type="text" name="length" data-min="0" data-max="30" value="7" />
+													</label>
+
+													<div class="space-0"></div>
+
+													<label class="inline">
+														<small class="lighter">宽度:</small>
+
+														<input class="hidden" type="text" name="width" data-min="2" data-max="20" value="4" />
+													</label>
+
+													<div class="space-0"></div>
+
+													<label class="inline">
+														<small class="lighter">半径:</small>
+
+														<input class="hidden" type="text" name="radius" data-min="0" data-max="40" value="10" />
+													</label>
+
+													<div class="space-0"></div>
+
+													<label class="inline">
+														<small class="lighter">角落:</small>
+
+														<input class="hidden" type="text" name="corners" data-min="0" data-max="1" data-step="0.1" value="1" />
+													</label>
+
+													<div class="space-0"></div>
+
+													<label class="inline">
+														<small class="lighter">旋转:</small>
+
+														<input class="hidden" type="text" name="rotate" data-min="0" data-max="90" value="0" />
+													</label>
+
+													<div class="space-0"></div>
+
+													<label class="inline">
+														<small class="lighter">路径:</small>
+
+														<input class="hidden" type="text" name="trail" data-min="10" data-max="100" value="60" />
+													</label>
+
+													<div class="space-0"></div>
+
+													<label class="inline">
+														<small class="lighter">速度:</small>
+
+														<input class="hidden" type="text" name="speed" data-min="0.5" data-max="2.2" data-step="0.1" value="1" />
+													</label>
+
+													<!-- /section:plugins/jquery.slider -->
+												</form>
+											</div><!-- /.row -->
+										</div><!-- /.row -->
+									</div><!-- /.col -->
+
+									<div class="col-sm-6">
+										<h3 class="header smaller lighter red">引导提示</h3>
+
+										<div class="well">
+											<h4 class="green smaller lighter">常规提示</h4>
+											内容内容内容内容内容内容内容内容内容内容内容内容内容
+										</div>
+
+										<div class="well well-lg">
+											<h4 class="blue">常规提示2</h4>
+											内容内容内容内容内容内容内容内容内容内容内容内容
+										</div>
+										<div class="well well-sm"> 这是一个小提示！ </div>
+									</div><!-- /.col -->
+								</div><!-- /.row -->
+
+								<div class="row">
+									<div class="col-sm-6">
+										<h3 class="header smaller lighter green">下拉菜单</h3>
+
+										<!-- #section:elements.dropdown -->
+										<div class="dropdown dropdown-preview">
+											<ul class="dropdown-menu">
+												<li>
+													<a href="#" tabindex="-1">菜单1</a>
+												</li>
+
+												<li>
+													<a href="#" tabindex="-1">菜单2</a>
+												</li>
+
+												<li>
+													<a href="#" tabindex="-1">菜单3</a>
+												</li>
+
+												<li class="divider"></li>
+
+												<li>
+													<a href="#" tabindex="-1">更多</a>
+												</li>
+											</ul>
+										</div>
+
+										<!-- /section:elements.dropdown -->
+
+										<!-- #section:elements.dropdown.submenu -->
+										<div class="dropdown dropdown-preview">
+											<ul class="dropdown-menu dropdown-danger">
+												<li>
+													<a href="#" tabindex="-1">菜单1</a>
+												</li>
+
+												<li>
+													<a href="#" tabindex="-1">菜单2</a>
+												</li>
+
+												<li>
+													<a href="#" tabindex="-1">菜单3</a>
+												</li>
+
+												<li class="divider"></li>
+
+												<li class="dropdown-hover">
+													<a href="#" tabindex="-1" class="clearfix">
+														<span class="pull-left">更多</span>
+
+														<i class="ace-icon fa fa-caret-right pull-right"></i>
+													</a>
+
+													<ul class="dropdown-menu dropdown-danger">
+														<li>
+															<a href="#" tabindex="-1">二级菜单</a>
+														</li>
+
+														<li>
+															<a href="#" tabindex="-1">二级菜单</a>
+														</li>
+
+														<li>
+															<a href="#" tabindex="-1">二级菜单</a>
+														</li>
+
+														<li>
+															<a href="#" tabindex="-1">二级菜单</a>
+														</li>
+
+														<li>
+															<a href="#" tabindex="-1">二级菜单</a>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+
+										<!-- /section:elements.dropdown.submenu -->
+										<div class="dropup dropdown-preview">
+											<ul class="dropdown-menu dropdown-light">
+												<li>
+													<a href="#" tabindex="-1">菜单1</a>
+												</li>
+
+												<li>
+													<a href="#" tabindex="-1">菜单2</a>
+												</li>
+
+												<li>
+													<a href="#" tabindex="-1">菜单3</a>
+												</li>
+
+												<li class="divider"></li>
+
+												<li class="dropup dropdown-hover">
+													<a href="#" tabindex="-1" class="clearfix">
+														<span class="pull-left">更多</span>
+
+														<i class="ace-icon fa fa-caret-right pull-right"></i>
+													</a>
+
+													<ul class="dropdown-menu pull-left">
+														<li>
+															<a href="#" tabindex="-1">二级菜单</a>
+														</li>
+
+														<li>
+															<a href="#" tabindex="-1">二级菜单</a>
+														</li>
+
+														<li>
+															<a href="#" tabindex="-1">二级菜单</a>
+														</li>
+
+														<li>
+															<a href="#" tabindex="-1">二级菜单</a>
+														</li>
+
+														<li>
+															<a href="#" tabindex="-1">二级菜单</a>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+
+										<div class="dropup dropdown-preview">
+											<ul class="dropdown-menu dropdown-purple">
+												<li>
+													<a href="#" tabindex="-1">菜单</a>
+												</li>
+
+												<li>
+													<a href="#" tabindex="-1">菜单2</a>
+												</li>
+
+												<li>
+													<a href="#" tabindex="-1">菜单3</a>
+												</li>
+
+												<li class="divider"></li>
+
+												<li class="dropdown-hover dropup">
+													<a href="#" tabindex="-1" class="clearfix">
+														<span class="pull-left">更多</span>
+
+														<i class="ace-icon fa fa-caret-left pull-right"></i>
+													</a>
+
+													<ul class="dropdown-menu dropdown-menu-right">
+														<li>
+															<a href="#" tabindex="-1">二级菜单</a>
+														</li>
+
+														<li>
+															<a href="#" tabindex="-1">二级菜单</a>
+														</li>
+
+														<li>
+															<a href="#" tabindex="-1">二级菜单</a>
+														</li>
+
+														<li>
+															<a href="#" tabindex="-1">二级菜单</a>
+														</li>
+
+														<li>
+															<a href="#" tabindex="-1">二级菜单</a>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+
+										<!-- #section:elements.dropdown.small -->
+										<div class="dropdown dropdown-preview">
+											<ul class="dropdown-menu dropdown-icon-only dropdown-50 dropdown-light">
+												<li class="action-buttons">
+													<a href="#" tabindex="-1" class="center">
+														<i class="fa fa-flag blue bigger-130"></i>
+													</a>
+												</li>
+
+												<li class="action-buttons">
+													<a href="#" tabindex="-1" class="center">
+														<i class="fa fa-flag red bigger-130"></i>
+													</a>
+												</li>
+
+												<li class="action-buttons">
+													<a href="#" tabindex="-1" class="center">
+														<i class="fa fa-flag green bigger-130"></i>
+													</a>
+												</li>
+
+												<li class="action-buttons">
+													<a href="#" tabindex="-1" class="center">
+														<i class="fa fa-flag orange bigger-130"></i>
+													</a>
+												</li>
+											</ul>
+										</div>
+
+										<!-- /section:elements.dropdown.small -->
+									</div>
+
+									<div class="col-sm-6">
+										<h3 class="row header smaller lighter blue">
+											<span class="col-sm-7">
+												<i class="ace-icon fa fa-th-large"></i>
+												导航
+											</span><!-- /.col -->
+
+											<span class="col-sm-5">
+												<label class="pull-right inline">
+													<small class="muted">独立行:</small>
+
+													<input id="id-pills-stacked" checked="" type="checkbox" class="ace ace-switch ace-switch-5" />
+													<span class="lbl middle"></span>
+												</label>
+											</span><!-- /.col -->
+										</h3>
+
+										<ul class="nav nav-pills">
+											<li class="active">
+												<a href="#">首页</a>
+											</li>
+
+											<li class="disabled">
+												<a href="#">简介</a>
+											</li>
+
+											<li>
+												<a href="#">消息</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+
+								<script type="text/javascript">
+									var $path_assets = "../assets";//this will be used in gritter alerts containing images
+								</script>
+
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div>
+			</div><!-- /.main-content -->
+
+			<div class="footer">
+				<div class="footer-inner">
+					<!-- #section:basics/footer -->
+					<div class="footer-content">
+						<span class="bigger-120">
+							<span class="blue bolder">后台管理系统</span>
+							COPYRIGHT &copy; 2013-2014
+						</span>
+
+						&nbsp; &nbsp;
+						
+					</div>
+
+					<!-- /section:basics/footer -->
+				</div>
+			</div>
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+			</a>
+		</div><!-- /.main-container -->
+
+		<!-- basic scripts -->
+
+		<!--[if !IE]> -->
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../assets/js/jquery.js'>"+"<"+"/script>");
+		</script>
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+<script type="text/javascript">
+ window.jQuery || document.write("<script src='../assets/js/jquery1x.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+		<script type="text/javascript">
+			if('ontouchstart' in document.documentElement) document.write("<script src='../assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");
+		</script>
+		<script src="../assets/js/bootstrap.js"></script>
+
+		<!-- page specific plugin scripts -->
+
+		<!--[if lte IE 8]>
+		  <script src="../assets/js/excanvas.js"></script>
+		<![endif]-->
+		<script src="../assets/js/jquery-ui.custom.js"></script>
+		<script src="../assets/js/jquery.ui.touch-punch.js"></script>
+		<script src="../assets/js/bootbox.js"></script>
+		<script src="../assets/js/jquery.easypiechart.js"></script>
+		<script src="../assets/js/jquery.gritter.js"></script>
+		<script src="../assets/js/spin.js"></script>
+
+		<!-- ace scripts -->
+		<script src="../assets/js/ace/elements.scroller.js"></script>
+		<script src="../assets/js/ace/elements.colorpicker.js"></script>
+		<script src="../assets/js/ace/elements.fileinput.js"></script>
+		<script src="../assets/js/ace/elements.typeahead.js"></script>
+		<script src="../assets/js/ace/elements.wysiwyg.js"></script>
+		<script src="../assets/js/ace/elements.spinner.js"></script>
+		<script src="../assets/js/ace/elements.treeview.js"></script>
+		<script src="../assets/js/ace/elements.wizard.js"></script>
+		<script src="../assets/js/ace/elements.aside.js"></script>
+		<script src="../assets/js/ace/ace.js"></script>
+		<script src="../assets/js/ace/ace.ajax-content.js"></script>
+		<script src="../assets/js/ace/ace.touch-drag.js"></script>
+		<script src="../assets/js/ace/ace.sidebar.js"></script>
+		<script src="../assets/js/ace/ace.sidebar-scroll-1.js"></script>
+		<script src="../assets/js/ace/ace.submenu-hover.js"></script>
+		<script src="../assets/js/ace/ace.widget-box.js"></script>
+		<script src="../assets/js/ace/ace.settings.js"></script>
+		<script src="../assets/js/ace/ace.settings-rtl.js"></script>
+		<script src="../assets/js/ace/ace.settings-skin.js"></script>
+		<script src="../assets/js/ace/ace.widget-on-reload.js"></script>
+		<script src="../assets/js/ace/ace.searchbox-autocomplete.js"></script>
+
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+			jQuery(function($) {
+				/**
+				$('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+				  //console.log(e.target.getAttribute("href"));
+				})
+					
+				$('#accordion').on('shown.bs.collapse', function (e) {
+					//console.log($(e.target).is('#collapseTwo'))
+				});
+				*/
+				
+				$('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+					if($(e.target).attr('href') == "#home") drawChartNow();
+				})
+			
+				
+				/**
+					//go to next tab, without user clicking
+					$('#myTab > .active').next().find('> a').trigger('click');
+				*/
+			
+			
+				$('#accordion-style').on('click', function(ev){
+					var target = $('input', ev.target);
+					var which = parseInt(target.val());
+					if(which == 2) $('#accordion').addClass('accordion-style2');
+					 else $('#accordion').removeClass('accordion-style2');
+				});
+				
+				//$('[href="#collapseTwo"]').trigger('click');
+			
+			
+				var oldie = /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase());
+				$('.easy-pie-chart.percentage').each(function(){
+					$(this).easyPieChart({
+						barColor: $(this).data('color'),
+						trackColor: '#EEEEEE',
+						scaleColor: false,
+						lineCap: 'butt',
+						lineWidth: 8,
+						animate: oldie ? false : 1000,
+						size:75
+					}).css('color', $(this).data('color'));
+				});
+			
+				$('[data-rel=tooltip]').tooltip();
+				$('[data-rel=popover]').popover({html:true});
+			
+			
+				$('#gritter-regular').on(ace.click_event, function(){
+					$.gritter.add({
+						title: '这是一个常规的提示框!',
+						text: '内容内容内容内容内容 <a href="#" class="blue">链接</a> 内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
+						image: $path_assets+'/avatars/avatar1.png',
+						sticky: false,
+						time: '',
+						class_name: (!$('#gritter-light').get(0).checked ? 'gritter-light' : '')
+					});
+			
+					return false;
+				});
+			
+				$('#gritter-sticky').on(ace.click_event, function(){
+					var unique_id = $.gritter.add({
+						title: '这是一个棘手的提示!',
+						text: '内容内容内容内容内容 <a href="#" class="red">链接</a> 内容内容内容内容内容',
+						image: $path_assets+'/avatars/avatar.png',
+						sticky: true,
+						time: '',
+						class_name: 'gritter-info' + (!$('#gritter-light').get(0).checked ? ' gritter-light' : '')
+					});
+			
+					return false;
+				});
+			
+			
+				$('#gritter-without-image').on(ace.click_event, function(){
+					$.gritter.add({
+						// (string | mandatory) the heading of the notification
+						title: '这是一个没有图片的提示框!',
+						// (string | mandatory) the text inside the notification
+						text: '内容内容内容内容内容 <a href="#" class="orange">链接</a> 内容内容内容内容内容内容 <a href="#" class="orange">链接</a> 内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
+						class_name: 'gritter-success' + (!$('#gritter-light').get(0).checked ? ' gritter-light' : '')
+					});
+			
+					return false;
+				});
+			
+			
+				$('#gritter-max3').on(ace.click_event, function(){
+					$.gritter.add({
+						title: '这是提示框3!',
+						text: '内容内容内容内容内容内容内容内容内容内容 <a href="#" class="green">链接</a> 内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
+						image: $path_assets+'/avatars/avatar3.png',
+						sticky: false,
+						before_open: function(){
+							if($('.gritter-item-wrapper').length >= 3)
+							{
+								return false;
+							}
+						},
+						class_name: 'gritter-warning' + (!$('#gritter-light').get(0).checked ? ' gritter-light' : '')
+					});
+			
+					return false;
+				});
+			
+			
+				$('#gritter-center').on(ace.click_event, function(){
+					$.gritter.add({
+						title: '这是一个居中的提示框',
+						text: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
+						class_name: 'gritter-info gritter-center' + (!$('#gritter-light').get(0).checked ? ' gritter-light' : '')
+					});
+			
+					return false;
+				});
+				
+				$('#gritter-error').on(ace.click_event, function(){
+					$.gritter.add({
+						title: '这是一个错误提示！',
+						text: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容',
+						class_name: 'gritter-error' + (!$('#gritter-light').get(0).checked ? ' gritter-light' : '')
+					});
+			
+					return false;
+				});
+					
+			
+				$("#gritter-remove").on(ace.click_event, function(){
+					$.gritter.removeAll();
+					return false;
+				});
+					
+			
+				///////
+			
+			
+				$("#bootbox-regular").on(ace.click_event, function() {
+					bootbox.prompt("你的名字是什么?", function(result) {
+						if (result === null) {
+							
+						} else {
+							
+						}
+					});
+				});
+					
+				$("#bootbox-confirm").on(ace.click_event, function() {
+					bootbox.confirm("你确定吗?", function(result) {
+						if(result) {
+							//
+						}
+					});
+				});
+				
+			/**
+				$("#bootbox-confirm").on(ace.click_event, function() {
+					bootbox.confirm({
+						message: "Are you sure?",
+						buttons: {
+						  confirm: {
+							 label: "确定",
+							 className: "btn-primary btn-sm",
+						  },
+						  cancel: {
+							 label: "取消",
+							 className: "btn-sm",
+						  }
+						},
+						callback: function(result) {
+							if(result) alert(1)
+						}
+					  }
+					);
+				});
+			**/
+					
+				$("#bootbox-options").on(ace.click_event, function() {
+					bootbox.dialog({
+						message: "<span class='bigger-110'>我是一个较小的自定义对话框按钮</span>",
+						buttons: 			
+						{
+							"success" :
+							 {
+								"label" : "<i class='ace-icon fa fa-check'></i> 成功!",
+								"className" : "btn-sm btn-success",
+								"callback": function() {
+									//Example.show("great success");
+								}
+							},
+							"danger" :
+							{
+								"label" : "危险!",
+								"className" : "btn-sm btn-danger",
+								"callback": function() {
+									//Example.show("uh oh, look out!");
+								}
+							}, 
+							"click" :
+							{
+								"label" : "点我!",
+								"className" : "btn-sm btn-primary",
+								"callback": function() {
+									//Example.show("Primary button");
+								}
+							}, 
+							"button" :
+							{
+								"label" : "只是一个按钮...",
+								"className" : "btn-sm"
+							}
+						}
+					});
+				});
+			
+			
+			
+				$('#spinner-opts small').css({display:'inline-block', width:'60px'})
+			
+				var slide_styles = ['', 'green','red','purple','orange', 'dark'];
+				var ii = 0;
+				$("#spinner-opts input[type=text]").each(function() {
+					var $this = $(this);
+					$this.hide().after('<span />');
+					$this.next().addClass('ui-slider-small').
+					addClass("inline ui-slider-"+slide_styles[ii++ % slide_styles.length]).
+					css('width','125px').slider({
+						value:parseInt($this.val()),
+						range: "min",
+						animate:true,
+						min: parseInt($this.attr('data-min')),
+						max: parseInt($this.attr('data-max')),
+						step: parseFloat($this.attr('data-step')) || 1,
+						slide: function( event, ui ) {
+							$this.val(ui.value);
+							spinner_update();
+						}
+					});
+				});
+			
+			
+			
+				//CSS3 spinner
+				$.fn.spin = function(opts) {
+					this.each(function() {
+					  var $this = $(this),
+						  data = $this.data();
+			
+					  if (data.spinner) {
+						data.spinner.stop();
+						delete data.spinner;
+					  }
+					  if (opts !== false) {
+						data.spinner = new Spinner($.extend({color: $this.css('color')}, opts)).spin(this);
+					  }
+					});
+					return this;
+				};
+			
+				function spinner_update() {
+					var opts = {};
+					$('#spinner-opts input[type=text]').each(function() {
+						opts[this.name] = parseFloat(this.value);
+					});
+					opts['left'] = 'auto';
+					$('#spinner-preview').spin(opts);
+				}
+			
+			
+			
+				$('#id-pills-stacked').removeAttr('checked').on('click', function(){
+					$('.nav-pills').toggleClass('nav-stacked');
+				});
+			
+				
+				
+				
+				
+				
+				///////////
+				$(document).one('ajaxloadstart.page', function(e) {
+					$.gritter.removeAll();
+					$('.modal').modal('hide');
+				});
+			
+			});
+		</script>
+
+		<!-- the following scripts are used in demo only for onpage help and you don't need them -->
+		<link rel="stylesheet" href="../assets/css/ace.onpage-help.css" />
+		<link rel="stylesheet" href="../docs/assets/js/themes/sunburst.css" />
+
+		<script type="text/javascript"> ace.vars['base'] = '..'; </script>
+		<script src="../assets/js/ace/elements.onpage-help.js"></script>
+		<script src="../assets/js/ace/ace.onpage-help.js"></script>
+		<script src="../docs/assets/js/rainbow.js"></script>
+		<script src="../docs/assets/js/language/generic.js"></script>
+		<script src="../docs/assets/js/language/html.js"></script>
+		<script src="../docs/assets/js/language/css.js"></script>
+		<script src="../docs/assets/js/language/javascript.js"></script>
+	</body>
+</html>

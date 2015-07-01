@@ -1,0 +1,308 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ehcache.xsd">
+	<!-- <cacheManagerPeerProviderFactory -->
+	<!-- class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory" -->
+	<!-- properties="peerDiscovery=manual, -->
+	<!-- rmiUrls=//localhost:40002/UserCache|//localhost:40003/UserCache" /> -->
+
+	<cacheManagerPeerProviderFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+		properties="peerDiscovery=automatic, multicastGroupAddress=230.0.0.2,
+	    	multicastGroupPort=17447, timeToLive=255" />
+
+	<cacheManagerPeerListenerFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
+		properties="hostName=localhost,port=40001, socketTimeoutMillis=2000" />
+
+	<cache name="dataSourceCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+
+	<cache name="errorCodeCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="carrierCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="provinceCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="cityCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="numSectionCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+
+	<cache name="supplierCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="productCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="pointCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="pointChannelRelationCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+
+	<cache name="channelCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="merchantCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="merchantChargingCodeCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="channelChargingCodeCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="carrierChannelRelationCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="channelMerchantRelationCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+
+	<cache name="blackListCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="whiteListCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="basicRuleCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="merchantRejectionCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	<cache name="userCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	
+	<cache name="menuCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	
+	<cache name="roleMenuCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	
+	<cache name="roleUserCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	
+	<cache name="roleCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	
+	<cache name="userInfoCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	
+	<cache name="IdentityCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+	
+	<cache name="channelParmsCache" maxElementsInMemory="10000">
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true,
+                            replicatePutsViaCopy=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,
+                            asynchronousReplicationIntervalMillis=0" />
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+	</cache>
+</ehcache>

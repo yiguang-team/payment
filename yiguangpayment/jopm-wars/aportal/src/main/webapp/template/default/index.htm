@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="/rest/view/default/css/1.css" type="text/css" rel="stylesheet" >
+<script src="/rest/view/default/js/jquery-1.9.0.js"></script>
+<script src="/rest/view/default/layer/layer.min.js"></script>
+<script>
+$(function () { 
+	showPointer('3');
+	$('#operator_id').val('3');
+	$(".zuo").find(':image').css("margin-top","10px");
+	$('.dh').find('li').click(function () { 
+		
+		var optL=$(this).find('a').attr('class').split(' ');  
+		if (inArray('lt',optL))
+		{
+			showPointer('2');
+			$('#operator_id').val('2');
+		}
+		else if (inArray('dx',optL))
+		{
+			showPointer('3');
+			$('#operator_id').val('3');
+		}
+		else if (inArray('yd',optL))
+		{
+			alert("暂不支持中国移动用户充值，业务即将开放~");
+			return;
+		}
+		
+		$('.dh').find('li').removeClass('cur'); 
+		$(this).addClass('cur'); 
+	});
+
+	//算术验证
+	$("#getcode_math").click(function(){
+		$(this).attr("src",'/rest/code_math.php?' + Math.random());
+	});
+}); 
+function inArray(needle, array){
+    var l = array.length;
+    var i = 0;
+    for(;i<l;i++){
+        if(needle == array[i]){
+            return true;
+        }
+    }
+    return false;
+}
+function showPointer(operatorId){
+		
+	$.post('junwang?action=pointer',{operator:operatorId},function(response){
+		$('#pointerList').show().html(response);
+	});
+}
+
+function dosubmit()
+{	
+	var account = $("#user_account").val();
+	if(account== ""){
+		$("#user_account_msg").html("请填写充值账号");
+		return false;
+	}else if(account.length >64){
+		$("#user_account_msg").html("账号不合法");
+		return false;
+	}else{
+		$.post('junwang?action=checkAccount',{account:account},function(response){
+			if (response == 0)
+			{
+				$("#user_account_msg").html('');
+				var mobile = $("#mobile").val();
+				if(mobile=="")
+				{
+				    $("#mobile_msg").html("请输入手机号码");
+				    return;
+				}
+				else
+				{
+					$.post('junwang?action=checkMobile',{mobile:mobile,operator:$('#operator_id').val()},function(response){
+						if (response == 0)
+						{
+							$("#mobile_msg").html('');
+							 var code_math = $("#code_math").val();
+								$.post("/rest/chk_code.php?act=math",{code:code_math},function(msg){
+									if(msg!=1){
+										alert("验证码错误！");
+										return;
+									}
+									else
+									{
+										document.form1.target="_blank";
+										document.form1.submit();
+										var pageii = $.layer({
+										    type: 1,
+										    title: false,
+										    area: ['auto', 'auto'],
+										    border: [0], //去掉默认边框
+										    shade: [0], //去掉遮罩
+										    closeBtn: [0, false], //去掉默认关闭按钮
+										    shift: 'left', //从左动画弹出
+										    page: {
+										        html: $("#pop_div").html()
+										    }
+										});
+									}
+									
+								});
+						}
+						else
+						{
+							$("#mobile_msg").html(response);
+						}
+					});
+				}
+			}
+			else
+			{
+				$("#user_account_msg").html(response);
+			}
+		});
+	}
+	
+	
+	
+	/*re= /^(13[0-9]{9})|(15[89][0-9]{8})$/
+    if(!re.test(mobile))
+    {
+         $("#mobile_msg").html("请输入正确的联通手机号码");
+         return;
+    }else{
+    	 $("#mobile_msg").html("");
+    }*/
+    
+    
+    
+   
+}
+
+</script>
+</head>
+
+<body>
+<div class="bj">
+	<div class="bk">
+		<div class="logo"><strong><a href="#"><img src="/rest/view/default/img/logo.jpg" /></a></strong>
+			<span>
+				<img border="0" SRC="/rest/view/default/img/TEL.jpg">
+    			<a target=blank href=http://wpa.qq.com/msgrd?V=1&uin=3157299628&Site=短信支付&Menu=yes><img border="0" SRC="/rest/view/default/img/QQ1.jpg" alt="点击这里给我发消息"></a>
+    			<a target=blank href=http://wpa.qq.com/msgrd?V=1&uin=1767508243&Site=短信支付&Menu=yes><img border="0" SRC="/rest/view/default/img/QQ2.jpg" alt="点击这里给我发消息"></a>
+			</span>
+		</div>
+		<div class="lc"><img src="/rest/view/default/img/1.jpg" /></div>
+
+
+		<div class="zi">来自 <span>北京汇元网科技有限责任公司</span> 支付订单号：<span>$order_id</span><br />
+			商品信息：<span>骏卡一卡通J点</span>
+		</div>
+		<div class="ne">
+			<div class="dh">
+				<ul>
+					<li > <a class="lt">联通话费短信支付</a></li>
+					<li class="cur"><a class="dx">电信话费短信支付</a></li>
+					<li ><a class="yd">移动话费短信支付</a></li>                      
+				</ul>
+			</div>
+			
+			<div class="zuo">
+				<form action="junwang?action=indexpage" method="post" target="_blank" name="form1">
+				<input style="height:30px; width:375px;" name="operator_id" id="operator_id" value= "3"  type="hidden" />
+				<input style="height:30px; width:375px;" name="merchant_id" id="merchant_id" value = $merchant_id type="hidden" />
+			  	<input style="height:30px; width:375px;" name="order_id" id="order_id" value = $order_id type="hidden" />
+			  	<!--<div style="color:red;margin-bottom:10px;">重要通知：联通系统将于2015年4月2日凌晨0-2点进行维护，该时段联通用户可能无法正常交易，给各位用户造成的不便敬请谅解~</div>-->
+				<table width="582" height="236" border="0">
+			  		
+				 	<tr>
+			     	 	<td width="300" align="right">产       品： <br /></td>
+			    	 	<td width="537"><span id="pointerList"></span></td>
+			  		</tr>
+			  
+					<tr>
+					    <td align="right">骏卡一卡通账号：</td>
+					    <td>
+					    	<input style="height:30px; width:375px;" name="user_account" id="user_account" type="text" />
+					    	<br/>
+					    	<span id="user_account_msg" style="color:red"></span>
+					    </td>
+					</tr>
+					<tr>
+					    <td align="right">手机号码：</td>
+					    <td>
+					    	<input style="height:30px; width:375px;" name="mobile" id="mobile" type="text" /><br/>
+					    	<span id="mobile_msg" style="color:red"></span>
+					   	</td>
+					 </tr>
+					 <tr>
+					    <td align="right">验证码：</td>
+					    <td>
+					    	
+					    	<input type="text" class="input" id="code_math" maxlength="4" /> <img src="code_math.php" id="getcode_math" title="看不清，点击换一张" align="absmiddle">
+					    	
+					    </td>
+					 </tr>
+					 <tr>
+					    <td>&nbsp;</td>
+					    <td><img src="/rest/view/default/img/AN.jpg" onclick="dosubmit()"/></td>
+					 </tr>
+				</table>
+				</form>
+			</div>
+			<div id="pop_div" style="display:none">
+			<div class="xx"><a href="#"></a></div>
+				<div class="bg" style="background:#f3f3f3;">
+					<table width="470" border="0">
+				     <tr>
+				   		 <td class="sj">请您在新打开的页面上完成付款</td>
+				  	</tr>
+					<tr>
+					    <td>
+					       <div class="jf" style="float:left;margin-left:50px"><a href="/rest/junwang?action=callback&order_id=$order_id">付款完成</a></div>
+					       <div class="jf" style="float:left;margin-left:20px"><a href="/rest/junwang">重新购买</a></div>
+					    </td>
+					</tr>
+					</table>
+				</div>
+			</div>
+			<div class="you">
+				<p><b>手机验证码支付说明：</b></p>
+				<p>验证码支付：即通过确认手机收到的验证码完成支付扣费；<br />
+				 支持中国移动号段：134~139、147、150~152、157~159、182、183、184、187、188；<br />
+				  支持中国联通号段： 130-132、145、155、156、185、186；<br />
+				  支持中国电信号段： 133、153、180、181、189；<br />
+				  在支付过程中，如您选择的支付通道受限限制，请更换其它通道进行支付。<br />
+				  请按页面和验证码提示完成操作。</p>
+				<p>在线客服1：<a target=blank href=http://wpa.qq.com/msgrd?V=1&uin=3157299628&Site=短信支付&Menu=yes><img border="0" SRC=http://wpa.qq.com/pa?p=1:3157299628:1 alt="点击这里给我发消息"></a></p>
+				<p>在线客服2：<a target=blank href=http://wpa.qq.com/msgrd?V=1&uin=1767508243&Site=短信支付&Menu=yes><img border="0" SRC=http://wpa.qq.com/pa?p=1:1767508243:1 alt="点击这里给我发消息"></a></p>
+			</div>
+			
+			<div class="ww">
+				<p><b>操作必读</b></p>
+				<p>输入支付号码：如号码归属地&quot;未知&quot;，则此号码不能完成支付，请与客服联系；<br />
+				  选择支付方式：如选择的支付方式下无可用支付通道，请选择其它支付方式；<br />
+				  选择支付通道：通常会有一个或多个支付通道，请根据每个支付通道标称的支付信息（支付费用、支付次数等），选择合适的支付通道进行提交；<br />
+				  提交支付：系统会根据你提交的商品、支付号码、支付通道等信息处理支付请求，如您提交的支付请求受系统限制而不能支付，请选择其它支付方式或隔日重试；<br />
+				  提交支付支付请求成功后，请按页面提示完成支付确认操作；<br />
+				  其它任务疑问，请咨询客服热线：400-829-9109。</p>
+			</div>
+		</div>	
+	</div>
+</div>
+
+
+<div class="wei">
+  <p><a href="#">公司概况 </a> &nbsp;|&nbsp;  <a href="#">联系我们 </a> &nbsp;|&nbsp;  <a href="#">合作伙伴</a> &nbsp;|&nbsp;  <a href="#">诚聘英才</a><br />
+	广州翼光网络科技有限公司 版权所有 2012-2014 粤ICP备14050898号-1  </p>
+</div>
+</body>
+</html>

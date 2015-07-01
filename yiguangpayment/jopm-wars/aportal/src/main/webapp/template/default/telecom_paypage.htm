@@ -1,0 +1,41 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<form action="$sms_pay_url" name="form1" method="POST">
+	<input type="hidden" name="MERCHANTID" value="$MERCHANTID"><br>
+	<input type="hidden" name="SUBMERCHANTID" value="$SUBMERCHANTID"><br>
+	<input type="hidden" name="ORDERSEQ" value="$ORDERSEQ"><br>
+	<input type="hidden" name="ORDERREQTRANSEQ" value="$ORDERREQTRANSEQ"><br>
+	<input type="hidden" name="ORDERDATE" value="$ORDERDATE"><br>
+	<input type="hidden" name="ORDERAMOUNT" value="$ORDERAMOUNT"><br>
+	<input type="hidden" name="PRODUCTAMOUNT" value="$PRODUCTAMOUNT"><br>
+	<input type="hidden" name="ATTACHAMOUNT" value="$ATTACHAMOUNT"><br>
+	<input type="hidden" name="CURTYPE" value="$CURTYPE"><br>
+	<input type="hidden" name="ENCODETYPE" value="$ENCODETYPE"><br>
+	<input type="hidden" name="MERCHANTURL" value="$MERCHANTURL"><br>
+	<input type="hidden" name="BACKMERCHANTURL" value="$BACKMERCHANTURL"><br>
+	<input type="hidden" name="BANKID" value="$BANKID"><br>
+	<input type="hidden" name="ATTACH" value="$ATTACH"><br>
+	<input type="hidden" name="PRODUCTID" value="$PRODUCTID"><br>
+	<input type="hidden" name="BUSICODE" value="$BUSICODE"><br>
+	<input type="hidden" name="TMNUM" value="$TMNUM"><br>
+	<input type="hidden" name="CUSTOMERID" value="$CUSTOMERID"><br>
+	<input type="hidden" name="PRODUCTDESC" value="$PRODUCTDESC"><br>
+	<input type="hidden" name="MAC" value="$MAC"><br>
+	<input type="hidden" name="DIVDETAILS" value="$DIVDETAILS"><br>
+	<input type="hidden" name="PEDCNT" value="$PEDCNT"><br>
+	<input type="hidden" name="GMTOVERTIME" value="$GMTOVERTIME"><br>
+	<input type="hidden" name="GOODPAYTYPE" value="$GOODPAYTYPE"><br>
+	<input type="hidden" name="GOODSCODE" value="$GOODSCODE"><br>
+	<input type="hidden" name="GOODSNAME" value="$GOODSNAME"><br>
+	<input type="hidden" name="GOODSNUM" value="$GOODSNUM"><br>
+	<input type="hidden" name="CLIENTIP" value="$CLIENTIP"><br>
+	<!--  input type="submit" name="sbtn" id="sbtn"/>-->
+</form>
+</body>
+<script>
+ document.form1.submit();
+</script>
+</html>

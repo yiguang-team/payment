@@ -1,0 +1,115 @@
+
+.sidebar-shortcuts-large{ overflow:hidden; visibility:hidden;}
+.noshow{display:none;*display:inline-block;}
+.breadcrumb span.jt{ color:#999;font-size:12px; font-family:serif;}
+
+.fa-home{ background-position: 0 -24px;}
+.page-content{ min-height:800px;}
+#navbar{ z-index:99!important;/* border:2px #F00 solid;*/}
+.nav{z-index:9999!important;}
+.breadcrumbs{ *min-height:40px; }
+.breadcrumb{*margin: 10px 22px 0px 12px;}
+.navbar .navbar-brand{*padding-top: 12px;}
+.fa.fa-leaf{ overflow:hidden!important; width:0;}
+.navbar-container{padding-right:0;}
+.navbar .navbar-toggle{ overflow:hidden;}
+
+
+.fa{*width:18px; *height:17px;  *background:url(../img/glyphicons-halflings-ie7.png) no-repeat;}
+.fa-home{*display:inline-block; *margin-top:3px; *background-position:0 -24px; } 
+.fa-angle-double-right{ background-position:0 -167px ; padding-right:5px;}
+
+.fa-tasks{background-position:-143px -168px;}
+.fa-bell{background-position:-168px -168px;}
+.fa-envelope{background-position:-192px -168px;}
+.fa-caret-down{background-position:-20px -168px;}
+.btn-pink{ background-position:-216px -168px;}
+
+.fa-check{background-position:-48px -168px;}
+.fa-exclamation-triangle{background-position:-69px -168px;}
+.fa-envelope-o{background-position:-95px -168px;}
+.fa-cog{background-position:-432px 2px;}
+.fa-user{background-position:-168px 3px;}
+.fa-power-off{background-position:-384px 3px;}
+
+.fa-tachometer{background-position:0-192px; }
+.fa-desktop{background-position:-40px -192px;}
+.fa-list{background-position:-80px -192px;}
+.fa-pencil-square-o{background-position:-120px -192px;}
+.fa-list-alt{background-position:-160px -192px;}
+.fa-picture-o{background-position:-200px -192px;}
+.fa-tag{background-position:-240px -192px;}
+.fa-file-o{background-position:-280px -192px;}
+.fa-angle-down{background-position:0 -220px;}
+.fa-angle-double-left{background-position:-18px -220px;}
+.fa-caret-right{background-position:-80px -220px;}
+.nav-search-icon{background-position:-47px 4px; *margin-top:1px ;}
+
+
+.nav-search .nav-search-input { *height:20px; overflow:hidden;}
+.fa-arrow-right ,.fa-arrow-right:hover{background-position:-115px -168px;}
+.ace-nav > li > a > .badge{ *top:3px; *left: 4px;}
+
+.dropdown-navbar a .clearfix ,.dropdown-navbar a:hover .clearfix {  *width:100%; }
+.dropdown-navbar li{ *display:inline-block; *padding-bottom:10px;}
+.user-menu a {*width:140px;*height:24px;}
+.user-menu li{ *width:100%; *float:left;*display:inline-block;*margin:0; *padding:0;}
+
+.user-menu li a:hover .fa{ *display:inline-block;* background-image:url(../img/glyphicons-halflings-ie7.png);}
+
+.nav-list li a{ *height:20px;}
+
+.fa-angle-double-up{ *background:url(../img/glyphicons-halflings-ie7.png) no-repeat -48px -220px;}
+
+.fa-times{ *background:url(../img/glyphicons-halflings-ie7.png) no-repeat -312px -168px;}
+.row{*margin-right:0;}
+
+
+.open .nav-show{ display:block!important;}
+.open .nav-show li a{ display:block;}
+
+
+.footer{ width:100%; clear:both; position:relative;*padding-top:0;}
+.footer .footer-inner{background-color:#fff;}
+
+.table > thead > tr > th{ color:#666;}
+
+.table td .edit a{ margin-right:8px; color:#2B7DBC;}
+.table .inline a{ color:#2B7DBC;}
+.dataTables_paginate span{ display:inline-block; border:0; line-height:30px; }
+.paginate_button2{ padding-left:10px;}
+.paginate_button2 .ui_input_txt{ width:30px; height:30px; text-align:center;}
+.btn-tz{ height:30px; line-height:12px;}
+.pl{ padding:10px 0; height:50px; *padding-bottom:0;/*border: 1px solid #DDD;*/}
+.bggray{ background-color:#EFF3F8;}
+.nospace{ margin:0;}
+.btns button{ margin-right:2px;-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;}
+.table-container{ padding:15px; border:1px #ddd solid; margin-bottom:10px;}
+.table-container select ,.table-container input{ margin-right:10px;*margin-top:5px;}
+.table-container select{ *margin-top:8px;}
+.table-container .btns{}
+.table-container .btns .btn{ padding:0px 20px; height:34px;}
+.fl{ float:left;}
+.labeltxt{ line-height:36px;}
+.form-text{ width:150px;}
+
+.col-xs-6{*width:48.5%; }
+.page-content{ *overflow-x:hidden;}
+.row{ *width:100%;}
+.pagination{ *float:right;}
+.paginate_button2 .ui_input_txt{ *height:12px;}
+
+.modal-dialog{ *top:25%;}
+.modal-dialog .btn-danger{ *height:30px; *line-height:16px; *padding:0 9px;}
+.modal-dialog .btn-danger .fa-times{ background-position:-335px -165px;}
+.modal-dialog .modal-header{ *height:38px;}
+.modal-dialog .modal-footer{ *height:36px;}
+.form-group{ *float:left; *width:100%;}
+.col-sm-5,.form-control,.input-sm,.col-sm-9 input { *height:22px;}
+.control-label,#form-field-6,#form-field-tags{ *line-height:22px;}
+
+.form-actions{*height:50px; *float:left; *width:100%;}
+.fa-check{ background-position:-360px -165px;}
+.fa-undo{ background-position:-385px -165px;}
+.widget-box textarea.form-control{*width:96%; *min-height:80px;}
+textarea,textarea.col-sm-5{ *min-height:80px;}

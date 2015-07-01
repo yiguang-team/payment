@@ -1,0 +1,1 @@
+update t_datasource d set d.option_sql='select t.id as optionId,T.name as optionLabel from (select * from t_product_charging_point p order by p.merchant_id,p.pay_amount asc) t where 1=1 ' where d.code = 'POINT';

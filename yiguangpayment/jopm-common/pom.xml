@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.yiguang.jopm</groupId>
+		<artifactId>jopm</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<artifactId>jopm-common</artifactId>
+	<packaging>pom</packaging>
+	<name>jopm-common</name>
+	<version>1.0.0-SNAPSHOT</version>
+	<modules>
+		<module>jopm-common-utils</module>
+		<module>jopm-common-cache</module>
+		<module>jopm-common-bootstrap</module>
+		<module>jopm-common-persistence</module>
+		<module>jopm-common-security</module>
+		<module>jopm-common-errorcode</module>
+		<module>jopm-common-datasource</module>
+		<module>jopm-common-numsection</module>
+		<module>jopm-common-ui</module>
+		<module>jopm-common-log</module>
+		<module>jopm-common-bulletin</module>
+	</modules>
+	<build>
+	</build>
+
+	<profiles>
+
+	</profiles>
+</project>

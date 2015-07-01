@@ -1,0 +1,28 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<form action="$sms_pay_url" name="form1" method="POST">
+	<input type="hidden" name="timestamp" value="$timestamp"><br>
+	<input type="hidden" name="keyversion" value="$keyversion"><br>
+	<input type="hidden" name="clientid" value="$clientid"><br>
+	<input type="hidden" name="passcode" value="$passcode"><br>
+	<input type="hidden" name="orderid" value="$order_id"><br>
+	<input type="hidden" name="ordertype" value="$ordertype"><br>
+	<input type="hidden" name="paytype" value="$paytype"><br>
+	<input type="hidden" name="paycode" value="$paycode"><br>
+	<input type="hidden" name="username" value="$username"><br>
+	<input type="hidden" name="productdesc" value="$productdesc"><br>
+	<input type="hidden" name="productid" value="$productid"><br>
+	<input type="hidden" name="producttype" value="$producttype"><br>
+	<input type="hidden" name="backurl" value="$backurl"><br>
+	<input type="hidden" name="optype" value="$optype"><br>
+	<input type="hidden" name="phonenum" value="$phonenum"><br>
+	<!--input type="submit" name="sbtn" id="sbtn"/-->
+</form>
+</body>
+<script>
+  document.form1.submit();
+</script>
+</html>
