@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springside.modules.persistence.SearchFilter.Operator;
-import org.springside.modules.web.Servlets;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.business.product.entity.Product;
@@ -65,27 +63,15 @@ public class ProductController
 			@RequestParam(value = "type", defaultValue = "-1") int type,
 			@RequestParam(value = "status", defaultValue = "-1") int status, Model model, ServletRequest request)
 	{
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 		try
 		{
-			if (StringUtil.isNotBlank(String.valueOf(type)) && type != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "type", String.valueOf(type));
-			}
-			if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "status", String.valueOf(status));
-			}
-			if (StringUtil.isNotBlank(name))
-			{
-				name = name.trim();
-				searchParams.put(Operator.LIKE + "_" + "name", name);
-			}
-			if (StringUtil.isNotBlank(String.valueOf(merchantId)) && merchantId != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "merchantId", String.valueOf(merchantId));
-			}
-			YcPage<ProductVO> page_list = productService.queryProductList(searchParams, pageNumber, pageSize, "");
+			ProductVO vo = new ProductVO();
+			vo.setType(type);
+			vo.setStatus(status);
+			vo.setMerchantId(merchantId);
+			vo.setName(name);
+			
+			YcPage<ProductVO> page_list = productService.queryProductList(vo, pageNumber, pageSize, "");
 
 			List<OptionVO> typeList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.PRODUCT_TYPE);
 

@@ -1,9 +1,13 @@
 package com.yiguang.payment.common.datasource.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +18,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springside.modules.persistence.DynamicSpecifications;
-import org.springside.modules.persistence.SearchFilter;
-import org.springside.modules.persistence.SearchFilter.Operator;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -121,22 +122,17 @@ public class DataSourceServiceImpl implements DataSourceService
 		try
 		{
 			List<DataSourceOption> optionList = new ArrayList<DataSourceOption>();
-			Map<String, SearchFilter> filters = new HashMap<String, SearchFilter>();
-			filters.put("status", new SearchFilter("status", Operator.EQ, CommonConstant.CommonStatus.OPEN));
-			filters.put("code", new SearchFilter("code", Operator.EQ, dataSourceCode));
-			Specification<DataSource> spec = DynamicSpecifications.bySearchFilter(filters.values(), DataSource.class);
-			DataSource dataSource = dataSourceDao.findOne(spec);
+			
+			Specification<DataSource> spec = getDataSourceSpec(dataSourceCode);
+			
+			final DataSource dataSource = dataSourceDao.findOne(spec);
+			
 			if (null != dataSource)
 			{
 				if (dataSource.getType() == CommonConstant.DataSourceType.COMMON)
 				{
-					Map<String, SearchFilter> optionFilters = new HashMap<String, SearchFilter>();
-					optionFilters.put("status", new SearchFilter("status", Operator.EQ,
-							CommonConstant.CommonStatus.OPEN));
-					optionFilters.put("dataSourceCode",
-							new SearchFilter("dataSourceCode", Operator.EQ, dataSource.getCode()));
-					Specification<DataSourceOption> optionSpec = DynamicSpecifications.bySearchFilter(
-							optionFilters.values(), DataSourceOption.class);
+					
+					Specification<DataSourceOption> optionSpec = getOptionSpec(dataSource.getCode());
 					optionList = dataSourceOptionDao.findAll(optionSpec,new Sort(Direction.ASC, "optionId"));
 				}
 				else if (dataSource.getType() == CommonConstant.DataSourceType.SQL)
@@ -245,21 +241,14 @@ public class DataSourceServiceImpl implements DataSourceService
 		try
 		{
 			List<DataSourceOption> optionList = new ArrayList<DataSourceOption>();
-			Map<String, SearchFilter> filters = new HashMap<String, SearchFilter>();
-			filters.put("status", new SearchFilter("status", Operator.EQ, CommonConstant.CommonStatus.OPEN));
-			filters.put("code", new SearchFilter("code", Operator.EQ, dataSourceCode));
-			Specification<DataSource> spec = DynamicSpecifications.bySearchFilter(filters.values(), DataSource.class);
+			Specification<DataSource> spec = getDataSourceSpec(dataSourceCode);
 			DataSource dataSource = dataSourceDao.findOne(spec);
 			if (null != dataSource)
 			{
 				if (dataSource.getType() == CommonConstant.DataSourceType.COMMON)
 				{
-					Map<String, SearchFilter> optionFilters = new HashMap<String, SearchFilter>();
-					optionFilters.put("dataSourceCode",
-							new SearchFilter("dataSourceCode", Operator.EQ, dataSource.getCode()));
-					Specification<DataSourceOption> optionSpec = DynamicSpecifications.bySearchFilter(
-							optionFilters.values(), DataSourceOption.class);
-					optionList = dataSourceOptionDao.findAll(optionSpec,new Sort(Direction.ASC, "optionId"));
+					Specification<DataSourceOption> optionSpec = getOptionSpec(dataSource.getCode());
+					optionList = dataSourceOptionDao.findAll(optionSpec);
 				}
 				else if (dataSource.getType() == CommonConstant.DataSourceType.SQL)
 				{
@@ -406,23 +395,14 @@ public class DataSourceServiceImpl implements DataSourceService
 		try
 		{
 			List<DataSourceOption> optionList = new ArrayList<DataSourceOption>();
-			Map<String, SearchFilter> filters = new HashMap<String, SearchFilter>();
-			filters.put("status", new SearchFilter("status", Operator.EQ, CommonConstant.CommonStatus.OPEN));
-			filters.put("code", new SearchFilter("code", Operator.EQ, dataSourceCode));
-			Specification<DataSource> spec = DynamicSpecifications.bySearchFilter(filters.values(), DataSource.class);
+			Specification<DataSource> spec = getDataSourceSpec(dataSourceCode);
 			DataSource dataSource = dataSourceDao.findOne(spec);
 			if (null != dataSource)
 			{
 				if (dataSource.getType() == CommonConstant.DataSourceType.COMMON)
 				{
-					Map<String, SearchFilter> optionFilters = new HashMap<String, SearchFilter>();
-					optionFilters.put("status", new SearchFilter("status", Operator.EQ,
-							CommonConstant.CommonStatus.OPEN));
-					optionFilters.put("dataSourceCode",
-							new SearchFilter("dataSourceCode", Operator.EQ, dataSource.getCode()));
-					Specification<DataSourceOption> optionSpec = DynamicSpecifications.bySearchFilter(
-							optionFilters.values(), DataSourceOption.class);
-					optionList = dataSourceOptionDao.findAll(optionSpec,new Sort(Direction.ASC, "optionId"));
+					Specification<DataSourceOption> optionSpec = getOptionSpec(dataSource.getCode());
+					optionList = dataSourceOptionDao.findAll(optionSpec);
 				}
 				else if (dataSource.getType() == CommonConstant.DataSourceType.SQL)
 				{
@@ -553,83 +533,44 @@ public class DataSourceServiceImpl implements DataSourceService
 		}
 	}
 
-//	private List<DataSourceOption> getOpenOptionsByParent(String dataSourceCode, long parentId, String flag)
-//	{
-//		logger.debug("getOptionsByParent start, dataSourceCode is [" + dataSourceCode + "] parentId is [" + parentId
-//				+ "]");
-//		try
-//		{
-//			List<DataSourceOption> optionList = new ArrayList<DataSourceOption>();
-//			Map<String, SearchFilter> filters = new HashMap<String, SearchFilter>();
-//			filters.put("status", new SearchFilter("status", Operator.EQ, CommonConstant.CommonStatus.OPEN));
-//			filters.put("code", new SearchFilter("code", Operator.EQ, dataSourceCode));
-//			Specification<DataSource> spec = DynamicSpecifications.bySearchFilter(filters.values(), DataSource.class);
-//			DataSource dataSource = dataSourceDao.findOne(spec);
-//			if (null != dataSource)
-//			{
-//				if (dataSource.getType() == CommonConstant.DataSourceType.COMMON)
-//				{
-//					Map<String, SearchFilter> optionFilters = new HashMap<String, SearchFilter>();
-//					optionFilters.put("status", new SearchFilter("status", Operator.EQ,
-//							CommonConstant.CommonStatus.OPEN));
-//					optionFilters.put("dataSourceCode",
-//							new SearchFilter("dataSourceCode", Operator.EQ, dataSource.getCode()));
-//					Specification<DataSourceOption> optionSpec = DynamicSpecifications.bySearchFilter(
-//							optionFilters.values(), DataSourceOption.class);
-//					optionList = dataSourceOptionDao.findAll(optionSpec,new Sort(Direction.ASC, "optionId"));
-//				}
-//				else if (dataSource.getType() == CommonConstant.DataSourceType.SQL)
-//				{
-//					if (parentId != -1)
-//					{
-//
-//						String sql = null;
-//						if (flag.equals("open"))
-//						{
-//							sql = dataSource.getOptionSql() + " and t." + dataSource.getParentCode() + "=" + parentId
-//									+ " and t.status=" + CommonConstant.CommonStatus.OPEN;
-//						}
-//						else
-//						{
-//							sql = dataSource.getOptionSql() + " and t." + dataSource.getParentCode() + "=" + parentId;
-//						}
-//
-//						List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
-//						for (Map<String, Object> map : list)
-//						{
-//							DataSourceOption dso = new DataSourceOption();
-//							dso.setOptionId(String.valueOf(map.get("optionId")));
-//							dso.setOptionLabel(String.valueOf(map.get("optionLabel")));
-//							optionList.add(dso);
-//						}
-//					}
-//					else
-//					{
-//						List<Map<String, Object>> list = jdbcTemplate.queryForList(dataSource.getOptionSql());
-//						for (Map<String, Object> map : list)
-//						{
-//							DataSourceOption dso = new DataSourceOption();
-//							dso.setOptionId(String.valueOf(map.get("optionId")));
-//							dso.setOptionLabel(String.valueOf(map.get("optionLabel")));
-//							optionList.add(dso);
-//						}
-//					}
-//				}
-//			}
-//			logger.debug("getOptionsByParent end, dataSourceCode is [" + dataSourceCode + "] parentId is [" + parentId
-//					+ "]");
-//			return optionList;
-//		}
-//		catch (RpcException e)
-//		{
-//			throw e;
-//		}
-//		catch (Exception e)
-//		{
-//			logger.error("getOptionsByParent failed, dataSourceCode is [" + dataSourceCode + "] parentId is ["
-//					+ parentId + "]");
-//			logger.error(e.getLocalizedMessage(), e);
-//			throw new RpcException(ErrorCodeConst.ErrorCode99998);
-//		}
-//	}
+	
+	private Specification<DataSource> getDataSourceSpec (final String dataSourceCode)
+	{
+		Specification<DataSource> spec = new Specification<DataSource>(){
+			@Override
+			public Predicate toPredicate(Root<DataSource> root,  
+		            CriteriaQuery<?> query, CriteriaBuilder cb) {  
+		        Predicate p1 = cb.equal(root.get("status").as(Integer.class), CommonConstant.CommonStatus.OPEN);  
+		        Predicate p2 = cb.equal(root.get("code").as(String.class), dataSourceCode);  
+		        //把Predicate应用到CriteriaQuery中去,因为还可以给CriteriaQuery添加其他的功能，比如排序、分组啥的  
+		        query.where(cb.and(p1,p2));  
+		        //添加排序的功能  
+		        query.orderBy(cb.desc(root.get("id").as(Integer.class)));  
+		          
+		        return query.getRestriction();  
+			}
+		};
+		
+		return spec;
+	}
+	
+	private Specification<DataSourceOption> getOptionSpec (final String dataSourceCode)
+	{
+		Specification<DataSourceOption> optionSpec = new Specification<DataSourceOption>(){
+			@Override
+			public Predicate toPredicate(Root<DataSourceOption> root,  
+		            CriteriaQuery<?> query, CriteriaBuilder cb) {  
+		        Predicate p1 = cb.equal(root.get("status").as(Integer.class), CommonConstant.CommonStatus.OPEN);  
+		        Predicate p2 = cb.equal(root.get("dataSourceCode").as(String.class), dataSourceCode);  
+		        //把Predicate应用到CriteriaQuery中去,因为还可以给CriteriaQuery添加其他的功能，比如排序、分组啥的  
+		        query.where(cb.and(p1,p2));  
+		        //添加排序的功能  
+		        query.orderBy(cb.asc(root.get("optionId").as(Integer.class)));  
+		          
+		        return query.getRestriction();  
+			}
+		};
+		
+		return optionSpec;
+	}
 }
