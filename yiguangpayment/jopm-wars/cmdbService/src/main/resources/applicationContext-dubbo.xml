@@ -87,8 +87,6 @@
 	<dubbo:service timeout="120000" cluster="failsafe"
 		interface="com.yiguang.payment.payment.service.ChannelService" ref="channelService" />
 	<dubbo:service timeout="120000" cluster="failsafe"
-		interface="com.yiguang.payment.payment.service.ChannelParmsService" ref="channelParmsService" />
-	<dubbo:service timeout="120000" cluster="failsafe"
 		interface="com.yiguang.payment.payment.service.ChannelMerchantRelationService"
 		ref="channelMerchantRelationService" />
 	<dubbo:service timeout="120000" cluster="failsafe"

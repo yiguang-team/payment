@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springside.modules.persistence.SearchFilter.Operator;
-import org.springside.modules.web.Servlets;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -79,75 +77,28 @@ public class BasicRuleController
 			@RequestParam(value = "username", defaultValue = "") String username,
 			@RequestParam(value = "remark", defaultValue = "") String remark, Model model, ServletRequest request)
 	{
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 		try
 		{
-			if (StringUtil.isNotBlank(String.valueOf(timeType)) && timeType != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "timeType", String.valueOf(timeType));
-			}
-			if (StringUtil.isNotBlank(String.valueOf(timeUnit)) && timeUnit != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "timeUnit", String.valueOf(timeUnit));
-			}
-			if (StringUtil.isNotBlank(String.valueOf(limitType)) && limitType != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "limitType", String.valueOf(limitType));
-			}
-			if (StringUtil.isNotBlank(mobile))
-			{
-				mobile=  mobile.trim();
-				searchParams.put(Operator.LIKE + "_" + "mobile", mobile);
-			}
-			if (StringUtil.isNotBlank(String.valueOf(channelId)) && channelId != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "channelId", String.valueOf(channelId));
-			}
-			if (StringUtil.isNotBlank(provinceId) && !provinceId.equals("-1"))
-			{
-				searchParams.put(Operator.EQ + "_" + "provinceId", provinceId);
-			}
-			if (StringUtil.isNotBlank(cityId) && !cityId.equals("-1"))
-			{
-				searchParams.put(Operator.EQ + "_" + "cityId", cityId);
-			}
-			if (StringUtil.isNotBlank(volume))
-			{
-				volume=  volume.trim();
-				searchParams.put(Operator.EQ + "_" + "volume", volume);
-			}
-			if (StringUtil.isNotBlank(String.valueOf(action)) && action != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "action", String.valueOf(action));
-			}
-			if (StringUtil.isNotBlank(ip))
-			{
-				ip=  ip.trim();
-				searchParams.put(Operator.LIKE + "_" + "ip", ip);
-			}
-			if (StringUtil.isNotBlank(username))
-			{
-				username=  username.trim();
-				searchParams.put(Operator.LIKE + "_" + "username", username);
-			}
-			if (StringUtil.isNotBlank(String.valueOf(merchantId)) && merchantId != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "merchantId", String.valueOf(merchantId));
-			}
-			if (StringUtil.isNotBlank(String.valueOf(productId)) && productId != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "productId", String.valueOf(productId));
-			}
-			if (StringUtil.isNotBlank(String.valueOf(pointId)) && pointId != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "pointId", String.valueOf(pointId));
-			}
-			if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "status", String.valueOf(status));
-			}
+			BasicRuleVO vo = new BasicRuleVO();
+			vo.setTimeType(timeType);
+			vo.setTimeUnit(timeUnit);
+			vo.setStartTime(startTime);
+			vo.setEndTime(endTime);
+			vo.setLimitType(limitType);
+			vo.setVolume(volume);
+			vo.setMobile(mobile);
+			vo.setChannelId(channelId);
+			vo.setProvinceId(provinceId);
+			vo.setCityId(cityId);
+			vo.setMerchantId(merchantId);
+			vo.setProductId(productId);
+			vo.setPointId(pointId);
+			vo.setStatus(status);
+			vo.setAction(action);
+			vo.setIp(ip);
+			vo.setUsername(username);
 
-			YcPage<BasicRuleVO> page_list = basicRuleService.queryBasicRuleList(searchParams, pageNumber,
+			YcPage<BasicRuleVO> page_list = basicRuleService.queryBasicRuleList(vo, pageNumber,
 					pageSize, "");
 
 			List<OptionVO> timeTypeList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.RISK_TIME_TYPE);
@@ -393,7 +344,7 @@ public class BasicRuleController
 				br.setEndTime(DATE_FORMAT.parse(basicRule.getEndTime()));
 			}
 			br.setLimitType(basicRule.getLimitType());
-			br.setVolume(basicRule.getVolume() * 100);
+			br.setVolume(Integer.valueOf(basicRule.getVolume()) * 100);
 			br.setChannelId(basicRule.getChannelId());
 			br.setProvinceId(basicRule.getProvinceId());
 			br.setCityId(basicRule.getCityId());

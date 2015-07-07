@@ -1,8 +1,13 @@
 package com.yiguang.payment.rbac.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +16,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.persistence.SearchFilter;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -24,6 +29,7 @@ import com.yiguang.payment.common.exception.ErrorCodeConst;
 import com.yiguang.payment.common.query.PageUtil;
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.common.utils.BeanUtils;
+import com.yiguang.payment.common.utils.StringUtil;
 import com.yiguang.payment.rbac.entity.Role;
 import com.yiguang.payment.rbac.repository.RoleDao;
 import com.yiguang.payment.rbac.service.RoleService;
@@ -33,20 +39,56 @@ import com.yiguang.payment.rbac.vo.RoleVO;
 public class RoleServiceImpl implements RoleService {
 
 	private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-	
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	@Autowired
 	DataSourceService dataSourceService;
 	@Autowired
 	RoleDao roleDao;
+	
+	private Specification<Role> getPageQuerySpec(final RoleVO vo)
+	{
+		Specification<Role> spec = new Specification<Role>(){
+			@Override
+			public Predicate toPredicate(Root<Role> root,  
+		            CriteriaQuery<?> query, CriteriaBuilder cb) {  
+		        
+				List<Predicate> predicateList = new ArrayList<Predicate>();
+				if (StringUtil.isNotEmpty(vo.getRoleName()))
+				{
+					predicateList.add(cb.equal(root.get("roleName").as(String.class), vo.getRoleName().trim()));  
+				}
+				
+				if (vo.getStatus() != -1)
+				{
+					predicateList.add(cb.equal(root.get("status").as(Integer.class), vo.getStatus()));  
+				}
+				
+				if (StringUtil.isNotEmpty(vo.getCreateTime()))
+				{
+					predicateList.add(cb.equal(root.get("createTime").as(String.class), vo.getCreateTime().trim()));  
+				}
+				
+				Predicate[] p = new Predicate[predicateList.size()];  
+		        query.where(cb.and(predicateList.toArray(p)));  
+		        //添加排序的功能  
+		        query.orderBy(cb.asc(root.get("id").as(Integer.class)));  
+		          
+		        return query.getRestriction();  
+			}
+		};
+		
+		return spec;
+	}
+	
 	@Override
 	@Cacheable(value = "roleCache")
-	public YcPage<RoleVO> queryRoleList(Map<String, Object> searchParams,
+	public YcPage<RoleVO> queryRoleList(RoleVO conditionVO,
 			int pageNumber, int pageSize, String sortType) {
 		logger.debug("queryRoleList start");
 		try
 		{
-			Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-			YcPage<Role> ycPage = PageUtil.queryYcPage(roleDao, filters, pageNumber, pageSize, new Sort(
+			Specification<Role> spec = getPageQuerySpec(conditionVO);
+			YcPage<Role> ycPage = PageUtil.queryYcPage(roleDao, spec, pageNumber, pageSize, new Sort(
 					Direction.DESC, "id"), Role.class);
 
 			YcPage<RoleVO> result = new YcPage<RoleVO>();
@@ -206,7 +248,7 @@ public class RoleServiceImpl implements RoleService {
 			RoleVO vo = new RoleVO();
 			vo.setId(temp.getId());
 			vo.setRoleName(temp.getRoleName());
-			vo.setCreateTime(temp.getCreateTime());
+			vo.setCreateTime(DATE_FORMAT.format(temp.getCreateTime()));
 			vo.setRemark(temp.getRemark());
 			vo.setStatus(temp.getStatus());
 

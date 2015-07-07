@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springside.modules.persistence.SearchFilter.Operator;
-import org.springside.modules.web.Servlets;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -64,26 +62,15 @@ public class MerchantRejectionController
 			@RequestParam(value = "status", defaultValue = "-1") int status,
 			@RequestParam(value = "remark", defaultValue = "") String remark, Model model, ServletRequest request)
 	{
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 		try
 		{
-			if (StringUtil.isNotBlank(String.valueOf(merchantA)) && merchantA != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "merchantA", String.valueOf(merchantA));
-			}
-			if (StringUtil.isNotBlank(String.valueOf(merchantB)) && merchantB != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "merchantB", String.valueOf(merchantB));
-			}
-			if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "status", String.valueOf(status));
-			}
-			if (StringUtil.isNotBlank(remark))
-			{
-				searchParams.put(Operator.EQ + "_" + "remark", remark);
-			}
-			YcPage<MerchantRejectionVO> page_list = merchantRejectionService.queryMerchantRejectionList(searchParams,
+			MerchantRejectionVO vo = new MerchantRejectionVO();
+			vo.setMerchantA(merchantA);
+			vo.setStatus(status);
+			vo.setMerchantB(merchantB);
+			vo.setRemark(remark);
+			
+			YcPage<MerchantRejectionVO> page_list = merchantRejectionService.queryMerchantRejectionList(vo,
 					pageNumber, pageSize, "");
 
 			List<OptionVO> merchantList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.MERCHANT);

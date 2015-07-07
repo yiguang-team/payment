@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springside.modules.persistence.SearchFilter.Operator;
-import org.springside.modules.web.Servlets;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -63,24 +61,15 @@ public class BlackListController
 			@RequestParam(value = "value", defaultValue = "") String value,
 			@RequestParam(value = "status", defaultValue = "-1") int status, Model model, ServletRequest request)
 	{
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 		try
 		{
-			if (StringUtil.isNotBlank(String.valueOf(type)) && type != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "type", String.valueOf(type));
-			}
-			if (StringUtil.isNotBlank(value))
-			{
-				value=  value.trim();
-				searchParams.put(Operator.EQ + "_" + "value", value);
-			}
-			if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "status", String.valueOf(status));
-			}
+			BlackListVO vo = new BlackListVO();
+			vo.setType(type);
+			vo.setStatus(status);
+			vo.setValue(value);
+			
 
-			YcPage<BlackListVO> page_list = blackListService.queryBlackList(searchParams, pageNumber, pageSize, "");
+			YcPage<BlackListVO> page_list = blackListService.queryBlackList(vo, pageNumber, pageSize, "");
 			List<OptionVO> statusList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.COMMON_STATUS);
 			List<OptionVO> typeList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.LIST_TYPE);
 

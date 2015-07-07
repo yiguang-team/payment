@@ -9,16 +9,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.persistence.SearchFilter;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.business.product.entity.Point;
@@ -40,6 +45,7 @@ import com.yiguang.payment.common.security.RSAUtils;
 import com.yiguang.payment.common.security.service.SecurityKeystoreService;
 import com.yiguang.payment.common.utils.BeanUtils;
 import com.yiguang.payment.common.utils.BigDecimalUtil;
+import com.yiguang.payment.common.utils.StringUtil;
 import com.yiguang.payment.depot.entity.ProductBatch;
 import com.yiguang.payment.depot.entity.ProductDepot;
 import com.yiguang.payment.depot.repository.ProductDepotDao;
@@ -309,12 +315,70 @@ public class ProductDepotServiceImpl implements ProductDepotService
 		}
 	}
 
+	private Specification<ProductDepot> getPageQuerySpec(final ProductDepotVO vo)
+	{
+		Specification<ProductDepot> spec = new Specification<ProductDepot>(){
+			@Override
+			public Predicate toPredicate(Root<ProductDepot> root,  
+		            CriteriaQuery<?> query, CriteriaBuilder cb) {  
+		        
+				List<Predicate> predicateList = new ArrayList<Predicate>();
+				if (vo.getPointVO().getMerchantId() != -1)
+				{
+					predicateList.add(cb.equal(root.get("point.merchantId").as(Integer.class), vo.getPointVO().getMerchantId()));  
+				}
+				if (vo.getPointVO().getProductId() != -1)
+				{
+					predicateList.add(cb.equal(root.get("point.productId").as(Integer.class), vo.getPointVO().getProductId()));  
+				}
+				if (StringUtil.isNotEmpty(vo.getPointVO().getProvinceId()))
+				{							
+					predicateList.add(cb.equal(root.get("point.provinceId").as(String.class), vo.getPointVO().getProvinceId()));  
+				}		
+				if (StringUtil.isNotEmpty(vo.getPointVO().getCityId()))
+				{
+					predicateList.add(cb.equal(root.get("point.cityId").as(String.class), vo.getPointVO().getCityId()));  
+				}
+				
+				predicateList.add(cb.equal(root.get("point.chargingType").as(int.class), CommonConstant.CHARGING_TYPE.CARD));  
+				
+				if (StringUtil.isNotEmpty(vo.getPointVO().getFaceAmount().toString()))
+				{
+					predicateList.add(cb.equal(root.get("point.faceAmount").as(String.class), String.valueOf(vo.getPointVO().getFaceAmount())));  
+				}
+				if (vo.getStatus() != -1)
+				{
+					predicateList.add(cb.equal(root.get("status").as(Integer.class), vo.getStatus()));  
+				}
+				
+				if (StringUtil.isNotEmpty(vo.getBatchId()))
+				{
+					predicateList.add(cb.equal(root.get("batchId").as(String.class), vo.getBatchId().trim()));  
+				}
+				
+				if (StringUtil.isNotEmpty(vo.getCardId()))
+				{
+					predicateList.add(cb.equal(root.get("cardId").as(Integer.class), vo.getCardId()));  
+				}
+				
+				Predicate[] p = new Predicate[predicateList.size()];  
+		        query.where(cb.and(predicateList.toArray(p)));  
+		        //添加排序的功能  
+		        query.orderBy(cb.asc(root.get("id").as(Integer.class)));  
+		          
+		        return query.getRestriction();  
+			}
+		};
+		
+		return spec;
+	}
+	
 	@Override
-	public YcPage<ProductDepotVO> queryProductDepotList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+	public YcPage<ProductDepotVO> queryProductDepotList(ProductDepotVO conditionVO, int pageNumber, int pageSize,
 			String sortType)
 	{
-		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-		YcPage<ProductDepot> ycPage = PageUtil.queryYcPage(productDepotDao, filters, pageNumber, pageSize, new Sort(
+		Specification<ProductDepot> spec = getPageQuerySpec(conditionVO);
+		YcPage<ProductDepot> ycPage = PageUtil.queryYcPage(productDepotDao, spec, pageNumber, pageSize, new Sort(
 				Direction.DESC, "id"), ProductDepot.class);
 
 		YcPage<ProductDepotVO> result = new YcPage<ProductDepotVO>();

@@ -34,10 +34,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springside.modules.persistence.SearchFilter.Operator;
-import org.springside.modules.web.Servlets;
 
 import com.alibaba.dubbo.rpc.RpcException;
+import com.yiguang.payment.business.product.vo.PointVO;
 import com.yiguang.payment.common.CommonConstant;
 import com.yiguang.payment.common.JsonTool;
 import com.yiguang.payment.common.datasource.service.DataSourceService;
@@ -80,55 +79,32 @@ public class DepotController
 			@RequestParam(value = "sortType", defaultValue = "auto") String sortType,
 			@RequestParam(value = "merchantId", defaultValue = "-1") int merchantId,
 			@RequestParam(value = "productId", defaultValue = "-1") int productId,
-			@RequestParam(value = "provinceId", defaultValue = "-1") String provinceId,
-			@RequestParam(value = "cityId", defaultValue = "-1") String cityId,
+			@RequestParam(value = "provinceId", defaultValue = "") String provinceId,
+			@RequestParam(value = "cityId", defaultValue = "") String cityId,
 			@RequestParam(value = "faceAmount", defaultValue = "") String faceAmount,
 			@RequestParam(value = "cardId", defaultValue = "") String cardId,
 			@RequestParam(value = "batchId", defaultValue = "") String batchId,
 			@RequestParam(value = "status", defaultValue = "-1") int status, Model model, ServletRequest request)
 	{
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
-
-		if (StringUtil.isNotBlank(String.valueOf(merchantId)) && merchantId != -1)
+		
+		ProductDepotVO vo = new ProductDepotVO();
+		PointVO pointvo = new PointVO();
+		pointvo.setMerchantId(merchantId);
+		pointvo.setProductId(productId);
+		pointvo.setProvinceId(provinceId);
+		pointvo.setCityId(cityId);
+		pointvo.setChargingType(CommonConstant.CHARGING_TYPE.CARD);
+		if(StringUtil.isNotBlank(faceAmount))
 		{
-			searchParams.put(Operator.EQ + "_" + "point.merchantId", String.valueOf(merchantId));
+			pointvo.setFaceAmount(BigDecimalUtil.multiply(
+					new BigDecimal(faceAmount.trim()), new BigDecimal("100"), 0, BigDecimal.ROUND_HALF_UP));
 		}
-		if (StringUtil.isNotBlank(String.valueOf(productId)) && productId != -1)
-		{
-			searchParams.put(Operator.EQ + "_" + "point.productId", String.valueOf(productId));
-		}
-		if (StringUtil.isNotBlank(String.valueOf(provinceId)) && !"-1".equals(provinceId))
-		{
-			searchParams.put(Operator.EQ + "_" + "point.provinceId", String.valueOf(provinceId));
-		}
-		if (StringUtil.isNotBlank(String.valueOf(cityId)) && !"-1".equals(cityId))
-		{
-			searchParams.put(Operator.EQ + "_" + "point.cityId", String.valueOf(cityId));
-		}
-
-		searchParams.put(Operator.EQ + "_" + "point.chargingType", String.valueOf(CommonConstant.CHARGING_TYPE.CARD));
-
-		if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1)
-		{
-			searchParams.put(Operator.EQ + "_" + "status", String.valueOf(status));
-		}
-		if (StringUtil.isNotBlank(cardId))
-		{
-			cardId = cardId.trim();
-			searchParams.put(Operator.LIKE + "_" + "cardId", cardId);
-		}
-		if (StringUtil.isNotBlank(batchId))
-		{
-			batchId = batchId.trim();
-			searchParams.put(Operator.LIKE + "_" + "batchId", batchId);
-		}
-		if (StringUtil.isNotBlank(faceAmount))
-		{
-			searchParams.put(Operator.EQ + "_" + "point.faceAmount", String.valueOf(BigDecimalUtil.multiply(
-					new BigDecimal(faceAmount.trim()), new BigDecimal("100"), 0, BigDecimal.ROUND_HALF_UP)));
-		}
-
-		YcPage<ProductDepotVO> page_list = productDepotService.queryProductDepotList(searchParams, pageNumber,
+		vo.setCardId(cardId);
+		vo.setStatus(status);
+		vo.setBatchId(batchId);
+		vo.setPointVO(pointvo);
+		
+		YcPage<ProductDepotVO> page_list = productDepotService.queryProductDepotList(vo, pageNumber,
 				pageSize, "");
 
 		List<OptionVO> statusList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.CARD_STATUS);

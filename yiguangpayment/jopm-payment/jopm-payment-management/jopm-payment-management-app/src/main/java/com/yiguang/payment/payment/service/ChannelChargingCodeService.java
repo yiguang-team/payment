@@ -2,7 +2,6 @@ package com.yiguang.payment.payment.service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.payment.entity.ChannelChargingCode;
@@ -19,7 +18,7 @@ public interface ChannelChargingCodeService
 
 	public ChannelChargingCode queryChargingCode(long id);
 
-	public YcPage<ChannelChargingCodeVO> queryChargingCodeList(Map<String, Object> searchParams, int pageNumber,
+	public YcPage<ChannelChargingCodeVO> queryChargingCodeList(ChannelChargingCodeVO conditionVO, int pageNumber,
 			int pageSize, String sortType);
 
 	public ChannelChargingCodeVO copyPropertiesToVO(ChannelChargingCode temp);

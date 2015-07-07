@@ -3,11 +3,14 @@ package com.yiguang.payment.payment.service.impl;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +19,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.persistence.SearchFilter;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -50,16 +53,106 @@ public class BasicRuleServiceImpl implements BasicRuleService
 	@Autowired
 	private DataSourceService dataSourceService;
 
+	private Specification<BasicRule> getPageQuerySpec(final BasicRuleVO vo)
+	{
+		Specification<BasicRule> spec = new Specification<BasicRule>(){
+			@Override
+			public Predicate toPredicate(Root<BasicRule> root,  
+		            CriteriaQuery<?> query, CriteriaBuilder cb) {  
+		        
+				List<Predicate> predicateList = new ArrayList<Predicate>();
+				if (vo.getTimeType() != -1)
+				{
+					predicateList.add(cb.equal(root.get("timeType").as(Integer.class), vo.getTimeType()));  
+				}
+				
+				if (vo.getTimeUnit() != -1)
+				{
+					predicateList.add(cb.equal(root.get("timeUnit").as(Integer.class), vo.getTimeUnit()));  
+				}
+				
+				if (StringUtil.isNotEmpty(vo.getStartTime()))
+				{
+					predicateList.add(cb.equal(root.get("startTime").as(String.class), vo.getStartTime().trim()));  
+				}
+				if (StringUtil.isNotEmpty(vo.getEndTime()))
+				{
+					predicateList.add(cb.equal(root.get("endTime").as(String.class), vo.getEndTime().trim()));  
+				}
+				if (vo.getLimitType() != -1)
+				{
+					predicateList.add(cb.equal(root.get("limitType").as(Integer.class), vo.getLimitType()));  
+				}
+				if (StringUtil.isNotEmpty(vo.getVolume()))
+				{
+					predicateList.add(cb.equal(root.get("volume").as(String.class), vo.getVolume().trim()));  
+				}
+				if (StringUtil.isNotEmpty(vo.getMobile()))
+				{
+					predicateList.add(cb.equal(root.get("mobile").as(String.class), vo.getMobile().trim()));  
+				}
+				if (vo.getChannelId() != -1)
+				{
+					predicateList.add(cb.equal(root.get("channelId").as(Long.class), vo.getChannelId()));  
+				}
+				if (vo.getMerchantId() != -1)
+				{
+					predicateList.add(cb.equal(root.get("merchantId").as(Long.class), vo.getMerchantId()));  
+				}
+				if (StringUtil.isNotEmpty(vo.getProvinceId()))
+				{
+					predicateList.add(cb.equal(root.get("provinceId").as(String.class), vo.getProvinceId().trim()));  
+				}
+				if (StringUtil.isNotEmpty(vo.getCityId()))
+				{
+					predicateList.add(cb.equal(root.get("cityId").as(String.class), vo.getCityId().trim()));  
+				}
+				if (vo.getProductId() != -1)
+				{
+					predicateList.add(cb.equal(root.get("productId").as(Long.class), vo.getProductId()));  
+				}
+				if (vo.getPointId() != -1)
+				{
+					predicateList.add(cb.equal(root.get("pointId").as(Long.class), vo.getPointId()));  
+				}
+				if (vo.getStatus() != -1)
+				{
+					predicateList.add(cb.equal(root.get("status").as(Integer.class), vo.getStatus()));  
+				}
+				if (vo.getAction() != -1)
+				{
+					predicateList.add(cb.equal(root.get("action").as(Integer.class), vo.getAction()));  
+				}
+				if (StringUtil.isNotEmpty(vo.getIp()))
+				{
+					predicateList.add(cb.equal(root.get("ip").as(String.class), vo.getIp().trim()));  
+				}
+				if (StringUtil.isNotEmpty(vo.getUsername()))
+				{
+					predicateList.add(cb.equal(root.get("username").as(String.class), vo.getUsername().trim()));  
+				}
+				Predicate[] p = new Predicate[predicateList.size()];  
+		        query.where(cb.and(predicateList.toArray(p)));  
+		        //添加排序的功能  
+		        query.orderBy(cb.asc(root.get("id").as(Integer.class)));  
+		          
+		        return query.getRestriction();  
+			}
+		};
+		
+		return spec;
+	}
+	
 	@Override
 	@Cacheable(value = "basicRuleCache")
-	public YcPage<BasicRuleVO> queryBasicRuleList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+	public YcPage<BasicRuleVO> queryBasicRuleList(BasicRuleVO conditionVO, int pageNumber, int pageSize,
 			String sortType)
 	{
 		logger.debug("queryBasicRuleList start");
 		try
 		{
-			Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-			YcPage<BasicRule> ycPage = PageUtil.queryYcPage(basicRuleDao, filters, pageNumber, pageSize, new Sort(
+			Specification<BasicRule> spec = getPageQuerySpec(conditionVO);
+			YcPage<BasicRule> ycPage = PageUtil.queryYcPage(basicRuleDao, spec, pageNumber, pageSize, new Sort(
 					Direction.DESC, "id"), BasicRule.class);
 
 			YcPage<BasicRuleVO> result = new YcPage<BasicRuleVO>();
@@ -179,7 +272,7 @@ public class BasicRuleServiceImpl implements BasicRuleService
 			vo.setLimitType(temp.getLimitType());
 			vo.setLimitTypeLabel(dataSourceService.findOptionVOById(CommonConstant.DataSourceName.RISK_LIMIT_TYPE,
 					String.valueOf(temp.getLimitType())).getText());
-			vo.setVolume(temp.getVolume() / 100);
+			vo.setVolume(String.valueOf(temp.getVolume() / 100));
 			vo.setChannelId(temp.getChannelId());
 			if (temp.getChannelId() != CommonConstant.RiskSelectType.NON_LIMIT
 					&& temp.getChannelId() != CommonConstant.RiskSelectType.CURRENT)

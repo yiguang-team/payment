@@ -1,7 +1,6 @@
 package com.yiguang.payment.rbac.vo;
 
 import java.io.Serializable;
-import java.util.Date;
 
 
 public class UserVO implements Serializable
@@ -18,7 +17,7 @@ public class UserVO implements Serializable
 
 	private int isLock;
 	
-	private Date createTime;
+	private String createTime;
 	
 	private String remark;
 	
@@ -76,12 +75,12 @@ public class UserVO implements Serializable
 		this.isLock = isLock;
 	}
 
-	public Date getCreateTime()
+	public String getCreateTime()
 	{
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime)
+	public void setCreateTime(String createTime)
 	{
 		this.createTime = createTime;
 	}

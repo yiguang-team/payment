@@ -2,7 +2,11 @@ package com.yiguang.payment.payment.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +15,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.persistence.SearchFilter;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -24,6 +28,7 @@ import com.yiguang.payment.common.exception.ErrorCodeConst;
 import com.yiguang.payment.common.query.PageUtil;
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.common.utils.BeanUtils;
+import com.yiguang.payment.common.utils.StringUtil;
 import com.yiguang.payment.payment.entity.BlackList;
 import com.yiguang.payment.payment.repository.BlackListDao;
 import com.yiguang.payment.payment.service.BlackListService;
@@ -41,16 +46,51 @@ public class BlackListServiceImpl implements BlackListService
 	@Autowired
 	private DataSourceService dataSourceService;
 
+	private Specification<BlackList> getPageQuerySpec(final BlackListVO vo)
+	{
+		Specification<BlackList> spec = new Specification<BlackList>(){
+			@Override
+			public Predicate toPredicate(Root<BlackList> root,  
+		            CriteriaQuery<?> query, CriteriaBuilder cb) {  
+		        
+				List<Predicate> predicateList = new ArrayList<Predicate>();
+				if (vo.getType() != -1)
+				{
+					predicateList.add(cb.equal(root.get("type").as(Integer.class), vo.getType()));  
+				}
+				
+				if (vo.getStatus() != -1)
+				{
+					predicateList.add(cb.equal(root.get("status").as(Integer.class), vo.getStatus()));  
+				}
+				
+				if (StringUtil.isNotEmpty(vo.getValue()))
+				{
+					predicateList.add(cb.equal(root.get("value").as(String.class), vo.getValue().trim()));  
+				}
+				
+				Predicate[] p = new Predicate[predicateList.size()];  
+		        query.where(cb.and(predicateList.toArray(p)));  
+		        //添加排序的功能  
+		        query.orderBy(cb.asc(root.get("id").as(Integer.class)));  
+		          
+		        return query.getRestriction();  
+			}
+		};
+		
+		return spec;
+	}
+	
 	@Override
 	@Cacheable(value="blackListCache")
-	public YcPage<BlackListVO> queryBlackList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+	public YcPage<BlackListVO> queryBlackList(BlackListVO conditionVO, int pageNumber, int pageSize,
 			String sortType)
 	{
 		logger.debug("queryBlackList start");
 		try
 		{
-			Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-			YcPage<BlackList> ycPage = PageUtil.queryYcPage(blackListDao, filters, pageNumber, pageSize, new Sort(
+			Specification<BlackList> spec = getPageQuerySpec(conditionVO);
+			YcPage<BlackList> ycPage = PageUtil.queryYcPage(blackListDao, spec, pageNumber, pageSize, new Sort(
 					Direction.DESC, "id"), BlackList.class);
 
 			YcPage<BlackListVO> result = new YcPage<BlackListVO>();

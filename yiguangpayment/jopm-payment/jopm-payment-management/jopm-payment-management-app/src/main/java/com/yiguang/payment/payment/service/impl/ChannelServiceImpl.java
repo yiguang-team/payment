@@ -2,8 +2,11 @@ package com.yiguang.payment.payment.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +15,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.persistence.SearchFilter;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.rpc.RpcException;
@@ -26,11 +29,11 @@ import com.yiguang.payment.common.exception.ErrorCodeConst;
 import com.yiguang.payment.common.query.PageUtil;
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.common.utils.BeanUtils;
+import com.yiguang.payment.common.utils.StringUtil;
 import com.yiguang.payment.payment.entity.CarrierChannelRelation;
 import com.yiguang.payment.payment.entity.Channel;
 import com.yiguang.payment.payment.repository.ChannelDao;
 import com.yiguang.payment.payment.service.CarrierChannelRelationService;
-import com.yiguang.payment.payment.service.ChannelChargingCodeService;
 import com.yiguang.payment.payment.service.ChannelService;
 import com.yiguang.payment.payment.vo.ChannelVO;
 
@@ -43,8 +46,6 @@ public class ChannelServiceImpl implements ChannelService {
 	private ChannelDao channelDao;
 	@Autowired
 	private CarrierChannelRelationService carrierChannelRelationService;
-	@Autowired
-	private ChannelChargingCodeService chargingCodeService;
 	@Autowired
 	private DataSourceService dataSourceService;
 	@Autowired
@@ -108,7 +109,6 @@ public class ChannelServiceImpl implements ChannelService {
 			Channel new_channel = channelDao.findOne(channel.getId());
 			if (new_channel != null) {
 				channelDao.delete(new_channel);
-				long channelId = new_channel.getId();
 				
 			} else {
 				// 准备删除的渠道不存在！
@@ -194,14 +194,46 @@ public class ChannelServiceImpl implements ChannelService {
 		}
 	}
 
+	private Specification<Channel> getPageQuerySpec(final ChannelVO vo)
+	{
+		Specification<Channel> spec = new Specification<Channel>(){
+			@Override
+			public Predicate toPredicate(Root<Channel> root,  
+		            CriteriaQuery<?> query, CriteriaBuilder cb) {  
+		        
+				List<Predicate> predicateList = new ArrayList<Predicate>();
+			
+				if (vo.getStatus() != -1)
+				{
+					predicateList.add(cb.equal(root.get("status").as(Integer.class), vo.getStatus()));  
+				}
+				
+				if (StringUtil.isNotEmpty(vo.getName()))
+				{
+					predicateList.add(cb.equal(root.get("name").as(String.class), vo.getName().trim()));  
+				}
+				
+				Predicate[] p = new Predicate[predicateList.size()];  
+		        query.where(cb.and(predicateList.toArray(p)));  
+		        //添加排序的功能  
+		        query.orderBy(cb.asc(root.get("id").as(Integer.class)));  
+		          
+		        return query.getRestriction();  
+			}
+		};
+		
+		return spec;
+	}
+	
+	
 	@Override
 	@Cacheable(value="channelCache")
-	public YcPage<ChannelVO> queryChannelList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+	public YcPage<ChannelVO> queryChannelList(ChannelVO conditionVO, int pageNumber, int pageSize,
 			String sortType) {
 		logger.debug("queryChannelList start");
 		try {
-			Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-			YcPage<Channel> ycPage = PageUtil.queryYcPage(channelDao, filters, pageNumber, pageSize, new Sort(
+			Specification<Channel> spec = getPageQuerySpec(conditionVO);
+			YcPage<Channel> ycPage = PageUtil.queryYcPage(channelDao, spec, pageNumber, pageSize, new Sort(
 					Direction.DESC, "id"), Channel.class);
 
 			YcPage<ChannelVO> result = new YcPage<ChannelVO>();

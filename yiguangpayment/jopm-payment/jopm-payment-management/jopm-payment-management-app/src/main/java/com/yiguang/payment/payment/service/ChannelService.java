@@ -1,7 +1,6 @@
 package com.yiguang.payment.payment.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.payment.entity.Channel;
@@ -17,7 +16,7 @@ public interface ChannelService {
 
 	public Channel queryChannel(long id);
 	
-	public YcPage<ChannelVO> queryChannelList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+	public YcPage<ChannelVO> queryChannelList(ChannelVO conditionVO, int pageNumber, int pageSize,
 			String sortType);
 
 	public ChannelVO copyPropertiesToVO(Channel temp);

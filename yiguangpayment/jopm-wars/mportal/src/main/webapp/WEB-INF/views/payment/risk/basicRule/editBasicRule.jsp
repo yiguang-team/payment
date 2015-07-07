@@ -186,7 +186,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																		
 																	<input id="endTime"
 																		name="endTime" type="text"
-																		onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'endTime\') || \'%y-{%M-3}-%d\'}',maxDate:'%y-%M-%d'});"
+																		onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'endTime\') || \'%y-{%M-3}-%d\'}',maxDate:'%y-{%M+3}-%d'});"
 																		value="${basicRule.endTime}" class="fl form-text" />
 																</div>
 																</div>

@@ -1,7 +1,5 @@
 package com.yiguang.payment.depot.service;
 
-import java.util.Map;
-
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.depot.entity.ProductBatch;
 import com.yiguang.payment.depot.vo.ProductBatchVO;
@@ -10,7 +8,7 @@ public interface ProductBatchService
 {
 	public String generateBatchId();
 
-	public YcPage<ProductBatchVO> queryProductBatchList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+	public YcPage<ProductBatchVO> queryProductBatchList(ProductBatchVO conditionVO, int pageNumber, int pageSize,
 			String sortType);
 
 	public ProductBatch updateProductBatchStatus(ProductBatch cf);

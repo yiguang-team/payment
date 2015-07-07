@@ -782,7 +782,7 @@ function changePoint(){
 	async:true,
 	dataType:'html',
 	success : function(data) {  
-		$('#pointId').html(data);
+		$('#chargingPointId').html(data);
 	}
 	});
 }

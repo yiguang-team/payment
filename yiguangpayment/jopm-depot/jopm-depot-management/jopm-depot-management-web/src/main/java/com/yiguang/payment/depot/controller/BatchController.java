@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springside.modules.persistence.SearchFilter.Operator;
-import org.springside.modules.web.Servlets;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -30,7 +28,6 @@ import com.yiguang.payment.common.logging.entity.OperationLog;
 import com.yiguang.payment.common.logging.service.OperationLogService;
 import com.yiguang.payment.common.message.MessageResolver;
 import com.yiguang.payment.common.query.YcPage;
-import com.yiguang.payment.common.utils.StringUtil;
 import com.yiguang.payment.depot.service.ProductBatchService;
 import com.yiguang.payment.depot.vo.ProductBatchVO;
 
@@ -70,29 +67,16 @@ public class BatchController
 			@RequestParam(value = "batchId", defaultValue = "") String batchId,
 			@RequestParam(value = "status", defaultValue = "-1") int status, Model model, ServletRequest request)
 	{
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 		try
 		{
-			if (StringUtil.isNotBlank(String.valueOf(merchantId)) && merchantId != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "merchantId", String.valueOf(merchantId));
-			}
-			if (StringUtil.isNotBlank(String.valueOf(productId)) && productId != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "productId", String.valueOf(productId));
-			}
-
-			if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "status", String.valueOf(status));
-			}
-			if (StringUtil.isNotBlank(batchId))
-			{
-				batchId = batchId.trim();
-				searchParams.put(Operator.LIKE + "_" + "batchId", batchId);
-			}
-
-			YcPage<ProductBatchVO> page_list = productBatchService.queryProductBatchList(searchParams, pageNumber,
+			ProductBatchVO vo = new ProductBatchVO();
+			vo.setMerchantId(merchantId);
+			vo.setProductId(productId);
+			vo.setBatchId(batchId);
+			vo.setStatus(status);
+			
+			
+			YcPage<ProductBatchVO> page_list = productBatchService.queryProductBatchList(vo, pageNumber,
 					pageSize, "");
 
 			List<OptionVO> statusList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.COMMON_STATUS);

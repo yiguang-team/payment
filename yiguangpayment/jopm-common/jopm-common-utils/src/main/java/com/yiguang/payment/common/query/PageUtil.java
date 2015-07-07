@@ -1,7 +1,5 @@
 package com.yiguang.payment.common.query;
 
-import java.util.Map;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,16 +25,16 @@ public class PageUtil
 	 * @return
 	 */
 
-	public static <T> Page<T> queryPage(JpaSpecificationExecutor dao, Specification<T> spec, int pageNumber,
-			int pageSize, Sort sort, Class clazz)
+	public static <T> Page<T> queryPage(JpaSpecificationExecutor<T> dao, Specification<T> spec, int pageNumber,
+			int pageSize, Sort sort, Class<?> clazz)
 	{
 		PageRequest pageRequest = new PageRequest(pageNumber - 1, pageSize, sort);
 		Page<T> page = dao.findAll(spec, pageRequest);
 		return page;
 	}
 
-	public static <T> YcPage<T> queryYcPage(JpaSpecificationExecutor dao, Specification<T> spec, int pageNumber,
-			int pageSize, Sort sort, Class clazz)
+	public static <T> YcPage<T> queryYcPage(JpaSpecificationExecutor<T> dao, Specification<T> spec, int pageNumber,
+			int pageSize, Sort sort, Class<?> clazz)
 	{
 		Page<T> page = queryPage(dao, spec, pageNumber, pageSize, sort, clazz);
 		YcPage<T> ycPage = transPage2YcPage(page);

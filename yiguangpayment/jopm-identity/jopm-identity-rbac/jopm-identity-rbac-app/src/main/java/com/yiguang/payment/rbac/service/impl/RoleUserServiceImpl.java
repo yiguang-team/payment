@@ -2,19 +2,15 @@ package com.yiguang.payment.rbac.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.persistence.SearchFilter;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.rpc.RpcException;
@@ -22,8 +18,6 @@ import com.yiguang.payment.common.CommonConstant;
 import com.yiguang.payment.common.Constant;
 import com.yiguang.payment.common.datasource.service.DataSourceService;
 import com.yiguang.payment.common.exception.ErrorCodeConst;
-import com.yiguang.payment.common.query.PageUtil;
-import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.common.utils.BeanUtils;
 import com.yiguang.payment.common.utils.StringUtil;
 import com.yiguang.payment.rbac.entity.RoleUser;
@@ -245,45 +239,45 @@ public class RoleUserServiceImpl implements RoleUserService {
 		}
 	}
 	
-	@Override
-	@Cacheable(value = "roleUserCache")
-	public YcPage<RoleUserVO> queryRoleUserList(
-			Map<String, Object> searchParams, int pageNumber, int pageSize,
-			String sortType) {
-		logger.debug("queryRoleUserList start");
-		try
-		{
-			Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-			YcPage<RoleUser> ycPage = PageUtil.queryYcPage(roleUserDao, filters, pageNumber, pageSize, new Sort(
-					Direction.DESC, "id"), RoleUser.class);
-
-			YcPage<RoleUserVO> result = new YcPage<RoleUserVO>();
-			result.setPageTotal(ycPage.getPageTotal());
-			result.setCountTotal(ycPage.getCountTotal());
-			List<RoleUser> list = ycPage.getList();
-			List<RoleUserVO> voList = new ArrayList<RoleUserVO>();
-			RoleUserVO vo = null;
-			for (RoleUser temp : list)
-			{
-				vo = copyPropertiesToVO(temp);
-				voList.add(vo);
-			}
-
-			result.setList(voList);
-			logger.debug("queryRoleUserList end");
-			return result;
-		}
-		catch (RpcException e)
-		{
-			throw e;
-		}
-		catch (Exception e)
-		{
-			logger.error("queryRoleUserList failed");
-			logger.error(e.getLocalizedMessage(), e);
-			throw new RpcException(ErrorCodeConst.ErrorCode99998);
-		}
-	}
+//	@Override
+//	@Cacheable(value = "roleUserCache")
+//	public YcPage<RoleUserVO> queryRoleUserList(
+//			Map<String, Object> searchParams, int pageNumber, int pageSize,
+//			String sortType) {
+//		logger.debug("queryRoleUserList start");
+//		try
+//		{
+//			Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+//			YcPage<RoleUser> ycPage = PageUtil.queryYcPage(roleUserDao, filters, pageNumber, pageSize, new Sort(
+//					Direction.DESC, "id"), RoleUser.class);
+//
+//			YcPage<RoleUserVO> result = new YcPage<RoleUserVO>();
+//			result.setPageTotal(ycPage.getPageTotal());
+//			result.setCountTotal(ycPage.getCountTotal());
+//			List<RoleUser> list = ycPage.getList();
+//			List<RoleUserVO> voList = new ArrayList<RoleUserVO>();
+//			RoleUserVO vo = null;
+//			for (RoleUser temp : list)
+//			{
+//				vo = copyPropertiesToVO(temp);
+//				voList.add(vo);
+//			}
+//
+//			result.setList(voList);
+//			logger.debug("queryRoleUserList end");
+//			return result;
+//		}
+//		catch (RpcException e)
+//		{
+//			throw e;
+//		}
+//		catch (Exception e)
+//		{
+//			logger.error("queryRoleUserList failed");
+//			logger.error(e.getLocalizedMessage(), e);
+//			throw new RpcException(ErrorCodeConst.ErrorCode99998);
+//		}
+//	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override

@@ -36,7 +36,7 @@ public class Menu implements Serializable
 	private Date createTime;
 
 	@Column(name = "status")
-	private String status;
+	private int status;
 
 	@Column(name = "menu_level")
 	private int menulevel; // 菜单级别
@@ -103,12 +103,12 @@ public class Menu implements Serializable
 		this.createTime = createTime;
 	}
 
-	public String getStatus()
+	public int getStatus()
 	{
 		return status;
 	}
 
-	public void setStatus(String status)
+	public void setStatus(int status)
 	{
 		this.status = status;
 	}

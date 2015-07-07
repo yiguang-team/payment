@@ -7,11 +7,8 @@ package com.yiguang.payment.common.numsection.service;
  * @date：2013-10-18
  */
 import java.util.List;
-import java.util.Map;
 
 import com.yiguang.payment.common.numsection.entity.Province;
-import com.yiguang.payment.common.query.BSort;
-import com.yiguang.payment.common.query.YcPage;
 
 public interface ProvinceService
 {
@@ -25,7 +22,7 @@ public interface ProvinceService
 
 	public List<Province> getAllProvince();
 
-	public YcPage<Province> queryProvince(Map<String, Object> searchParams, int pageNumber, int pageSize, BSort bsort);
+//	public YcPage<Province> queryProvince(Map<String, Object> searchParams, int pageNumber, int pageSize, BSort bsort);
 
 	public Province getByProvinceName(String provinceName);
 }

@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springside.modules.persistence.SearchFilter.Operator;
-import org.springside.modules.web.Servlets;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.business.product.entity.Point;
@@ -78,38 +76,9 @@ public class PointController
 			@RequestParam(value = "chargingType", defaultValue = "-1") int chargingType,
 			@RequestParam(value = "status", defaultValue = "-1") int status, Model model, ServletRequest request)
 	{
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+		
 		try
 		{
-			if (StringUtil.isNotBlank(String.valueOf(merchantId)) && merchantId != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "merchantId", String.valueOf(merchantId));
-			}
-			if (StringUtil.isNotBlank(String.valueOf(productId)) && productId != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "productId", String.valueOf(productId));
-			}
-			if (StringUtil.isNotBlank(provinceId) && !"-1".equals(provinceId))
-			{
-				searchParams.put(Operator.EQ + "_" + "provinceId", String.valueOf(provinceId));
-			}
-			if (StringUtil.isNotBlank(cityId) && !"-1".equals(cityId))
-			{
-				searchParams.put(Operator.EQ + "_" + "cityId", String.valueOf(cityId));
-			}
-			if (StringUtil.isNotBlank(String.valueOf(chargingType)) && chargingType != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "chargingType", String.valueOf(chargingType));
-			}
-			if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "status", String.valueOf(status));
-			}
-			if (StringUtil.isNotBlank(name))
-			{
-				name = name.trim();
-				searchParams.put(Operator.LIKE + "_" + "name", name);
-			}
 
 			YcPage<PointVO> page_list = pointService.queryPointList(pageNumber, pageSize, sortType, channelId, name,
 					merchantId, productId, provinceId, cityId, chargingType, status);

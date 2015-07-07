@@ -687,7 +687,7 @@ function changeProduct(){
 		$.ajax({
 			data : {
 				parentId : productId,
-				dataSourceCode : 'POINT_CARD_PWD'
+				dataSourceCode : 'POINT'
 			},
 			url : "${ctx}/business/dataSource/changeSonLong",
 			type : 'post',

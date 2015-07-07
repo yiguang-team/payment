@@ -17,8 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springside.modules.persistence.SearchFilter.Operator;
-import org.springside.modules.web.Servlets;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -27,11 +25,9 @@ import com.yiguang.payment.common.IpTool;
 import com.yiguang.payment.common.datasource.service.DataSourceService;
 import com.yiguang.payment.common.datasource.vo.OptionVO;
 import com.yiguang.payment.common.errorcode.service.ErrorCodeService;
-import com.yiguang.payment.common.message.MessageResolver;
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.common.security.RSAUtils;
 import com.yiguang.payment.common.security.service.SecurityKeystoreService;
-import com.yiguang.payment.common.utils.StringUtil;
 import com.yiguang.payment.depot.order.entity.DepotOrder;
 import com.yiguang.payment.depot.order.service.DepotOrderService;
 import com.yiguang.payment.depot.order.vo.DepotOrderVO;
@@ -69,42 +65,28 @@ public class DepotOrderController
 	public String pickUpRecordList(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
 			@RequestParam(value = "sortType", defaultValue = "auto") String sortType,
-			@RequestParam(value = "extractUser", defaultValue = "-1") int extractUser,
+			@RequestParam(value = "extractUser", defaultValue = "-1") String extractUser,
 			@RequestParam(value = "chargingPointId", defaultValue = "-1") int chargingPointId,
 			@RequestParam(value = "orderId", defaultValue = "") String orderId, Model model, ServletRequest request)
 	{
 		logger.debug("[查询历史记录请求开始][url:/pickUpRecordList]--------------------------------------------");
 		// 组装查询条件
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
-
-		if (StringUtil.isNotBlank(String.valueOf(extractUser)) && extractUser != -1)
-		{
-			searchParams.put(Operator.EQ + "_" + "extractUser", String.valueOf(extractUser));
-		}
-
-		if (StringUtil.isNotBlank(String.valueOf(chargingPointId)) && chargingPointId != -1)
-		{
-			searchParams.put(Operator.EQ + "_" + "chargingPointId", String.valueOf(chargingPointId));
-		}
-
-		if (StringUtil.isNotBlank(orderId))
-		{
-			orderId= orderId.trim();
-			searchParams.put(Operator.LIKE + "_" + "orderId", orderId);
-		}
+		DepotOrderVO vo = new DepotOrderVO();
+		vo.setExtractUser(extractUser);
+		vo.setChargingPointId(chargingPointId);
+		vo.setOrderId(orderId);
+		logger.debug("[查询历史记录数据库开始][url:/pickUpRecordList]--------------------------------------------");
+		// 根据查询提卡历史信息
+		YcPage<DepotOrderVO> page_list = depotOrderService
+				.queryPickUpRecordList(vo, pageNumber, pageSize, "");
+		logger.debug("[查询历史记录数据库结束][url:/pickUpRecordList]--------------------------------------------");
 
 		// 获取计费点名称，ID键值对
 		List<OptionVO> pointList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.POINT_CARD_PWD);
 
 		// 获取商户名称，ID键值对
 		List<OptionVO> merchantList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.MERCHANT);
-
-		logger.debug("[查询历史记录数据库开始][url:/pickUpRecordList]--------------------------------------------");
-		// 根据查询提卡历史信息
-		YcPage<DepotOrderVO> page_list = depotOrderService
-				.queryPickUpRecordList(searchParams, pageNumber, pageSize, "");
-		logger.debug("[查询历史记录数据库结束][url:/pickUpRecordList]--------------------------------------------");
-
+		
 		// 将数据传入页面中
 		model.addAttribute("extractUser", extractUser);
 		model.addAttribute("chargingPointId", chargingPointId);

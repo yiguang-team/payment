@@ -1,7 +1,6 @@
 package com.yiguang.payment.payment.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.payment.entity.BasicRule;
@@ -9,7 +8,7 @@ import com.yiguang.payment.payment.vo.BasicRuleVO;
 
 public interface BasicRuleService
 {
-	public YcPage<BasicRuleVO> queryBasicRuleList(Map<String, Object> searchParams, int pageNumber,
+	public YcPage<BasicRuleVO> queryBasicRuleList(BasicRuleVO conditionVO, int pageNumber,
 			int pageSize, String sortType);
 
 	public BasicRule updateBasicRuleStatus(BasicRule BasicRule);

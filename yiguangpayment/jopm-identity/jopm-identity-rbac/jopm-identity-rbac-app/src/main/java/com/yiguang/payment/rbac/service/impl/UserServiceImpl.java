@@ -1,8 +1,13 @@
 package com.yiguang.payment.rbac.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,18 +16,16 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.persistence.SearchFilter;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
 import com.yiguang.payment.common.Constant;
 import com.yiguang.payment.common.datasource.service.DataSourceService;
-import com.yiguang.payment.common.exception.ApplicationException;
 import com.yiguang.payment.common.exception.ErrorCodeConst;
-import com.yiguang.payment.common.exception.ExceptionUtil;
 import com.yiguang.payment.common.query.PageUtil;
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.common.utils.BeanUtils;
@@ -36,20 +39,59 @@ import com.yiguang.payment.rbac.vo.UserVO;
 public class UserServiceImpl implements UserService {
 	
 	private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-	
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	@Autowired
 	DataSourceService dataSourceService;
 	@Autowired
 	private UserDao userDao;
+	
+	private Specification<User> getPageQuerySpec(final UserVO vo)
+	{
+		Specification<User> spec = new Specification<User>(){
+			@Override
+			public Predicate toPredicate(Root<User> root,  
+		            CriteriaQuery<?> query, CriteriaBuilder cb) {  
+		        
+				List<Predicate> predicateList = new ArrayList<Predicate>();
+				if (vo.getIsLock() != -1)
+				{
+					predicateList.add(cb.equal(root.get("isLock").as(Integer.class), vo.getIsLock()));  
+				}
+				
+				if (vo.getStatus() != -1)
+				{
+					predicateList.add(cb.equal(root.get("status").as(Integer.class), vo.getStatus()));  
+				}
+				
+				if (StringUtil.isNotEmpty(vo.getUsername()))
+				{
+					predicateList.add(cb.equal(root.get("username").as(String.class), vo.getUsername().trim()));  
+				}
+				if (StringUtil.isNotEmpty(vo.getCreateTime()))
+				{
+					predicateList.add(cb.equal(root.get("createTime").as(String.class), vo.getCreateTime().trim()));  
+				}
+				Predicate[] p = new Predicate[predicateList.size()];  
+		        query.where(cb.and(predicateList.toArray(p)));  
+		        //添加排序的功能  
+		        query.orderBy(cb.asc(root.get("id").as(Integer.class)));  
+		          
+		        return query.getRestriction();  
+			}
+		};
+		
+		return spec;
+	}
+		
 	@Override
 	@Cacheable(value = "userCache")
-	public YcPage<UserVO> queryUserList(Map<String, Object> searchParams,
+	public YcPage<UserVO> queryUserList(UserVO conditionVO,
 			int pageNumber, int pageSize, String sortType) {
 		logger.debug("queryUserList start");
 		try
 		{
-			Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-			YcPage<User> ycPage = PageUtil.queryYcPage(userDao, filters, pageNumber, pageSize, new Sort(
+			Specification<User> spec = getPageQuerySpec(conditionVO);
+			YcPage<User> ycPage = PageUtil.queryYcPage(userDao, spec, pageNumber, pageSize, new Sort(
 					Direction.DESC, "id"), User.class);
 
 			YcPage<UserVO> result = new YcPage<UserVO>();
@@ -229,7 +271,7 @@ public class UserServiceImpl implements UserService {
 			vo.setUsername(temp.getUsername());
 			vo.setPassword(temp.getPassword());
 			vo.setIsLock(temp.getIsLock());
-			vo.setCreateTime(temp.getCreateTime());
+			vo.setCreateTime(DATE_FORMAT.format(temp.getCreateTime()));
 			vo.setRemark(temp.getRemark());
 			vo.setStatus(temp.getStatus());
 

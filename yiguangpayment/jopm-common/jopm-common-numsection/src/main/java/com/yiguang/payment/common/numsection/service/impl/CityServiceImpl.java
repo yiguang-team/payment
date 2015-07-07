@@ -7,31 +7,23 @@ package com.yiguang.payment.common.numsection.service.impl;
  *
  */
 import java.util.List;
-import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
-import org.springside.modules.persistence.SearchFilter;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.exception.ErrorCodeConst;
 import com.yiguang.payment.common.numsection.entity.City;
 import com.yiguang.payment.common.numsection.repository.CityDao;
 import com.yiguang.payment.common.numsection.service.CityService;
-import com.yiguang.payment.common.query.BSort;
-import com.yiguang.payment.common.query.PageUtil;
-import com.yiguang.payment.common.query.YcPage;
 
 @Service("cityService")
 public class CityServiceImpl implements CityService
@@ -115,33 +107,6 @@ public class CityServiceImpl implements CityService
 		catch (Exception e)
 		{
 			logger.error("selectAll failed");
-			logger.error(e.getLocalizedMessage(), e);
-			throw new RpcException(ErrorCodeConst.ErrorCode99998);
-		}
-	}
-
-	@Override
-	@Cacheable(value="cityCache")
-	public YcPage<City> queryCity(Map<String, Object> searchParams, int pageNumber, int pageSize, BSort bsort)
-	{
-		logger.debug("queryCity start");
-		try
-		{
-			Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-			String orderCloumn = bsort == null ? "id" : bsort.getCloumn();
-			String orderDirect = bsort == null ? "DESC" : bsort.getDirect().toString();
-			Sort sort = new Sort(Direction.valueOf(Direction.class, orderDirect), orderCloumn);
-			Page<City> page = PageUtil.queryPage(cityDao, filters, pageNumber, pageSize, sort, City.class);
-			YcPage<City> ycPage = new YcPage<City>();
-			ycPage.setList(page.getContent());
-			ycPage.setPageTotal(page.getTotalPages());
-			ycPage.setCountTotal((int) page.getTotalElements());
-			logger.debug("queryCity end");
-			return ycPage;
-		}
-		catch (Exception e)
-		{
-			logger.error("queryCity failed");
 			logger.error(e.getLocalizedMessage(), e);
 			throw new RpcException(ErrorCodeConst.ErrorCode99998);
 		}

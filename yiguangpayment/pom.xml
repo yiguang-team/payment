@@ -17,7 +17,7 @@
 	</modules>
 	<properties>
 		<!-- 主要依赖库的版本定义 -->
-		<springside.version>4.1.0.GA</springside.version>
+		<!--  springside.version>4.1.0.GA</springside.version -->
 		<spring.version>4.0.5.RELEASE</spring.version>
 		<hibernate.version>4.2.3.Final</hibernate.version>
 		<hibernate-search.version>4.2.0.Final</hibernate-search.version>
@@ -293,11 +293,11 @@
 		  <version>1.49</version>
 		</dependency>
 		<!-- AOP end -->
-<dependency>
+<!-- dependency>
   <groupId>org.springside</groupId>
   <artifactId>springside-core</artifactId>
   <version>4.1.0.GA</version>
-</dependency>
+</dependency -->
 		<!-- PERSISTENCE begin -->
 		<!-- hibernate -->
 		<dependency>
@@ -642,11 +642,11 @@
 			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+		<!-- dependency>
 		  <groupId>org.springside</groupId>
 		  <artifactId>springside-test</artifactId>
 		  <version>4.1.0.GA</version>
-		</dependency>
+		</dependency -->
 
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
@@ -969,7 +969,7 @@
 				</plugins>
 			</build>
 		</profile>
-		<!-- 执行@Category(Smoke.class)的TestCase -->
+		<!-- 执行@Category(Smoke.class)的TestCase 
 		<profile>
 			<id>run-smoke</id>
 			<build>
@@ -983,7 +983,8 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>
+		</profile>-->
+		
 		<!-- 刷新开发环境数据库 
 		<profile>
 			<id>refresh-db</id>

@@ -1,16 +1,13 @@
 package com.yiguang.payment.rbac.service;
 
 import java.util.List;
-import java.util.Map;
 
-import com.yiguang.payment.common.query.YcPage;
-import com.yiguang.payment.rbac.entity.Role;
 import com.yiguang.payment.rbac.entity.RoleUser;
 import com.yiguang.payment.rbac.vo.RoleUserVO;
 
 public interface RoleUserService {
-	public YcPage<RoleUserVO> queryRoleUserList(Map<String, Object> searchParams, int pageNumber, int pageSize,
-			String sortType);
+//	public YcPage<RoleUserVO> queryRoleUserList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+//			String sortType);
 
 	public RoleUser updateRoleUserStatus(RoleUser roleUser);
 

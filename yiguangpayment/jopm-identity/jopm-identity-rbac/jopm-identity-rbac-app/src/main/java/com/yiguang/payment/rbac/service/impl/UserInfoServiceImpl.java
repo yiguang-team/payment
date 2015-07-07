@@ -1,29 +1,19 @@
 package com.yiguang.payment.rbac.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.persistence.SearchFilter;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.Constant;
 import com.yiguang.payment.common.datasource.service.DataSourceService;
 import com.yiguang.payment.common.exception.ErrorCodeConst;
-import com.yiguang.payment.common.query.PageUtil;
-import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.common.utils.BeanUtils;
-import com.yiguang.payment.rbac.entity.User;
 import com.yiguang.payment.rbac.entity.UserInfo;
 import com.yiguang.payment.rbac.repository.UserInfoDao;
 import com.yiguang.payment.rbac.service.UserInfoService;
@@ -38,49 +28,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 	DataSourceService dataSourceService;
 	@Autowired
 	UserInfoDao userInfoDao;
-	
-	@Override
-	@Cacheable(value = "userInfoCache")
-	public YcPage<UserInfo> queryUserInfoList(
-			Map<String, Object> searchParams, int pageNumber, int pageSize,
-			String sortType) {
-		logger.debug("queryUserList start");
-		try
-		{
-			Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-			YcPage<UserInfo> ycPage = PageUtil.queryYcPage(userInfoDao, filters, pageNumber, pageSize, new Sort(
-					Direction.DESC, "id"), User.class);
-
-			YcPage<UserInfo> result = new YcPage<UserInfo>();
-			result.setPageTotal(ycPage.getPageTotal());
-			result.setCountTotal(ycPage.getCountTotal());
-			List<UserInfo> list = ycPage.getList();
-			List<UserInfo> voList = new ArrayList<UserInfo>();
-			UserInfo vo = null;
-			for (UserInfo temp : list)
-			{
-				vo.setId(temp.getId());
-				vo.setUserId(temp.getUserId());
-				vo.setName(temp.getName());
-				vo.setMobile(temp.getMobile());
-				voList.add(vo);
-			}
-
-			result.setList(voList);
-			logger.debug("queryUserList end");
-			return result;
-		}
-		catch (RpcException e)
-		{
-			throw e;
-		}
-		catch (Exception e)
-		{
-			logger.error("queryUserList failed");
-			logger.error(e.getLocalizedMessage(), e);
-			throw new RpcException(ErrorCodeConst.ErrorCode99998);
-		}
-	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override

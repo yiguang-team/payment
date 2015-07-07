@@ -77,12 +77,12 @@ public class ProductServiceImpl implements ProductService
 				
 				if (StringUtil.isNotEmpty(vo.getName()))
 				{
-					predicateList.add(cb.equal(root.get("status").as(Integer.class), vo.getName().trim()));  
+					predicateList.add(cb.equal(root.get("name").as(String.class), vo.getName().trim()));  
 				}
 				
 				if (vo.getMerchantId() != -1)
 				{
-					predicateList.add(cb.equal(root.get("status").as(Integer.class), vo.getName().trim()));  
+					predicateList.add(cb.equal(root.get("merchantId").as(Integer.class), vo.getMerchantId()));  
 				}
 				
 				Predicate[] p = new Predicate[predicateList.size()];  

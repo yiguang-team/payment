@@ -1,7 +1,7 @@
 package com.yiguang.payment.payment.service;
 
 import java.util.List;
-import java.util.Map;
+
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.payment.entity.MerchantRejection;
 import com.yiguang.payment.payment.vo.MerchantRejectionVO;
@@ -9,7 +9,7 @@ import com.yiguang.payment.payment.vo.MerchantRejectionVO;
 public interface MerchantRejectionService
 {
 
-	public YcPage<MerchantRejectionVO> queryMerchantRejectionList(Map<String, Object> searchParams, int pageNumber,
+	public YcPage<MerchantRejectionVO> queryMerchantRejectionList(MerchantRejectionVO conditionVO, int pageNumber,
 			int pageSize, String sortType);
 
 	public String deleteMerchantRejection(MerchantRejection merchantRejection);

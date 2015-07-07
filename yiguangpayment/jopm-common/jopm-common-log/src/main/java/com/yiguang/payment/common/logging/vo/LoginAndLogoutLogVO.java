@@ -14,6 +14,8 @@ public class LoginAndLogoutLogVO implements Serializable
 
 	private String operationTypeLabel;
 
+	private int operationType;
+	
 	private Date operationTime;
 
 	private String operationIp;
@@ -78,6 +80,14 @@ public class LoginAndLogoutLogVO implements Serializable
 	public void setRemark(String remark)
 	{
 		this.remark = remark;
+	}
+
+	public int getOperationType() {
+		return operationType;
+	}
+
+	public void setOperationType(int operationType) {
+		this.operationType = operationType;
 	}
 
 }

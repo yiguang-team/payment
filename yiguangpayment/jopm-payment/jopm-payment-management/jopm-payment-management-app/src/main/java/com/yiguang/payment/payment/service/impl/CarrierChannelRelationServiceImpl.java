@@ -1,9 +1,12 @@
 package com.yiguang.payment.payment.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +17,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.persistence.DynamicSpecifications;
-import org.springside.modules.persistence.SearchFilter;
-import org.springside.modules.persistence.SearchFilter.Operator;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -182,16 +182,48 @@ public class CarrierChannelRelationServiceImpl implements CarrierChannelRelation
 		}
 	}
 	
+	private Specification<CarrierChannelRelation> getPageQuerySpec(final CarrierChannelRelationVO vo)
+	{
+		Specification<CarrierChannelRelation> spec = new Specification<CarrierChannelRelation>(){
+			@Override
+			public Predicate toPredicate(Root<CarrierChannelRelation> root,  
+		            CriteriaQuery<?> query, CriteriaBuilder cb) {  
+		        
+				List<Predicate> predicateList = new ArrayList<Predicate>();
+				
+				if (vo.getStatus() != -1)
+				{
+					predicateList.add(cb.equal(root.get("status").as(Integer.class), vo.getStatus()));  
+				}
+				
+				if (vo.getCarrierId() != -1)
+				{
+					predicateList.add(cb.equal(root.get("carrierId").as(Integer.class), vo.getCarrierId()));  
+				}
+				
+				Predicate[] p = new Predicate[predicateList.size()];  
+		        query.where(cb.and(predicateList.toArray(p)));  
+		        //添加排序的功能  
+		        query.orderBy(cb.asc(root.get("id").as(Integer.class)));  
+		          
+		        return query.getRestriction();  
+			}
+		};
+		
+		return spec;
+	}
+	
 	@Override
 	public List<CarrierChannelRelation> queryCarrierChannelRelationByCarrierId(
 			long carrierId) {
 		logger.debug("queryCarrierChannelRelationByCarrierId start, carrierId [" + carrierId + "]");
 		try
 		{
-			Map<String, SearchFilter> filters = new HashMap<String, SearchFilter>();
-			filters.put("status", new SearchFilter("status", Operator.EQ, CommonConstant.CommonStatus.OPEN));
-			filters.put("carrierId", new SearchFilter("carrierId", Operator.EQ, carrierId));
-			Specification<CarrierChannelRelation> spec = DynamicSpecifications.bySearchFilter(filters.values(), CarrierChannelRelation.class);
+			CarrierChannelRelationVO conditionVO = new CarrierChannelRelationVO();
+			conditionVO.setStatus(CommonConstant.CommonStatus.OPEN);
+			conditionVO.setCarrierId(carrierId);
+			Specification<CarrierChannelRelation> spec = getPageQuerySpec(conditionVO);
+			
 			List<CarrierChannelRelation> list = relationDao.findAll(spec, new Sort(Direction.DESC, "sort"));
 			logger.debug("queryCarrierChannelRelationByCarrierId end, carrierId [" + carrierId + "]");
 			return list;

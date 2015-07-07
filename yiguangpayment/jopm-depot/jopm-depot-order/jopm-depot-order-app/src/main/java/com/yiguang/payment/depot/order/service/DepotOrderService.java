@@ -1,7 +1,6 @@
 package com.yiguang.payment.depot.order.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.depot.order.entity.DepotOrder;
@@ -18,7 +17,7 @@ public interface DepotOrderService
 	long pickUpCardWithoutList(DepotOrder pickUpCardRecord);
 
 	// 接口内声明提卡记录函数
-	YcPage<DepotOrderVO> queryPickUpRecordList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+	YcPage<DepotOrderVO> queryPickUpRecordList(DepotOrderVO searchParams, int pageNumber, int pageSize,
 			String sortType);
 
 	// 接口内声明查询历史卡密信息函数

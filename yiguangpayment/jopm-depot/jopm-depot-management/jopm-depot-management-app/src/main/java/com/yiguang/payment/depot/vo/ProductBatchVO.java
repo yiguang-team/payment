@@ -14,6 +14,8 @@ public class ProductBatchVO implements Serializable
 
 	private long carrierId;
 
+	private long merchantId;
+	
 	private String merchantLabel;
 
 	private long productId;
@@ -138,6 +140,14 @@ public class ProductBatchVO implements Serializable
 	public void setStatusLabel(String statusLabel)
 	{
 		this.statusLabel = statusLabel;
+	}
+
+	public long getMerchantId() {
+		return merchantId;
+	}
+
+	public void setMerchantId(long merchantId) {
+		this.merchantId = merchantId;
 	}
 
 }

@@ -2,26 +2,19 @@ package com.yiguang.payment.rbac.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.persistence.SearchFilter;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
 import com.yiguang.payment.common.Constant;
 import com.yiguang.payment.common.datasource.service.DataSourceService;
 import com.yiguang.payment.common.exception.ErrorCodeConst;
-import com.yiguang.payment.common.query.PageUtil;
-import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.common.utils.BeanUtils;
 import com.yiguang.payment.common.utils.StringUtil;
 import com.yiguang.payment.rbac.entity.Role;
@@ -40,46 +33,6 @@ public class RolePrivilegeServiceImpl implements RolePrivilegeService {
 	DataSourceService dataSourceService;
 	@Autowired
 	RolePrivilegeDao rolePrivilegeDao;
-	
-	@Override
-	@Cacheable(value = "rolePrivilegeCache")
-	public YcPage<RolePrivilegeVO> queryRolePrivilegeList(
-			Map<String, Object> searchParams, int pageNumber, int pageSize,
-			String sortType) {
-		logger.debug("queryRolePrivilegeList start");
-		try
-		{
-			Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-			YcPage<RolePrivilege> ycPage = PageUtil.queryYcPage(rolePrivilegeDao, filters, pageNumber, pageSize, new Sort(
-					Direction.DESC, "id"), RolePrivilege.class);
-
-			YcPage<RolePrivilegeVO> result = new YcPage<RolePrivilegeVO>();
-			result.setPageTotal(ycPage.getPageTotal());
-			result.setCountTotal(ycPage.getCountTotal());
-			List<RolePrivilege> list = ycPage.getList();
-			List<RolePrivilegeVO> voList = new ArrayList<RolePrivilegeVO>();
-			RolePrivilegeVO vo = null;
-			for (RolePrivilege temp : list)
-			{
-				vo = copyPropertiesToVO(temp);
-				voList.add(vo);
-			}
-
-			result.setList(voList);
-			logger.debug("queryRolePrivilegeList end");
-			return result;
-		}
-		catch (RpcException e)
-		{
-			throw e;
-		}
-		catch (Exception e)
-		{
-			logger.error("queryRolePrivilegeList failed");
-			logger.error(e.getLocalizedMessage(), e);
-			throw new RpcException(ErrorCodeConst.ErrorCode99998);
-		}
-	}
 
 	@Override
 	public RolePrivilege updateRolePrivilegeStatus(RolePrivilege rolePrivilege) {

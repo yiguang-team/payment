@@ -99,12 +99,7 @@
 	<!-- [JPA Impl] hibernate实现配置 -->
 	<bean id="hibernateJpaVendorAdapter"
 		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-		<property name="databasePlatform">
-			<bean factory-method="getDialect"
-				class="org.springside.modules.persistence.Hibernates">
-				<constructor-arg ref="dataSource" />
-			</bean>
-		</property>
+		<property name="databasePlatform" value="org.hibernate.dialect.OracleDialect" />
 	</bean>
 
 	<!-- [JPA TX] Jpa 事务配置 -->

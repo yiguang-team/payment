@@ -1,14 +1,12 @@
 package com.yiguang.payment.rbac.service;
 
-import java.util.Map;
-
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.rbac.entity.User;
 import com.yiguang.payment.rbac.vo.UserVO;
 
 public interface UserService
 {
-	public YcPage<UserVO> queryUserList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+	public YcPage<UserVO> queryUserList(UserVO conditionVO, int pageNumber, int pageSize,
 			String sortType);
 
 	public User updateUserStatus(User user);

@@ -1,7 +1,6 @@
 package com.yiguang.payment.payment.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.payment.entity.Merchant;
@@ -9,7 +8,7 @@ import com.yiguang.payment.payment.vo.MerchantVO;
 
 public interface MerchantService
 {
-	public YcPage<MerchantVO> queryMerchantList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+	public YcPage<MerchantVO> queryMerchantList(MerchantVO conditionVO, int pageNumber, int pageSize,
 			String sortType);
 
 	public Merchant updateMerchantStatus(Merchant merchant);

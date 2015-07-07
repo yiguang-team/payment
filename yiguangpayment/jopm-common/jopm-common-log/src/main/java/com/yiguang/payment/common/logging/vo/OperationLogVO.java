@@ -21,6 +21,8 @@ public class OperationLogVO implements Serializable
 	private String username;
 
 	private String operationObj;
+	
+	private int operationType;
 
 	private String operationTypeLabel;
 
@@ -98,6 +100,14 @@ public class OperationLogVO implements Serializable
 	public void setRemark(String remark)
 	{
 		this.remark = remark;
+	}
+
+	public int getOperationType() {
+		return operationType;
+	}
+
+	public void setOperationType(int operationType) {
+		this.operationType = operationType;
 	}
 
 }

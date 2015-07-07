@@ -1,7 +1,6 @@
 package com.yiguang.payment.common.logging.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springside.modules.persistence.SearchFilter.Operator;
-import org.springside.modules.web.Servlets;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -23,7 +20,6 @@ import com.yiguang.payment.common.datasource.vo.OptionVO;
 import com.yiguang.payment.common.logging.service.OperationLogService;
 import com.yiguang.payment.common.logging.vo.OperationLogVO;
 import com.yiguang.payment.common.query.YcPage;
-import com.yiguang.payment.common.utils.StringUtil;
 
 /**
  * LoginController负责打开登录页面(GET请求)和登录出错页面(POST请求)， 真正登录的POST请求由Filter完成,
@@ -60,32 +56,20 @@ public class OperationLogController
 		{
 			logger.debug("[查询操作日志请求开始][url:/showLogList]--------------------------------------------");
 			// 组装查询条件
-			Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
-
-			if (StringUtil.isNotBlank(String.valueOf(operationType)) && operationType != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "operationType", String.valueOf(operationType));
-			}
-
-			if (StringUtil.isNotBlank(username))
-			{
-				searchParams.put(Operator.EQ + "_" + "username", username);
-			}
+			OperationLogVO vo = new OperationLogVO();
+			vo.setOperationObj(operationObj);
+			vo.setOperationType(operationType);
+			vo.setUsername(username);
 			
-			if (StringUtil.isNotBlank(operationObj))
-			{
-				searchParams.put(Operator.EQ + "_" + "operationObj", operationObj);
-			}
-
+			// 查询操作日志信息
+			logger.debug("[查询操作日志数据库开始][url:/showLogList]--------------------------------------------");
+			YcPage<OperationLogVO> page_list = operationLogService.showLogList(vo, pageNumber, pageSize, "");
+			logger.debug("[查询操作日志数据库结束][url:/showLogList]--------------------------------------------");
+						
 			// 获取操作类型名称，ID键值对
 			List<OptionVO> operationTypeList = dataSourceService
 					.findOpenOptions(CommonConstant.DataSourceName.LOG_ORERATION_TYPE);
-
-			logger.debug("[查询操作日志数据库开始][url:/showLogList]--------------------------------------------");
-			// 查询操作日志信息
-			YcPage<OperationLogVO> page_list = operationLogService.showLogList(searchParams, pageNumber, pageSize, "");
-			logger.debug("[查询操作日志数据库结束][url:/showLogList]--------------------------------------------");
-
+			
 			// 将数据传入页面中
 			model.addAttribute("operationObj", operationObj);
 			model.addAttribute("operationType", operationType);

@@ -27,7 +27,7 @@ public interface CityService
 
 	public List<City> getCityByProvince(String provinceId);
 
-	public YcPage<City> queryCity(Map<String, Object> searchParams, int pageNumber, int pageSize, BSort bsort);
+//	public YcPage<City> queryCity(Map<String, Object> searchParams, int pageNumber, int pageSize, BSort bsort);
 	
 	public City getByCityNameAndPid(String cityName, String pid);
 

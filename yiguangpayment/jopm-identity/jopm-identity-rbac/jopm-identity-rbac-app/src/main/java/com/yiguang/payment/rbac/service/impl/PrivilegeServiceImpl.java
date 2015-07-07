@@ -1,9 +1,12 @@
 package com.yiguang.payment.rbac.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,17 +19,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.persistence.DynamicSpecifications;
-import org.springside.modules.persistence.SearchFilter;
-import org.springside.modules.persistence.SearchFilter.Operator;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
 import com.yiguang.payment.common.Constant;
 import com.yiguang.payment.common.datasource.service.DataSourceService;
 import com.yiguang.payment.common.exception.ErrorCodeConst;
-import com.yiguang.payment.common.query.PageUtil;
-import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.common.utils.BeanUtils;
 import com.yiguang.payment.rbac.entity.Privilege;
 import com.yiguang.payment.rbac.repository.PrivilegeDao;
@@ -44,40 +42,40 @@ public class PrivilegeServiceImpl implements PrivilegeService {
 	@Autowired
 	private PrivilegeDao privilegeDao;
 
-	@Override
-	@Cacheable(value = "privilegeCache")
-	public YcPage<PrivilegeVO> queryPrivilegeList(Map<String, Object> searchParams,
-			int pageNumber, int pageSize, String sortType) {
-		logger.debug("queryPrivilegeList start");
-		try {
-			Map<String, SearchFilter> filters = SearchFilter
-					.parse(searchParams);
-			YcPage<Privilege> ycPage = PageUtil.queryYcPage(privilegeDao, filters,
-					pageNumber, pageSize, new Sort(Direction.DESC, "id"),
-					Privilege.class);
-
-			YcPage<PrivilegeVO> result = new YcPage<PrivilegeVO>();
-			result.setPageTotal(ycPage.getPageTotal());
-			result.setCountTotal(ycPage.getCountTotal());
-			List<Privilege> list = ycPage.getList();
-			List<PrivilegeVO> voList = new ArrayList<PrivilegeVO>();
-			PrivilegeVO vo = null;
-			for (Privilege temp : list) {
-				vo = copyPropertiesToVO(temp);
-				voList.add(vo);
-			}
-
-			result.setList(voList);
-			logger.debug("queryPrivilegeList end");
-			return result;
-		} catch (RpcException e) {
-			throw e;
-		} catch (Exception e) {
-			logger.error("queryPrivilegeList failed");
-			logger.error(e.getLocalizedMessage(), e);
-			throw new RpcException(ErrorCodeConst.ErrorCode99998);
-		}
-	}
+//	@Override
+//	@Cacheable(value = "privilegeCache")
+//	public YcPage<PrivilegeVO> queryPrivilegeList(Map<String, Object> searchParams,
+//			int pageNumber, int pageSize, String sortType) {
+//		logger.debug("queryPrivilegeList start");
+//		try {
+//			Map<String, SearchFilter> filters = SearchFilter
+//					.parse(searchParams);
+//			YcPage<Privilege> ycPage = PageUtil.queryYcPage(privilegeDao, filters,
+//					pageNumber, pageSize, new Sort(Direction.DESC, "id"),
+//					Privilege.class);
+//
+//			YcPage<PrivilegeVO> result = new YcPage<PrivilegeVO>();
+//			result.setPageTotal(ycPage.getPageTotal());
+//			result.setCountTotal(ycPage.getCountTotal());
+//			List<Privilege> list = ycPage.getList();
+//			List<PrivilegeVO> voList = new ArrayList<PrivilegeVO>();
+//			PrivilegeVO vo = null;
+//			for (Privilege temp : list) {
+//				vo = copyPropertiesToVO(temp);
+//				voList.add(vo);
+//			}
+//
+//			result.setList(voList);
+//			logger.debug("queryPrivilegeList end");
+//			return result;
+//		} catch (RpcException e) {
+//			throw e;
+//		} catch (Exception e) {
+//			logger.error("queryPrivilegeList failed");
+//			logger.error(e.getLocalizedMessage(), e);
+//			throw new RpcException(ErrorCodeConst.ErrorCode99998);
+//		}
+//	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
@@ -177,14 +175,46 @@ public class PrivilegeServiceImpl implements PrivilegeService {
 		}
 	}
 	
+	private Specification<Privilege> getPageQuerySpec(final PrivilegeVO vo)
+	{
+		Specification<Privilege> spec = new Specification<Privilege>(){
+			@Override
+			public Predicate toPredicate(Root<Privilege> root,  
+		            CriteriaQuery<?> query, CriteriaBuilder cb) {  
+		        
+				List<Predicate> predicateList = new ArrayList<Predicate>();
+				
+				if (vo.getStatus() != -1)
+				{
+					predicateList.add(cb.equal(root.get("status").as(Integer.class), vo.getStatus()));  
+				}
+				
+				if (vo.getPrivilegeLevel() != -1)
+				{
+					predicateList.add(cb.equal(root.get("privilegeLevel").as(Integer.class), vo.getPrivilegeLevel()));  
+				}
+				
+				Predicate[] p = new Predicate[predicateList.size()];  
+		        query.where(cb.and(predicateList.toArray(p)));  
+		        //添加排序的功能  
+		        query.orderBy(cb.asc(root.get("id").as(Integer.class)));  
+		          
+		        return query.getRestriction();  
+			}
+		};
+		
+		return spec;
+	}
+	
 	@Override
 	public List<Privilege> findPrivilegeByLevel(int level) {
 		logger.debug("findPrivilegeByLevel start");
 		try {
-			Map<String, SearchFilter> filters = new HashMap<String, SearchFilter>();
-			filters.put("status", new SearchFilter("status", Operator.EQ, CommonConstant.CommonStatus.OPEN));
-			filters.put("privilegeLevel", new SearchFilter("privilegeLevel", Operator.EQ, level));
-			Specification<Privilege> spec = DynamicSpecifications.bySearchFilter(filters.values(), Privilege.class);
+			PrivilegeVO conditionVO = new PrivilegeVO();
+			conditionVO.setStatus(CommonConstant.CommonStatus.OPEN);
+			conditionVO.setPrivilegeLevel(level);
+			Specification<Privilege> spec = getPageQuerySpec(conditionVO);
+		
 			List<Privilege> list = privilegeDao.findAll(spec, new Sort(Direction.ASC, "displayOrder"));
 			logger.debug("findPrivilegeByLevel end");
 			return list;

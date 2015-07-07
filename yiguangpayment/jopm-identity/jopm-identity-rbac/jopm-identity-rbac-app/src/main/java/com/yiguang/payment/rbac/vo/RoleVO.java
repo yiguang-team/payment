@@ -1,7 +1,6 @@
 package com.yiguang.payment.rbac.vo;
 
 import java.io.Serializable;
-import java.util.Date;
 
 
 public class RoleVO implements Serializable
@@ -12,9 +11,9 @@ public class RoleVO implements Serializable
 
 	private String roleName;
 
-	private Date createTime;
+	private String createTime;
 
-	private String status;
+	private int status;
 
 	private String remark;
 	
@@ -40,22 +39,22 @@ public class RoleVO implements Serializable
 		this.roleName = roleName;
 	}
 
-	public Date getCreateTime()
+	public String getCreateTime()
 	{
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime)
+	public void setCreateTime(String createTime)
 	{
 		this.createTime = createTime;
 	}
 
-	public String getStatus()
+	public int getStatus()
 	{
 		return status;
 	}
 
-	public void setStatus(String status)
+	public void setStatus(int status)
 	{
 		this.status = status;
 	}

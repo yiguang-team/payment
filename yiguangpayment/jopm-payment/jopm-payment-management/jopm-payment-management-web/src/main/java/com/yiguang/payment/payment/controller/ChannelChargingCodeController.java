@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springside.modules.persistence.SearchFilter.Operator;
-import org.springside.modules.web.Servlets;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -69,32 +67,14 @@ public class ChannelChargingCodeController
 			@RequestParam(value = "chargingCode", defaultValue = "") String chargingCode,
 			@RequestParam(value = "status", defaultValue = "-1") int status, Model model, ServletRequest request)
 	{
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 		try
 		{
-			if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "status", String.valueOf(status));
-			}
-			if (StringUtil.isNotBlank(String.valueOf(channelId)) && channelId != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "channelId", String.valueOf(channelId));
-			}
-			// if (StringUtil.isNotBlank(String.valueOf(chargingAmount)) &&
-			// chargingAmount != -1) {
-			// searchParams.put(Operator.EQ + "_" + "chargingAmount",
-			// String.valueOf(chargingAmount));
-			// }
-			if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "status", String.valueOf(status));
-			}
-			if (StringUtil.isNotBlank(chargingCode))
-			{
-				chargingCode = chargingCode.trim();
-				searchParams.put(Operator.EQ + "_" + "chargingCode", chargingCode);
-			}
-			YcPage<ChannelChargingCodeVO> page_list = chargingCodeService.queryChargingCodeList(searchParams,
+			ChannelChargingCodeVO vo = new ChannelChargingCodeVO();
+			vo.setChannelId(channelId);
+			vo.setStatus(status);
+			vo.setChargingCode(chargingCode);
+			
+			YcPage<ChannelChargingCodeVO> page_list = chargingCodeService.queryChargingCodeList(vo,
 					pageNumber, pageSize, "");
 
 			List<OptionVO> statusList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.COMMON_STATUS);

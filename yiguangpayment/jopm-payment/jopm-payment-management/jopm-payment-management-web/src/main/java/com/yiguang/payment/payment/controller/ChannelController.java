@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springside.modules.persistence.SearchFilter.Operator;
-import org.springside.modules.web.Servlets;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -66,16 +64,12 @@ public class ChannelController {
 			@RequestParam(value = "sortType", defaultValue = "auto") String sortType,
 			@RequestParam(value = "name", defaultValue = "") String name,
 			@RequestParam(value = "status", defaultValue = "-1") int status, Model model, ServletRequest request) {
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 		try {
-			if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1) {
-				searchParams.put(Operator.EQ + "_" + "status", String.valueOf(status));
-			}
-			if (StringUtil.isNotBlank(name)) {
-				name = name.trim();
-				searchParams.put(Operator.LIKE + "_" + "name", name);
-			}
-			YcPage<ChannelVO> page_list = channelService.queryChannelList(searchParams, pageNumber, pageSize, "");
+			
+			ChannelVO vo = new ChannelVO();
+			vo.setName(name);
+			vo.setStatus(status);
+			YcPage<ChannelVO> page_list = channelService.queryChannelList(vo, pageNumber, pageSize, "");
 
 			List<OptionVO> statusList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.COMMON_STATUS);
 			

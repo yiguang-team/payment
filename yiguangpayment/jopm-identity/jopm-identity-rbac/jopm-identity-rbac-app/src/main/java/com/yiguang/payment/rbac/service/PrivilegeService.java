@@ -1,16 +1,14 @@
 package com.yiguang.payment.rbac.service;
 
 import java.util.List;
-import java.util.Map;
 
-import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.rbac.entity.Privilege;
 import com.yiguang.payment.rbac.vo.PrivilegeVO;
 
 public interface PrivilegeService {
 
-	public YcPage<PrivilegeVO> queryPrivilegeList(Map<String, Object> searchParams, int pageNumber, int pageSize,
-			String sortType);
+//	public YcPage<PrivilegeVO> queryPrivilegeList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+//			String sortType);
 
 	public Privilege updatePrivilegeStatus(Privilege privilege);
 

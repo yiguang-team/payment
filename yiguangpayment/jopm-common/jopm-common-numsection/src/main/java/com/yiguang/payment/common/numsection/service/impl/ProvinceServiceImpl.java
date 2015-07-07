@@ -7,27 +7,19 @@ package com.yiguang.payment.common.numsection.service.impl;
  *
  */
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
-import org.springside.modules.persistence.SearchFilter;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.exception.ErrorCodeConst;
 import com.yiguang.payment.common.numsection.entity.Province;
 import com.yiguang.payment.common.numsection.repository.ProvinceDao;
 import com.yiguang.payment.common.numsection.service.ProvinceService;
-import com.yiguang.payment.common.query.BSort;
-import com.yiguang.payment.common.query.PageUtil;
-import com.yiguang.payment.common.query.YcPage;
 
 @Service("provinceService")
 public class ProvinceServiceImpl implements ProvinceService
@@ -78,24 +70,6 @@ public class ProvinceServiceImpl implements ProvinceService
 	{
 		logger.debug("[ProvinceServiceImpl:getAllProvince()]");
 		return provinceDao.selectAll();
-	}
-
-	@Override
-	@Cacheable(value="provinceCache")
-	public YcPage<Province> queryProvince(Map<String, Object> searchParams, int pageNumber, int pageSize, BSort bsort)
-	{
-		logger.debug("[ProvinceServiceImpl:queryProvince(" + searchParams != null ? searchParams.toString() : null
-				+ "," + pageNumber + "," + pageSize + ")]");
-		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-		String orderCloumn = bsort == null ? "id" : bsort.getCloumn();
-		String orderDirect = bsort == null ? "DESC" : bsort.getDirect().toString();
-		Sort sort = new Sort(Direction.valueOf(Direction.class, orderDirect), orderCloumn);
-		Page<Province> page = PageUtil.queryPage(provinceDao, filters, pageNumber, pageSize, sort, Province.class);
-		YcPage<Province> ycPage = new YcPage<Province>();
-		ycPage.setList(page.getContent());
-		ycPage.setPageTotal(page.getTotalPages());
-		ycPage.setCountTotal((int) page.getTotalElements());
-		return ycPage;
 	}
 
 	@Override

@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -52,7 +51,7 @@ public class MerchantOrderServiceImpl implements MerchantOrderService
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public YcPage<MerchantOrderVO> queryMerchantOrderList(Map<String, Object> searchParams, int pageNumber,
+	public YcPage<MerchantOrderVO> queryMerchantOrderList(int pageNumber,
 			int pageSize, String sortType, String orderId, String merchantOrderId, String requestIp, String username,
 			String mobile, long carrierId, long channelId, long merchantId, String provinceId, String cityId,
 			long productId, int payStatus, int deliveryStatus, String deliveryNo,

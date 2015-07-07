@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springside.modules.persistence.SearchFilter.Operator;
-import org.springside.modules.web.Servlets;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -68,24 +66,14 @@ public class MerchantController
 			@RequestParam(value = "adminUser", defaultValue = "-1") int adminUser,
 			@RequestParam(value = "status", defaultValue = "-1") int status, Model model, ServletRequest request)
 	{
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 		try
 		{
-			if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "status", String.valueOf(status));
-			}
-			if (StringUtil.isNotBlank(String.valueOf(adminUser)) && adminUser != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "adminUser", String.valueOf(adminUser));
-			}
-			if (StringUtil.isNotBlank(name))
-			{
-				name = name.trim();
-				searchParams.put(Operator.LIKE + "_" + "name", name);
-			}
+			MerchantVO vo = new MerchantVO();
+			vo.setName(name);
+			vo.setStatus(status);
+			vo.setAdminUser(adminUser);
 			
-			YcPage<MerchantVO> page_list = merchantService.queryMerchantList(searchParams, pageNumber, pageSize, "");
+			YcPage<MerchantVO> page_list = merchantService.queryMerchantList(vo, pageNumber, pageSize, "");
 
 			// List<OptionVO> typeList =
 			// dataSourceService.findOptions(CommonConstant.DataSourceName.MERCAHNT_TYPE);
@@ -108,6 +96,7 @@ public class MerchantController
 		}
 		catch (Exception e)
 		{
+			logger.error(e.getMessage());
 			return "/error/500";
 		}
 

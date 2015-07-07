@@ -5,17 +5,21 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.persistence.SearchFilter;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -27,6 +31,7 @@ import com.yiguang.payment.common.query.PageUtil;
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.common.utils.BeanUtils;
 import com.yiguang.payment.common.utils.BigDecimalUtil;
+import com.yiguang.payment.common.utils.StringUtil;
 import com.yiguang.payment.depot.entity.ProductBatch;
 import com.yiguang.payment.depot.entity.ProductDepot;
 import com.yiguang.payment.depot.repository.ProductBatchDao;
@@ -48,6 +53,43 @@ public class ProductBatchServiceImpl implements ProductBatchService
 	@Autowired
 	private ProductDepotDao productDepotDao;
 
+	private Specification<ProductBatch> getPageQuerySpec(final ProductBatchVO vo)
+	{
+		Specification<ProductBatch> spec = new Specification<ProductBatch>(){
+			@Override
+			public Predicate toPredicate(Root<ProductBatch> root,  
+		            CriteriaQuery<?> query, CriteriaBuilder cb) {  
+		        
+				List<Predicate> predicateList = new ArrayList<Predicate>();
+				if (vo.getMerchantId() != -1)
+				{
+					predicateList.add(cb.equal(root.get("merchant_id").as(Integer.class), vo.getMerchantId()));  
+				}
+				if (vo.getProductId() != -1)
+				{
+					predicateList.add(cb.equal(root.get("product_id").as(Integer.class), vo.getProductId()));  
+				}
+				if (vo.getStatus() != -1)
+				{
+					predicateList.add(cb.equal(root.get("status").as(Integer.class), vo.getStatus()));  
+				}
+				if (StringUtil.isNotEmpty(vo.getBatchId()))
+				{
+					predicateList.add(cb.equal(root.get("batch_id").as(String.class), vo.getBatchId().trim()));  
+				}
+				
+				Predicate[] p = new Predicate[predicateList.size()];  
+		        query.where(cb.and(predicateList.toArray(p)));  
+		        //添加排序的功能  
+		        query.orderBy(cb.asc(root.get("id").as(Integer.class)));  
+		          
+		        return query.getRestriction();  
+			}
+		};
+		
+		return spec;
+	}
+	
 	@Override
 	public String generateBatchId()
 	{
@@ -57,11 +99,11 @@ public class ProductBatchServiceImpl implements ProductBatchService
 	}
 
 	@Override
-	public YcPage<ProductBatchVO> queryProductBatchList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+	public YcPage<ProductBatchVO> queryProductBatchList(ProductBatchVO conditionVO, int pageNumber, int pageSize,
 			String sortType)
 	{
-		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-		YcPage<ProductBatch> ycPage = PageUtil.queryYcPage(productBatchDao, filters, pageNumber, pageSize, new Sort(
+		Specification<ProductBatch> spec = getPageQuerySpec(conditionVO);
+		YcPage<ProductBatch> ycPage = PageUtil.queryYcPage(productBatchDao, spec, pageNumber, pageSize, new Sort(
 				Direction.DESC, "id"), ProductBatch.class);
 
 		YcPage<ProductBatchVO> result = new YcPage<ProductBatchVO>();

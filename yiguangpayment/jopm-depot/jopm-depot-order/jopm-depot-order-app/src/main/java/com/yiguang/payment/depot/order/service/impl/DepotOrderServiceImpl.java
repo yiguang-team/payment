@@ -3,16 +3,20 @@ package com.yiguang.payment.depot.order.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.persistence.SearchFilter;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.business.product.entity.Point;
@@ -25,6 +29,7 @@ import com.yiguang.payment.common.exception.ExceptionUtil;
 import com.yiguang.payment.common.query.PageUtil;
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.common.utils.BigDecimalUtil;
+import com.yiguang.payment.common.utils.StringUtil;
 import com.yiguang.payment.depot.entity.ProductDepot;
 import com.yiguang.payment.depot.order.entity.DepotOrder;
 import com.yiguang.payment.depot.order.repository.DepotOrderDAO;
@@ -286,15 +291,51 @@ public class DepotOrderServiceImpl implements DepotOrderService
 		}
 	}
 
+	private Specification<DepotOrder> getPageQuerySpec(final DepotOrderVO vo)
+	{
+		Specification<DepotOrder> spec = new Specification<DepotOrder>(){
+			@Override
+			public Predicate toPredicate(Root<DepotOrder> root,  
+		            CriteriaQuery<?> query, CriteriaBuilder cb) {  
+		        
+				List<Predicate> predicateList = new ArrayList<Predicate>();
+				if (StringUtil.isNotEmpty(vo.getExtractUser()))
+				{
+					predicateList.add(cb.equal(root.get("extractUser").as(String.class), vo.getExtractUser()));  
+				}
+				
+				if (vo.getChargingPointId() != -1)
+				{
+					predicateList.add(cb.equal(root.get("chargingPointId").as(Integer.class), vo.getChargingPointId()));  
+				}
+				
+				if (StringUtil.isNotEmpty(vo.getOrderId()))
+				{
+					predicateList.add(cb.equal(root.get("name").as(String.class), vo.getOrderId().trim()));  
+				}
+				
+				Predicate[] p = new Predicate[predicateList.size()];  
+		        query.where(cb.and(predicateList.toArray(p)));  
+		        //添加排序的功能  
+		        query.orderBy(cb.asc(root.get("id").as(Integer.class)));  
+		          
+		        return query.getRestriction();  
+			}
+		};
+		
+		return spec;
+	}
+	
+	
 	// 查询提卡历史记录
 	@Override
-	public YcPage<DepotOrderVO> queryPickUpRecordList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+	public YcPage<DepotOrderVO> queryPickUpRecordList(DepotOrderVO conditionVO, int pageNumber, int pageSize,
 			String sortType)
 	{
-		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+		Specification<DepotOrder> spec = getPageQuerySpec(conditionVO);
 
 		// 调用查询API获得提卡历史记录集
-		YcPage<DepotOrder> ycPage = PageUtil.queryYcPage(pickUpCardRecordDAO, filters, pageNumber, pageSize, new Sort(
+		YcPage<DepotOrder> ycPage = PageUtil.queryYcPage(pickUpCardRecordDAO, spec, pageNumber, pageSize, new Sort(
 				Direction.DESC, "id"), DepotOrderVO.class);
 
 		YcPage<DepotOrderVO> result = new YcPage<DepotOrderVO>();

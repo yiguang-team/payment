@@ -7,11 +7,8 @@ package com.yiguang.payment.common.numsection.service;
  * @date：2013-10-15
  */
 import java.util.List;
-import java.util.Map;
 
 import com.yiguang.payment.common.numsection.entity.NumSection;
-import com.yiguang.payment.common.query.BSort;
-import com.yiguang.payment.common.query.YcPage;
 
 public interface NumSectionService
 {
@@ -25,7 +22,7 @@ public interface NumSectionService
 
 	public List<NumSection> selectAll();
 
-	public YcPage<NumSection> queryNumSection(Map<String, Object> searchParams, int pageNumber, int pageSize,
-			BSort bsort);
+//	public YcPage<NumSection> queryNumSection(Map<String, Object> searchParams, int pageNumber, int pageSize,
+//			BSort bsort);
 
 }

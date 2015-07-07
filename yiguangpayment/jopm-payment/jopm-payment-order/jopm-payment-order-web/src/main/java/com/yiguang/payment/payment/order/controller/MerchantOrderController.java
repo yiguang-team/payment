@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springside.modules.web.Servlets;
 
 import com.yiguang.payment.common.CommonConstant;
 import com.yiguang.payment.common.Constant;
@@ -84,8 +83,6 @@ public class MerchantOrderController
 	{
 		try
 		{
-			Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
-
 			if (StringUtil.isNotBlank(orderId))
 			{
 				orderId = orderId.trim();
@@ -119,7 +116,7 @@ public class MerchantOrderController
 				endDate = endDate.trim();
 			}
 			
-			YcPage<MerchantOrderVO> page_list = orderService.queryMerchantOrderList(searchParams, pageNumber, pageSize,
+			YcPage<MerchantOrderVO> page_list = orderService.queryMerchantOrderList(pageNumber, pageSize,
 					sortType, orderId, merchantOrderId, requestIp, username, mobile, carrierId, channelId, merchantId,
 					provinceId, cityId, productId, payStatus, deliveryStatus, deliveryNo, chargingPointId,
 					chargingType, channelType, notifyStatus, beginDate, endDate);

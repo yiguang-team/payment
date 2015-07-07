@@ -19,7 +19,7 @@ public class BasicRuleVO implements Serializable
 
 	private int limitType;//限制方式  笔数  金额
 	private String limitTypeLabel;
-	private long volume;// 限制值
+	private String volume;// 限制值
 	
 	private int startUnit;//
 	private int endUnit;//
@@ -117,12 +117,12 @@ public class BasicRuleVO implements Serializable
 		this.limitType = limitType;
 	}
 
-	public long getVolume()
+	public String getVolume()
 	{
 		return volume;
 	}
 
-	public void setVolume(long volume)
+	public void setVolume(String volume)
 	{
 		this.volume = volume;
 	}

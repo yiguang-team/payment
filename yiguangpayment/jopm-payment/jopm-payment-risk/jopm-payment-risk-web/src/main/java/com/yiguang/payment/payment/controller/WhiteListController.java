@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springside.modules.persistence.SearchFilter.Operator;
-import org.springside.modules.web.Servlets;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -28,7 +26,6 @@ import com.yiguang.payment.common.datasource.vo.OptionVO;
 import com.yiguang.payment.common.message.MessageResolver;
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.common.utils.StringUtil;
-import com.yiguang.payment.payment.entity.BlackList;
 import com.yiguang.payment.payment.entity.WhiteList;
 import com.yiguang.payment.payment.service.WhiteListService;
 import com.yiguang.payment.payment.vo.WhiteListVO;
@@ -64,24 +61,14 @@ public class WhiteListController
 			@RequestParam(value = "value", defaultValue = "") String value,
 			@RequestParam(value = "status", defaultValue = "-1") int status, Model model, ServletRequest request)
 	{
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 		try
 		{
-			if (StringUtil.isNotBlank(String.valueOf(type)) && type != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "type", String.valueOf(type));
-			}
-			if (StringUtil.isNotBlank(value))
-			{
-				value = value.trim();
-				searchParams.put(Operator.EQ + "_" + "value", value);
-			}
-			if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1)
-			{
-				searchParams.put(Operator.EQ + "_" + "status", String.valueOf(status));
-			}
-
-			YcPage<WhiteListVO> page_list = whiteListService.queryWhiteList(searchParams, pageNumber, pageSize, "");
+			WhiteListVO vo = new WhiteListVO();
+			vo.setType(type);
+			vo.setStatus(status);
+			vo.setValue(value);
+			
+			YcPage<WhiteListVO> page_list = whiteListService.queryWhiteList(vo, pageNumber, pageSize, "");
 			List<OptionVO> statusList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.COMMON_STATUS);
 			List<OptionVO> typeList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.LIST_TYPE);
 

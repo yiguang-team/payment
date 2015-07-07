@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springside.modules.persistence.SearchFilter.Operator;
-import org.springside.modules.web.Servlets;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.common.CommonConstant;
@@ -98,18 +96,14 @@ public class RoleController extends BaseControl {
 			@RequestParam(value = "status", defaultValue = "-1") int status,
 			@RequestParam(value = "createTime", defaultValue = "") String createTime,
 			Model model, ServletRequest request) {
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(
-				request, "search_");
 		try {
-			if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1) {
-				searchParams.put(Operator.EQ + "_" + "status",
-						String.valueOf(status));
-			}
-			if (StringUtil.isNotBlank(roleName)) {
-				roleName = roleName.trim();
-				searchParams.put(Operator.LIKE + "_" + "roleName", roleName);
-			}
-			YcPage<RoleVO> page_list = roleService.queryRoleList(searchParams,
+			
+			RoleVO vo = new RoleVO();
+			vo.setRoleName(roleName);
+			vo.setStatus(status);
+			vo.setCreateTime(createTime);
+			
+			YcPage<RoleVO> page_list = roleService.queryRoleList(vo,
 					pageNumber, pageSize, "");
 
 			List<OptionVO> statusList = dataSourceService
@@ -216,7 +210,7 @@ public class RoleController extends BaseControl {
 				Role role = new Role();
 				role.setId(roleVO.getId());
 				role.setRoleName(roleVO.getRoleName());
-				role.setStatus(roleVO.getStatus());
+				role.setStatus(Integer.valueOf(roleVO.getStatus()));
 				role.setCreateTime(new Date());
 				role.setRemark(roleVO.getRemark());
 				roleService.saveRole(role);

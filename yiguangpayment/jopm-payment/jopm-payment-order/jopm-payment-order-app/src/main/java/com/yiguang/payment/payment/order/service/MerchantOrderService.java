@@ -1,7 +1,5 @@
 package com.yiguang.payment.payment.order.service;
 
-import java.util.Map;
-
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.payment.order.entity.MerchantOrder;
 import com.yiguang.payment.payment.order.vo.MerchantOrderVO;
@@ -24,7 +22,7 @@ public interface MerchantOrderService
 
 	public void updateProductOrderStatus();
 
-	YcPage<MerchantOrderVO> queryMerchantOrderList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+	YcPage<MerchantOrderVO> queryMerchantOrderList( int pageNumber, int pageSize,
 			String sortType, String orderId, String merchantOrderId, String requestIp, String username, String mobile,
 			long carrierId, long channelId, long supplierId, String provinceId, String cityId, long productId,
 			int payStatus, int deliveryStatus, String deliveryNo, long chargingPointId,

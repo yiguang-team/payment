@@ -3,7 +3,11 @@ package com.yiguang.payment.payment.service.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +16,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springside.modules.persistence.SearchFilter;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.rpc.RpcException;
@@ -28,6 +32,7 @@ import com.yiguang.payment.common.exception.ErrorCodeConst;
 import com.yiguang.payment.common.query.PageUtil;
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.common.utils.BeanUtils;
+import com.yiguang.payment.common.utils.StringUtil;
 import com.yiguang.payment.payment.entity.ChannelMerchantRelation;
 import com.yiguang.payment.payment.entity.Merchant;
 import com.yiguang.payment.payment.repository.MerchantDao;
@@ -50,16 +55,53 @@ public class MerchantServiceImpl implements MerchantService
 	private ChannelMerchantRelationService relationService;
 	@Autowired
 	private DataSourceService dataSourceService;
+	
+	private Specification<Merchant> getPageQuerySpec(final MerchantVO vo)
+	{
+		Specification<Merchant> spec = new Specification<Merchant>(){
+			@Override
+			public Predicate toPredicate(Root<Merchant> root,  
+		            CriteriaQuery<?> query, CriteriaBuilder cb) {  
+		        
+				List<Predicate> predicateList = new ArrayList<Predicate>();
+				
+				if (vo.getStatus() != -1)
+				{
+					predicateList.add(cb.equal(root.get("status").as(Integer.class), vo.getStatus()));  
+				}
+				
+				if (StringUtil.isNotEmpty(vo.getName()))
+				{
+					predicateList.add(cb.equal(root.get("name").as(String.class), vo.getName().trim()));  
+				}
+				if (vo.getAdminUser() != -1)
+				{
+					predicateList.add(cb.equal(root.get("adminUser").as(Integer.class), vo.getAdminUser()));  
+				}
+				
+				Predicate[] p = new Predicate[predicateList.size()];  
+		        query.where(cb.and(predicateList.toArray(p)));  
+		        //添加排序的功能  
+		        query.orderBy(cb.asc(root.get("id").as(Integer.class)));  
+		          
+		        return query.getRestriction();  
+			}
+		};
+		
+		return spec;
+	}
+	
+	
 	@Override
 	@Cacheable(value = "merchantCache")
-	public YcPage<MerchantVO> queryMerchantList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+	public YcPage<MerchantVO> queryMerchantList(MerchantVO conditionVO, int pageNumber, int pageSize,
 			String sortType)
 	{
 		logger.debug("queryMerchantList start");
 		try
 		{
-			Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-			YcPage<Merchant> ycPage = PageUtil.queryYcPage(merchantDao, filters, pageNumber, pageSize, new Sort(
+			Specification<Merchant> spec = getPageQuerySpec(conditionVO);
+			YcPage<Merchant> ycPage = PageUtil.queryYcPage(merchantDao, spec, pageNumber, pageSize, new Sort(
 					Direction.DESC, "id"), Merchant.class);
 
 			YcPage<MerchantVO> result = new YcPage<MerchantVO>();

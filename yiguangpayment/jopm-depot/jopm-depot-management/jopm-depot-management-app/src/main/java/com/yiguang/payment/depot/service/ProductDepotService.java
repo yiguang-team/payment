@@ -1,7 +1,6 @@
 package com.yiguang.payment.depot.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.yiguang.payment.common.query.YcPage;
 import com.yiguang.payment.depot.entity.ProductDepot;
@@ -12,7 +11,7 @@ public interface ProductDepotService
 	public void importProductDepot(String batchId, String config, long carrierId, long productId, String totalAmt,
 			long totalNum, String[][] excelData);
 
-	public YcPage<ProductDepotVO> queryProductDepotList(Map<String, Object> searchParams, int pageNumber, int pageSize,
+	public YcPage<ProductDepotVO> queryProductDepotList(ProductDepotVO conditionVO, int pageNumber, int pageSize,
 			String sortType);
 
 	public ProductDepot updateProductDepotStatus(ProductDepot cf);

@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springside.modules.persistence.SearchFilter.Operator;
-import org.springside.modules.web.Servlets;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.rpc.RpcException;
@@ -80,19 +78,15 @@ public class UserController {
 			@RequestParam(value = "isLock", defaultValue = "-1") int isLock,
 			@RequestParam(value = "status", defaultValue = "-1") int status,
 			@RequestParam(value = "createTime", defaultValue = "") String createTime,Model model, ServletRequest request){
-		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+		
 		try {
-			if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1) {
-				searchParams.put(Operator.EQ + "_" + "status", String.valueOf(status));
-			}
-			if (StringUtil.isNotBlank(String.valueOf(isLock)) && isLock != -1) {
-				searchParams.put(Operator.EQ + "_" + "isLock", String.valueOf(isLock));
-			}
-			if (StringUtil.isNotBlank(username)) {
-				username = username.trim();
-				searchParams.put(Operator.LIKE + "_" + "username", username);
-			}
-			YcPage<UserVO> page_list = userService.queryUserList(searchParams, pageNumber, pageSize, "");
+			UserVO vo = new UserVO();
+			vo.setUsername(username);
+			vo.setStatus(status);
+			vo.setIsLock(isLock);
+			vo.setCreateTime(createTime);
+
+			YcPage<UserVO> page_list = userService.queryUserList(vo, pageNumber, pageSize, "");
 
 			List<OptionVO> statusList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.COMMON_STATUS);
 			List<OptionVO> isLockList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.IS_LOCK);
