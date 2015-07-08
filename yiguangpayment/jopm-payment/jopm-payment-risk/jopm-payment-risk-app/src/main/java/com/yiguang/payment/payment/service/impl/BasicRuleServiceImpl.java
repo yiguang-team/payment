@@ -99,11 +99,11 @@ public class BasicRuleServiceImpl implements BasicRuleService
 				{
 					predicateList.add(cb.equal(root.get("merchantId").as(Long.class), vo.getMerchantId()));  
 				}
-				if (StringUtil.isNotEmpty(vo.getProvinceId()))
+				if (StringUtil.isNotEmpty(vo.getProvinceId()) && !"-1".equals(vo.getProvinceId()))
 				{
 					predicateList.add(cb.equal(root.get("provinceId").as(String.class), vo.getProvinceId().trim()));  
 				}
-				if (StringUtil.isNotEmpty(vo.getCityId()))
+				if (StringUtil.isNotEmpty(vo.getCityId()) && !"-1".equals(vo.getProvinceId()))
 				{
 					predicateList.add(cb.equal(root.get("cityId").as(String.class), vo.getCityId().trim()));  
 				}

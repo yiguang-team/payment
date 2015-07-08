@@ -343,7 +343,7 @@ public class ProductDepotServiceImpl implements ProductDepotService
 				{
 					predicateList.add(cb.equal(root.get("point").get("chargingType").as(Integer.class), vo.getPointVO().getChargingType()));  
 				}
-				if (StringUtil.isNotEmpty(vo.getPointVO().getFaceAmount().toString()))
+				if (vo.getPointVO().getFaceAmount() != null)
 				{
 					predicateList.add(cb.equal(root.get("point").get("faceAmount").as(String.class), String.valueOf(vo.getPointVO().getFaceAmount())));  
 				}

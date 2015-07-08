@@ -120,7 +120,7 @@
 												<c:when test="${fn:length(timeTypeList) > 0}">
 													<c:forEach items="${timeTypeList}" var="option">
 														<option value="${option.value}"
-															<c:if test="${option.value == basicRule.timeType}">selected="true"</c:if>>${option.text}</option>
+															<c:if test="${option.value == timeType}">selected="true"</c:if>>${option.text}</option>
 													</c:forEach>
 												</c:when>
 												<c:otherwise>
@@ -134,7 +134,7 @@
 												<c:when test="${fn:length(timeUnitList) > 0}">
 													<c:forEach items="${timeUnitList}" var="option">
 														<option value="${option.value}"
-															<c:if test="${option.value == basicRule.timeUnit}">selected="true"</c:if>>${option.text}</option>
+															<c:if test="${option.value == timeUnit}">selected="true"</c:if>>${option.text}</option>
 													</c:forEach>
 												</c:when>
 												<c:otherwise>
@@ -149,7 +149,7 @@
 												<c:when test="${fn:length(limitTypeList) > 0}">
 													<c:forEach items="${limitTypeList}" var="option">
 														<option value="${option.value}"
-															<c:if test="${option.value == basicRule.limitType}">selected="true"</c:if>>${option.text}</option>
+															<c:if test="${option.value == limitType}">selected="true"</c:if>>${option.text}</option>
 													</c:forEach>
 												</c:when>
 												<c:otherwise>
@@ -167,7 +167,7 @@
 											<c:when test="${fn:length(actionList) > 0}">
 												<c:forEach items="${actionList}" var="option">
 													<option value="${option.value}"
-														<c:if test="${option.value == basicRule.action}">selected="true"</c:if>>${option.text}</option>
+														<c:if test="${option.value == action}">selected="true"</c:if>>${option.text}</option>
 												</c:forEach>
 											</c:when>
 											<c:otherwise>
