@@ -252,6 +252,7 @@ public class RiskServiceImpl implements RiskService
 				int MONTH = CommonConstant.TimeUnit.MONTH;
 				int DAY = CommonConstant.TimeUnit.DAY;
 				int HOUR = CommonConstant.TimeUnit.HOUR;
+				int MINUTE = CommonConstant.TimeUnit.MINUTE;
 				Calendar calendar = Calendar.getInstance();
 
 				int yyyy = calendar.get(Calendar.YEAR);
@@ -264,6 +265,14 @@ public class RiskServiceImpl implements RiskService
 					int temp = 0;
 					String startDate = null;
 					String endDate = null;
+					if (br.getTimeUnit() == MINUTE)
+					{
+						temp = HH;
+						calendar.set(yyyy, MM, dd, HH, 0, 0);
+						startDate = DATE_FORMAT.format(calendar.getTime());
+						calendar.add(Calendar.MINUTE, 1);
+						endDate = DATE_FORMAT.format(calendar.getTime());
+					}
 					if (br.getTimeUnit() == HOUR)
 					{
 						temp = HH;
@@ -317,6 +326,10 @@ public class RiskServiceImpl implements RiskService
 				{
 					int relativeValue = Integer.parseInt(String.valueOf(br.getRelativeValue()));
 					int relativeUnit = br.getRelativeUnit();
+					if (relativeUnit == MINUTE)
+					{
+						calendar.add(Calendar.MINUTE, (0 - relativeValue));
+					}
 					if (relativeUnit == HOUR)
 					{
 						calendar.add(Calendar.HOUR_OF_DAY, (0 - relativeValue));

@@ -162,13 +162,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			</c:otherwise>
 																		</c:choose>
 																	</select>
-																	
+															<!-- 		
 																	<input type="text" id="startUnit" name="startUnit" length="20"
 																		
 																		<c:if test="${basicRule.startUnit != null}">value="${basicRule.startUnit}"</c:if> />
 																	<input type="text" id="endUnit" name="endUnit"  length="20"
 																		
 																		<c:if test="${basicRule.endUnit != null}">value="${basicRule.endUnit}"</c:if> />
+															 -->
 																</div>
 															</div>
 														</div><div class="form-group"  id="timeAroundDiv">
