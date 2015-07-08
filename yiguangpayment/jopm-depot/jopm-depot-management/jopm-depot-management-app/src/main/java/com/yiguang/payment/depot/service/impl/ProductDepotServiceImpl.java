@@ -325,26 +325,27 @@ public class ProductDepotServiceImpl implements ProductDepotService
 				List<Predicate> predicateList = new ArrayList<Predicate>();
 				if (vo.getPointVO().getMerchantId() != -1)
 				{
-					predicateList.add(cb.equal(root.get("point.merchantId").as(Integer.class), vo.getPointVO().getMerchantId()));  
+					predicateList.add(cb.equal(root.get("point").get("merchantId").as(Integer.class), vo.getPointVO().getMerchantId()));  
 				}
 				if (vo.getPointVO().getProductId() != -1)
 				{
-					predicateList.add(cb.equal(root.get("point.productId").as(Integer.class), vo.getPointVO().getProductId()));  
+					predicateList.add(cb.equal(root.get("point").get("productId").as(Integer.class), vo.getPointVO().getProductId()));  
 				}
 				if (StringUtil.isNotEmpty(vo.getPointVO().getProvinceId()))
 				{							
-					predicateList.add(cb.equal(root.get("point.provinceId").as(String.class), vo.getPointVO().getProvinceId()));  
+					predicateList.add(cb.equal(root.get("point").get("provinceId").as(String.class), vo.getPointVO().getProvinceId()));  
 				}		
 				if (StringUtil.isNotEmpty(vo.getPointVO().getCityId()))
 				{
-					predicateList.add(cb.equal(root.get("point.cityId").as(String.class), vo.getPointVO().getCityId()));  
+					predicateList.add(cb.equal(root.get("point").get("cityId").as(String.class), vo.getPointVO().getCityId()));  
 				}
-				
-				predicateList.add(cb.equal(root.get("point.chargingType").as(int.class), CommonConstant.CHARGING_TYPE.CARD));  
-				
+				if (vo.getPointVO().getChargingType() != -1)
+				{
+					predicateList.add(cb.equal(root.get("point").get("chargingType").as(Integer.class), vo.getPointVO().getChargingType()));  
+				}
 				if (StringUtil.isNotEmpty(vo.getPointVO().getFaceAmount().toString()))
 				{
-					predicateList.add(cb.equal(root.get("point.faceAmount").as(String.class), String.valueOf(vo.getPointVO().getFaceAmount())));  
+					predicateList.add(cb.equal(root.get("point").get("faceAmount").as(String.class), String.valueOf(vo.getPointVO().getFaceAmount())));  
 				}
 				if (vo.getStatus() != -1)
 				{
