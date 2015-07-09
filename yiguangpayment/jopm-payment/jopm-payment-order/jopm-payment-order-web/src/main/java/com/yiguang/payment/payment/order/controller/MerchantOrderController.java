@@ -1,12 +1,19 @@
 package com.yiguang.payment.payment.order.controller;
 
+import java.io.OutputStream;
 import java.security.interfaces.RSAPublicKey;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +33,7 @@ import com.yiguang.payment.common.security.service.SecurityKeystoreService;
 import com.yiguang.payment.common.utils.StringUtil;
 import com.yiguang.payment.depot.order.service.DepotOrderService;
 import com.yiguang.payment.depot.vo.CardAndPwdVO;
+import com.yiguang.payment.merchantOperate.service.MerchantOperateService;
 import com.yiguang.payment.payment.order.entity.MerchantOrder;
 import com.yiguang.payment.payment.order.service.MerchantOrderService;
 import com.yiguang.payment.payment.order.vo.MerchantOrderVO;
@@ -50,7 +58,8 @@ public class MerchantOrderController
 	private DepotOrderService depotOrderService;
 	@Autowired
 	DataSourceService dataSourceService;
-
+	@Autowired
+	private MerchantOperateService merchantOperateService;
 	private static final String PAGE_SIZE = "10";
 
 	private static Logger logger = LoggerFactory.getLogger(MerchantOrderController.class);
@@ -215,5 +224,64 @@ public class MerchantOrderController
 			logger.error(e.getLocalizedMessage(), e);
 			return "error/500";
 		}
+	}
+	
+	
+	/*
+	 * 导出excel表
+	 */
+	@RequestMapping(value = "/excel")
+	public void exportExcel(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		
+		try{
+			String orderId = request.getParameter("orderId");
+			String payAmount = request.getParameter("payAmount");
+			String mobile = request.getParameter("mobile");
+			String beginDate = request.getParameter("beginDate");
+			String username = request.getParameter("username");
+			String provinceId = request.getParameter("provinceId");
+			String endDate = request.getParameter("endDate");
+			List<MerchantOrderVO> list = 
+					merchantOperateService.getOrderList(orderId, mobile, payAmount, provinceId, username, beginDate, endDate);
+			logger.debug("[MerchantOperateServiceImpl: getOrderList list= (" + list.toString()
+					+ ")]");
+			HSSFWorkbook wb = export(list);
+			response.setContentType("application/vnd.ms-excel;charset=utf-8");
+			response.setHeader("Content-disposition", "attachment;filename=order.xls");
+			OutputStream ouputStream = response.getOutputStream();
+			wb.write(ouputStream);
+			ouputStream.flush();
+			ouputStream.close();
+		}catch (Exception e)
+		{
+			logger.error(e.getLocalizedMessage(), e);
+		}
+	}
+	
+	public HSSFWorkbook export(List<MerchantOrderVO> list)
+	{
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("号码充值金额");
+		HSSFRow row = sheet.createRow((int) 0);
+		HSSFCellStyle style = wb.createCellStyle();
+		for (int i = 0; i < list.size(); i++)
+		{
+			row = sheet.createRow(i);
+			MerchantOrderVO mat = list.get(i);
+			row.createCell(0).setCellValue(mat.getOrderId());
+			row.createCell(1).setCellValue(mat.getMobile());
+			row.createCell(2).setCellValue(mat.getPayAmount().doubleValue());
+			if(StringUtil.isNotBlank(mat.getUsername()))
+			{
+				row.createCell(3).setCellValue(mat.getUsername());
+			}
+			else
+			{
+				row.createCell(3).setCellValue("----------------");
+			}
+			row.createCell(4).setCellValue(mat.getRequestTime());
+		}
+		return wb;
 	}
 }

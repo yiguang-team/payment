@@ -317,7 +317,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</select> <span class="labeltxt fl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									<div class="btns">
 										<input type="submit" class="btn btn-primary btn-sm no-border"
-											value="查询" />
+											value="查询" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<input
+											class="btn btn-sm btn-primary no-border" type="button"
+												value="根据条件导出订单" onClick="exportExcel()" />
 									</div>
 								</div>
 							</div>
@@ -663,6 +666,17 @@ function delivery(orderId){
 				});
 			}
 		});
+}
+
+function exportExcel() {
+	var mobile =  $('#mobile').val();
+	var orderId =  $('#orderId').val();
+	var payAmount =  $('#payAmount').val();
+	var username =  $('#username').val();
+	var provinceId =  $('#provinceId').val();
+	var beginDate =  $('#beginDate').val();
+	var endDate =  $('#endDate').val();
+	location.href= '${ctx}/mall/order/excel?mobile='+mobile+'&beginDate=' + beginDate+'&endDate=' + endDate+'&orderId=' + orderId+'&payAmount=' + payAmount+'&username=' + username+'&provinceId=' + provinceId;
 }
 </script>
 </html>

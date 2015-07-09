@@ -29,10 +29,12 @@ import com.yiguang.payment.business.product.entity.Point;
 import com.yiguang.payment.business.product.service.PointService;
 import com.yiguang.payment.common.RestConst;
 import com.yiguang.payment.common.security.MD5Util;
+import com.yiguang.payment.common.utils.StringUtil;
 import com.yiguang.payment.merchantOperate.entity.MobileAndTotal;
 import com.yiguang.payment.merchantOperate.service.MerchantOperateService;
 import com.yiguang.payment.payment.entity.Merchant;
 import com.yiguang.payment.payment.order.service.ParameterValidateService;
+import com.yiguang.payment.payment.order.vo.MerchantOrderVO;
 import com.yiguang.payment.payment.service.MerchantService;
 import com.yiguang.payment.rbac.service.UserService;
 
@@ -139,6 +141,61 @@ public class MerchantOperateServiceImpl implements MerchantOperateService {
 		return total;
 	}
 
+	@Override
+	public List<MerchantOrderVO> getOrderList(String orderId,String mobile,String payAmount,String provinceId,
+											String username,String beginDate,String endDate) {
+		logger.debug("[MerchantOperateServiceImpl: getOrderList(" + orderId
+				+ " , " + mobile + ", " + payAmount + ", " + username + ","+beginDate+","+endDate+","+provinceId+")] start");
+		String condition = StringUtil.initString();
+		if (StringUtil.isNotBlank(orderId))
+		{
+			condition = condition + " and order_id like '%" + orderId + "%'";
+		}
+		if (StringUtil.isNotBlank(username))
+		{
+			condition = condition + " and username like '%" + username + "%'";
+		}
+		if (StringUtil.isNotBlank(mobile))
+		{
+			condition = condition + " and mobile like '%" + mobile + "%'";
+		}
+		if (StringUtil.isNotBlank(provinceId) && !"-1".equals(provinceId))
+		{
+			condition = condition + " and province_id = '" + provinceId + "'";
+		}
+		if (StringUtil.isNotBlank(beginDate))
+		{
+			condition = condition + " and request_time >= to_date('" + beginDate + "','yyyy-mm-dd hh24:mi:ss')";
+		}
+		if (StringUtil.isNotBlank(endDate))
+		{
+			condition = condition + " and request_time <= to_date('" + endDate + "','yyyy-mm-dd hh24:mi:ss')";
+		}
+		String sql = "select request_time,order_id,mobile,pay_amount/100,username from t_merchant_order where PAY_STATUS = '0'"+condition;
+	
+		logger.debug("[MerchantOperateServiceImpl: getListMAT sql= (" + sql
+				+ ")]");
+		List<Map<String,Object>> resultList = jdbcTemplate.queryForList(sql);
+		logger.debug("[MerchantOperateServiceImpl: getListMAT sql= (" + resultList.toString()
+				+ ")]");
+		List<MerchantOrderVO> list = new ArrayList<MerchantOrderVO>();
+		if(resultList != null){
+			for (Map<String,Object> map : resultList)
+			{
+				MerchantOrderVO vo = new MerchantOrderVO();
+				vo.setRequestTime(String.valueOf(map.get("request_time")));
+				vo.setOrderId(String.valueOf(map.get("order_id")));
+				vo.setMobile(String.valueOf(map.get("mobile")));
+				vo.setPayAmount((BigDecimal) map.get("pay_amount/100"));
+				vo.setUsername(String.valueOf(map.get("username")));
+				list.add(vo);
+			}
+			logger.debug("[MerchantOperateServiceImpl: getOrderList(" + orderId
+				+ " , " + mobile + ", " + payAmount + ", " + username + ","+beginDate+","+endDate+","+provinceId+")] end");
+		}
+		return list;
+	}
+	
 	@Override
 	public List<MobileAndTotal> getListMAT(String merchantId,String beginDate,String endDate) {
 		logger.debug("[MerchantOperateServiceImpl: getListMAT(" + merchantId
