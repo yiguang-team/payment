@@ -51,7 +51,7 @@ public class OperationLogServiceImpl implements OperationLogService
 				List<Predicate> predicateList = new ArrayList<Predicate>();
 				if (vo.getOperationType() != -1)
 				{
-					predicateList.add(cb.equal(root.get("operation_type").as(Integer.class), vo.getOperationIp()));  
+					predicateList.add(cb.equal(root.get("operationType").as(Integer.class), vo.getOperationType()));  
 				}
 				
 				if (StringUtil.isNotEmpty(vo.getUsername()))
