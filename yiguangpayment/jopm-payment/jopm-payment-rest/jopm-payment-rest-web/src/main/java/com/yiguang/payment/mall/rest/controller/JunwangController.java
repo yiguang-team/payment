@@ -59,9 +59,6 @@ import com.yiguang.payment.payment.order.entity.MerchantOrder;
 import com.yiguang.payment.payment.order.service.MerchantOrderService;
 import com.yiguang.payment.payment.order.vo.MerchantOrderVO;
 import com.yiguang.payment.payment.rest.service.CheckRiskService;
-import com.yiguang.payment.payment.risk.service.RiskService;
-import com.yiguang.payment.payment.service.ChannelMerchantRelationService;
-import com.yiguang.payment.payment.service.ChannelService;
 import com.yiguang.payment.payment.service.MerchantService;
 
 /*
@@ -77,15 +74,9 @@ public class JunwangController
 	@Autowired
 	HttpSession session;
 	@Autowired
-	private ChannelService channelService;
-	@Autowired
-	private RiskService riskService;
-	@Autowired
 	private DataSourceService dataSourceService;
 	@Autowired
 	private CheckNumSectionService checkNumSectionService;
-	@Autowired
-	private ChannelMerchantRelationService ChannelMerchantRelationService;
 	@Autowired
 	private PointChannelRelationService pointChannelRelationService;
 	@Autowired

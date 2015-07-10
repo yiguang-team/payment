@@ -35,8 +35,6 @@ import com.yiguang.payment.merchantOperate.service.MerchantOperateService;
 import com.yiguang.payment.payment.entity.Merchant;
 import com.yiguang.payment.payment.order.service.ParameterValidateService;
 import com.yiguang.payment.payment.order.vo.MerchantOrderVO;
-import com.yiguang.payment.payment.service.MerchantService;
-import com.yiguang.payment.rbac.service.UserService;
 
 @Service(value = "merchantOperateService")
 public class MerchantOperateServiceImpl implements MerchantOperateService {
@@ -47,10 +45,6 @@ public class MerchantOperateServiceImpl implements MerchantOperateService {
 	private EntityManager em;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private MerchantService merchantService;
 	@Autowired
 	private PointService pointService;
 	@Autowired

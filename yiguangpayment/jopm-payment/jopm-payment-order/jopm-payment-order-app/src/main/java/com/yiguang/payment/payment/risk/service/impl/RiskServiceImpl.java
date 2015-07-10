@@ -27,7 +27,6 @@ import com.yiguang.payment.payment.entity.BasicRule;
 import com.yiguang.payment.payment.entity.BlackList;
 import com.yiguang.payment.payment.entity.MerchantRejection;
 import com.yiguang.payment.payment.entity.WhiteList;
-import com.yiguang.payment.payment.order.service.ParameterValidateService;
 import com.yiguang.payment.payment.risk.service.RiskService;
 import com.yiguang.payment.payment.service.BasicRuleService;
 import com.yiguang.payment.payment.service.BlackListService;
@@ -47,8 +46,6 @@ public class RiskServiceImpl implements RiskService
 	private CheckNumSectionService checkNumSectionService;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	@Autowired
-	private ParameterValidateService parameterValidateService;
 	@Autowired
 	private MerchantRejectionService merchantRejectionService;
 	@Autowired

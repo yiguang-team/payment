@@ -103,7 +103,7 @@ public class BasicRuleServiceImpl implements BasicRuleService
 				{
 					predicateList.add(cb.equal(root.get("provinceId").as(String.class), vo.getProvinceId().trim()));  
 				}
-				if (StringUtil.isNotEmpty(vo.getCityId()) && !"-1".equals(vo.getProvinceId()))
+				if (StringUtil.isNotEmpty(vo.getCityId()) && !"-1".equals(vo.getCityId()))
 				{
 					predicateList.add(cb.equal(root.get("cityId").as(String.class), vo.getCityId().trim()));  
 				}

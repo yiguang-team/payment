@@ -119,7 +119,7 @@ public class MerchantRejectionController
 
 		return json;
 	}
-
+	
 	@RequestMapping(method = RequestMethod.POST, value = "/updateMerchantRejection")
 	public @ResponseBody
 	String updateMerchantRejection(MerchantRejection merchantRejection, ModelMap model)

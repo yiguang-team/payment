@@ -788,8 +788,8 @@ function updateMerchantRejectionStatus(status,id){
 					data:{
 							id:id,
 							status:status
-						 },
-					url : "${ctx}/payment/risk/merchantRejection/updateMerchantRejectionStatus",
+						 },					 
+					url : "${ctx}/payment/risk/merchantRejection/updateMerchantRejection",
 					type:'post',
 					cache:false,
 					async:true,
@@ -828,7 +828,7 @@ function deleteMerchantRejection(merchantRejectionId){
 			if(result) {
 				$.ajax({  
 					data:{
-							id:merchantRejection
+							id:merchantRejectionId
 						 },
 					url : "${ctx}/payment/risk/merchantRejection/deleteMerchantRejection",
 					type:'post',

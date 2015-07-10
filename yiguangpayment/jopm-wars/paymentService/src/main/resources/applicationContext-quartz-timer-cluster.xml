@@ -46,4 +46,5 @@
 		<property name="productOrderPendingQueryScanner" ref="productOrderPendingQueryScanner"></property>
 	</bean>
 	<!-- 清理超时未支付的商品订单 end -->
+	
 </beans>

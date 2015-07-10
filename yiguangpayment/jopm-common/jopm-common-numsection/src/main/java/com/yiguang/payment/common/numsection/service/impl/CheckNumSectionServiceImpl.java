@@ -23,7 +23,6 @@ import com.yiguang.payment.common.numsection.entity.City;
 import com.yiguang.payment.common.numsection.entity.NumSection;
 import com.yiguang.payment.common.numsection.entity.Province;
 import com.yiguang.payment.common.numsection.repository.CarrierInfoDao;
-import com.yiguang.payment.common.numsection.service.CarrierInfoService;
 import com.yiguang.payment.common.numsection.service.CheckNumSectionService;
 import com.yiguang.payment.common.numsection.service.CityService;
 import com.yiguang.payment.common.numsection.service.NumSectionService;
@@ -46,9 +45,6 @@ public class CheckNumSectionServiceImpl implements CheckNumSectionService
 	
 	@Autowired
 	private CarrierInfoDao carrierInfoDao;
-
-	@Autowired
-	private CarrierInfoService carrierInfoService;
 
 	private static Logger logger = LoggerFactory.getLogger(CheckNumSectionServiceImpl.class);
 

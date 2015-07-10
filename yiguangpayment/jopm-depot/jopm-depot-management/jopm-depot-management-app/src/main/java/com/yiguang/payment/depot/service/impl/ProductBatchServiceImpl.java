@@ -63,11 +63,11 @@ public class ProductBatchServiceImpl implements ProductBatchService
 				List<Predicate> predicateList = new ArrayList<Predicate>();
 				if (vo.getMerchantId() != -1)
 				{
-					predicateList.add(cb.equal(root.get("merchant_id").as(Integer.class), vo.getMerchantId()));  
+					predicateList.add(cb.equal(root.get("merchantId").as(Integer.class), vo.getMerchantId()));  
 				}
 				if (vo.getProductId() != -1)
 				{
-					predicateList.add(cb.equal(root.get("product_id").as(Integer.class), vo.getProductId()));  
+					predicateList.add(cb.equal(root.get("productId").as(Integer.class), vo.getProductId()));  
 				}
 				if (vo.getStatus() != -1)
 				{
@@ -75,7 +75,7 @@ public class ProductBatchServiceImpl implements ProductBatchService
 				}
 				if (StringUtil.isNotEmpty(vo.getBatchId()))
 				{
-					predicateList.add(cb.equal(root.get("batch_id").as(String.class), vo.getBatchId().trim()));  
+					predicateList.add(cb.equal(root.get("batchId").as(String.class), vo.getBatchId().trim()));  
 				}
 				
 				Predicate[] p = new Predicate[predicateList.size()];  

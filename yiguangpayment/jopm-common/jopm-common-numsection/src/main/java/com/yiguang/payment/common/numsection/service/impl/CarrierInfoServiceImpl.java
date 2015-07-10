@@ -61,7 +61,7 @@ public class CarrierInfoServiceImpl implements CarrierInfoService
 				List<Predicate> predicateList = new ArrayList<Predicate>();
 				if (vo.getCarrierType() != -1)
 				{
-					predicateList.add(cb.equal(root.get("carrier_type").as(Integer.class), vo.getCarrierType()));  
+					predicateList.add(cb.equal(root.get("carrierType").as(Integer.class), vo.getCarrierType()));  
 				}
 				
 				if (vo.getStatus() != -1)
@@ -71,11 +71,11 @@ public class CarrierInfoServiceImpl implements CarrierInfoService
 				
 				if (StringUtil.isNotEmpty(vo.getCarrierName()))
 				{
-					predicateList.add(cb.equal(root.get("carrier_name").as(String.class), vo.getCarrierName().trim()));  
+					predicateList.add(cb.equal(root.get("carrierName").as(String.class), vo.getCarrierName().trim()));  
 				}
 				if (StringUtil.isNotEmpty(vo.getCarrierNo()))
 				{
-					predicateList.add(cb.equal(root.get("carrier_no").as(String.class), vo.getCarrierNo().trim()));  
+					predicateList.add(cb.equal(root.get("carrierNo").as(String.class), vo.getCarrierNo().trim()));  
 				}
 				
 				Predicate[] p = new Predicate[predicateList.size()];  

@@ -22,12 +22,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.rpc.RpcException;
 import com.yiguang.payment.business.product.entity.Point;
-import com.yiguang.payment.business.product.service.PointChannelRelationService;
 import com.yiguang.payment.common.CommonConstant;
 import com.yiguang.payment.common.IpTool;
 import com.yiguang.payment.common.JsonTool;
 import com.yiguang.payment.common.RestConst;
-import com.yiguang.payment.common.errorcode.service.ErrorCodeService;
 import com.yiguang.payment.common.exception.ErrorCodeConst;
 import com.yiguang.payment.common.message.MessageResolver;
 import com.yiguang.payment.common.numsection.entity.NumSection;
@@ -41,9 +39,6 @@ import com.yiguang.payment.payment.rest.entity.RestResult;
 import com.yiguang.payment.payment.rest.service.CheckRiskService;
 import com.yiguang.payment.payment.rest.service.SmsAgentPaymentService;
 import com.yiguang.payment.payment.rest.service.SmsVerifyPaymentService;
-import com.yiguang.payment.payment.risk.service.RiskService;
-import com.yiguang.payment.payment.service.ChannelMerchantRelationService;
-import com.yiguang.payment.payment.service.ChannelService;
 
 @Controller
 @RequestMapping(value = "/payment/api/1.0/")
@@ -52,18 +47,7 @@ public class PaymentAPIControllerV1
 	private static final long CHANNEL_WO_PLUS = 1;
 	private static final long CHANNEL_WO_IREAD = 2;
 	private static final long CHANNEL_YI_BEST_PAY = 3;
-	
-	
-	@Autowired
-	private ErrorCodeService errorCodeService;
-	@Autowired
-	private ChannelService channelService;
-	@Autowired
-	private ChannelMerchantRelationService ChannelMerchantRelationService;
-	@Autowired
-	private PointChannelRelationService pointChannelRelationService;
-	@Autowired
-	private RiskService riskService;
+
 	@Autowired
 	private CheckRiskService checkRiskService;
 	@Autowired

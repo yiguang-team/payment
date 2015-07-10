@@ -35,13 +35,11 @@ import com.yiguang.payment.common.utils.Encrypt;
 import com.yiguang.payment.common.utils.HttpRequest;
 import com.yiguang.payment.payment.order.entity.MerchantOrder;
 import com.yiguang.payment.payment.order.service.MerchantOrderService;
-import com.yiguang.payment.payment.order.service.ParameterValidateService;
 import com.yiguang.payment.payment.rest.entity.RestResult;
 import com.yiguang.payment.payment.rest.service.DeliveryService;
 import com.yiguang.payment.payment.rest.service.NotifyService;
 import com.yiguang.payment.payment.rest.service.SmsAgentPaymentService;
 import com.yiguang.payment.payment.rest.service.SmsVerifyPaymentService;
-import com.yiguang.payment.payment.risk.service.RiskService;
 
 @Service("woPlusPaymentService")
 @Transactional
@@ -112,14 +110,12 @@ public class WoPlusPaymentServiceImpl implements SmsVerifyPaymentService, SmsAge
 		}
 	}
 
-	@Autowired
-	private ParameterValidateService parameterValidateService;
+	
 	@Autowired
 	private DeliveryService deliveryService;
 	@Autowired
 	private NotifyService notifyService;
-	@Autowired
-	private RiskService riskService;
+	
 	@Autowired
 	private MerchantOrderService merchantOrderService;
 
