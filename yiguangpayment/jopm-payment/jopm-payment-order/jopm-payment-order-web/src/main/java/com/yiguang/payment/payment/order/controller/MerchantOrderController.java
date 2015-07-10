@@ -272,13 +272,13 @@ public class MerchantOrderController
 			row.createCell(0).setCellValue(mat.getOrderId());
 			row.createCell(1).setCellValue(mat.getMobile());
 			row.createCell(2).setCellValue(mat.getPayAmount().doubleValue());
-			if(StringUtil.isNotBlank(mat.getUsername()))
+			if(StringUtil.isNotBlank(mat.getUsername()) && !"null".equals(mat.getUsername()))
 			{
 				row.createCell(3).setCellValue(mat.getUsername());
 			}
 			else
 			{
-				row.createCell(3).setCellValue("----------------");
+				row.createCell(3).setCellValue("--------------------");
 			}
 			row.createCell(4).setCellValue(mat.getRequestTime());
 		}
