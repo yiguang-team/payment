@@ -136,14 +136,20 @@ public class MerchantOperateServiceImpl implements MerchantOperateService {
 	}
 
 	@Override
-	public List<MerchantOrderVO> getOrderList(String orderId,String mobile,String payAmount,String provinceId,
-											String username,String beginDate,String endDate) {
+	public List<MerchantOrderVO> getOrderList(String orderId, String merchantOrderId, String mobile, String beginDate,
+			String username, String provinceId, String endDate, String channelId, String carrierId, String merchantId,
+			String cityId, String productId, String payStatus, String deliveryStatus, String chargingPointId,
+			String chargingType, String channelType, String notifyStatus) {
 		logger.debug("[MerchantOperateServiceImpl: getOrderList(" + orderId
-				+ " , " + mobile + ", " + payAmount + ", " + username + ","+beginDate+","+endDate+","+provinceId+")] start");
+				+ " , " + mobile + "," + username + ","+beginDate+","+endDate+","+provinceId+")] start");
 		String condition = StringUtil.initString();
 		if (StringUtil.isNotBlank(orderId))
 		{
 			condition = condition + " and order_id like '%" + orderId + "%'";
+		}
+		if (StringUtil.isNotBlank(merchantOrderId))
+		{
+			condition = condition + " and merchant_order_id like '%" + merchantOrderId + "%'";
 		}
 		if (StringUtil.isNotBlank(username))
 		{
@@ -165,7 +171,52 @@ public class MerchantOperateServiceImpl implements MerchantOperateService {
 		{
 			condition = condition + " and request_time <= to_date('" + endDate + "','yyyy-mm-dd hh24:mi:ss')";
 		}
-		String sql = "select request_time,order_id,mobile,pay_amount/100,username from t_merchant_order where PAY_STATUS = '0'"+condition;
+		if (StringUtil.isNotBlank(channelId) && !"-1".equals(channelId))
+		{
+			condition = condition + " and channel_id = '" + channelId + "'";
+		}
+		if (StringUtil.isNotBlank(carrierId) && !"-1".equals(carrierId))
+		{
+			condition = condition + " and carrier_id = '" + carrierId + "'";
+		}
+		if (StringUtil.isNotBlank(merchantId) && !"-1".equals(merchantId))
+		{
+			condition = condition + " and merchant_id = '" + merchantId + "'";
+		}
+		if (StringUtil.isNotBlank(cityId) && !"-1".equals(cityId))
+		{
+			condition = condition + " and city_id = '" + cityId + "'";
+		}
+		if (StringUtil.isNotBlank(productId) && !"-1".equals(productId))
+		{
+			condition = condition + " and product_id = '" + productId + "'";
+		}
+		if (StringUtil.isNotBlank(payStatus) && !"-1".equals(payStatus))
+		{
+			condition = condition + " and pay_status = '" + payStatus + "'";
+		}
+		if (StringUtil.isNotBlank(deliveryStatus) && !"-1".equals(deliveryStatus))
+		{
+			condition = condition + " and delivery_status = '" + deliveryStatus + "'";
+		}
+		if (StringUtil.isNotBlank(chargingPointId) && !"-1".equals(chargingPointId))
+		{
+			condition = condition + " and charging_point_id = '" + chargingPointId + "'";
+		}
+		if (StringUtil.isNotBlank(chargingType) && !"-1".equals(chargingType))
+		{
+			condition = condition + " and charging_type = '" + chargingType + "'";
+		}
+		if (StringUtil.isNotBlank(channelType) && !"-1".equals(channelType))
+		{
+			condition = condition + " and channel_type = '" + channelType + "'";
+		}
+		if (StringUtil.isNotBlank(notifyStatus) && !"-1".equals(notifyStatus))
+		{
+			condition = condition + " and notify_status = '" + notifyStatus + "'";
+		}
+		
+		String sql = "select request_time,order_id,mobile,pay_amount/100,username from t_merchant_order where 1=1"+condition;
 	
 		logger.debug("[MerchantOperateServiceImpl: getListMAT sql= (" + sql
 				+ ")]");
@@ -185,7 +236,7 @@ public class MerchantOperateServiceImpl implements MerchantOperateService {
 				list.add(vo);
 			}
 			logger.debug("[MerchantOperateServiceImpl: getOrderList(" + orderId
-				+ " , " + mobile + ", " + payAmount + ", " + username + ","+beginDate+","+endDate+","+provinceId+")] end");
+				+ " , " + mobile + ", " + username + ","+beginDate+","+endDate+","+provinceId+")] end");
 		}
 		return list;
 	}

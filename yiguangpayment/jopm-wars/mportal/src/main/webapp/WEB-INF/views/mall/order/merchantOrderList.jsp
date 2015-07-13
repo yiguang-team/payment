@@ -671,12 +671,24 @@ function delivery(orderId){
 function exportExcel() {
 	var mobile =  $('#mobile').val();
 	var orderId =  $('#orderId').val();
-	var payAmount =  $('#payAmount').val();
 	var username =  $('#username').val();
 	var provinceId =  $('#provinceId').val();
 	var beginDate =  $('#beginDate').val();
 	var endDate =  $('#endDate').val();
-	location.href= '${ctx}/mall/order/excel?mobile='+mobile+'&beginDate=' + beginDate+'&endDate=' + endDate+'&orderId=' + orderId+'&payAmount=' + payAmount+'&username=' + username+'&provinceId=' + provinceId;
+	var merchantOrderId =  $('#merchantOrderId').val();
+	var channelId =  $('#channelId').val();
+	var carrierId =  $('#carrierId').val();
+	var merchantId =  $('#merchantId').val();
+	var cityId =  $('#cityId').val();
+	var productId =  $('#productId').val();
+	var payStatus =  $('#payStatus').val();
+	var deliveryStatus =  $('#deliveryStatus').val();
+	var chargingPointId =  $('#chargingPointId').val();
+	var chargingType =  $('#chargingType').val();
+	var channelType =  $('#channelType').val();
+	var notifyStatus =  $('#notifyStatus').val();
+	
+	location.href= '${ctx}/mall/order/excel?mobile='+mobile+'&beginDate=' + beginDate+'&endDate=' + endDate+'&orderId=' + orderId+'&username=' + username+'&provinceId=' + provinceId+'&merchantOrderId=' + merchantOrderId+'&channelId=' + channelId+'&carrierId=' + carrierId+'&merchantId=' + merchantId+'&cityId=' + cityId+'&productId=' + productId+'&payStatus=' + payStatus+'&deliveryStatus=' + deliveryStatus+'&chargingPointId=' + chargingPointId+'&chargingType=' + chargingType+'&channelType=' + channelType+'&notifyStatus=' + notifyStatus;
 }
 </script>
 </html>

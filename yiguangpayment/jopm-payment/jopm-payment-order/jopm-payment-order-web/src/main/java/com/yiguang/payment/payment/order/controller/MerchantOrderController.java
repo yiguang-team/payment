@@ -236,14 +236,27 @@ public class MerchantOrderController
 		
 		try{
 			String orderId = request.getParameter("orderId");
-			String payAmount = request.getParameter("payAmount");
+			String merchantOrderId = request.getParameter("merchantOrderId");
 			String mobile = request.getParameter("mobile");
 			String beginDate = request.getParameter("beginDate");
 			String username = request.getParameter("username");
 			String provinceId = request.getParameter("provinceId");
 			String endDate = request.getParameter("endDate");
+			String channelId = request.getParameter("channelId");
+			String carrierId = request.getParameter("carrierId");
+			String merchantId = request.getParameter("merchantId");
+			String cityId = request.getParameter("cityId");
+			String productId = request.getParameter("productId");
+			String payStatus = request.getParameter("payStatus");
+			String deliveryStatus = request.getParameter("deliveryStatus");
+			String chargingPointId = request.getParameter("chargingPointId");
+			String chargingType = request.getParameter("chargingType");
+			String channelType = request.getParameter("channelType");
+			String notifyStatus = request.getParameter("notifyStatus");
+			
 			List<MerchantOrderVO> list = 
-					merchantOperateService.getOrderList(orderId, mobile, payAmount, provinceId, username, beginDate, endDate);
+					merchantOperateService.getOrderList(orderId, merchantOrderId,mobile, beginDate, username, provinceId,endDate,channelId,carrierId,merchantId,
+							cityId,productId,payStatus,deliveryStatus,chargingPointId,chargingType,channelType,notifyStatus);
 			logger.debug("[MerchantOperateServiceImpl: getOrderList list= (" + list.toString()
 					+ ")]");
 			HSSFWorkbook wb = export(list);

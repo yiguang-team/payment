@@ -72,8 +72,8 @@ public class PointServiceImpl implements PointService
 			{
 				sortType = "id";
 			}
-			String insidesql = "select o.*,rownum rn from (select distinct(p.id),p.name,p.merchant_id,p.status,p.product_id,p.province_id,p.city_id,p.remark,p.face_amount,p.pay_amount,p.delivery_amount ,p.charging_type,p.charging_code, r.channel_id from t_product_charging_point p,T_POINT_CHANNEL_RELATION r where r.point_id (+)= p.id order by "
-					+ sortType + " desc) o where 1=1  ";
+			String insidesql = "select p.*,rownum rn from (select distinct(p.id),p.name,p.merchant_id,p.status,p.product_id,p.province_id,p.city_id,p.remark,p.face_amount,p.pay_amount,p.delivery_amount ,p.charging_type,p.charging_code, r.channel_id from t_product_charging_point p,T_POINT_CHANNEL_RELATION r where r.point_id (+)= p.id order by "
+					+ sortType + " desc) p where 1=1  ";
 			if (endIndex > 0)
 			{
 				insidesql = insidesql + " and rownum <= " + endIndex;
@@ -81,35 +81,35 @@ public class PointServiceImpl implements PointService
 			String condition = StringUtil.initString();
 			if (StringUtil.isNotBlank(name))
 			{
-				condition = condition + " and name = '" + name + "'";
+				condition = condition + " and p.name = '" + name + "'";
 			}
 			if (StringUtil.isNotBlank(provinceId) && !"-1".equals(provinceId))
 			{
-				condition = condition + " and province_Id = '" + provinceId + "'";
+				condition = condition + " and p.province_Id = '" + provinceId + "'";
 			}
 			if (StringUtil.isNotBlank(cityId) && !"-1".equals(cityId))
 			{
-				condition = condition + " and city_Id = '" + cityId + "'";
+				condition = condition + " and p.city_Id = '" + cityId + "'";
 			}
 			if (StringUtil.isNotBlank(String.valueOf(channelId)) && channelId != -1)
 			{
-				condition = condition + " and channel_Id = " + channelId;
+				condition = condition + " and p.channel_Id = " + channelId;
 			}
 			if (StringUtil.isNotBlank(String.valueOf(merchantId)) && merchantId != -1)
 			{
-				condition = condition + " and merchant_id = " + merchantId;
+				condition = condition + " and p.merchant_id = " + merchantId;
 			}
 			if (StringUtil.isNotBlank(String.valueOf(productId)) && productId != -1)
 			{
-				condition = condition + " and product_Id = " + productId;
+				condition = condition + " and p.product_Id = " + productId;
 			}
 			if (StringUtil.isNotBlank(String.valueOf(chargingType)) && chargingType != -1)
 			{
-				condition = condition + " and charging_Type = " + chargingType;
+				condition = condition + " and p.charging_Type = " + chargingType;
 			}
 			if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1)
 			{
-				condition = condition + " and status = " + status;
+				condition = condition + " and p.status = " + status;
 			}
 			String pageTotal_sql = "select count(*) from (select distinct(id) from (select distinct(p.id),p.name,p.merchant_id,p.status,p.product_id,p.province_id,p.city_id,p.remark,p.face_amount,p.pay_amount,p.delivery_amount ,p.charging_type,p.charging_code, r.channel_id from t_product_charging_point p,T_POINT_CHANNEL_RELATION r where r.point_id (+)= p.id " + condition+") ) "
 					;

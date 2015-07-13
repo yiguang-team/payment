@@ -376,7 +376,7 @@
 																<td>${BasicRule.timeTypeLabel}</td>
 																<c:if test="${BasicRule.timeType == 0}"><td>每${BasicRule.timeUnitLabel}</td></c:if>
 																<c:if test="${BasicRule.timeType == 1}"><td>${BasicRule.startTime}-${BasicRule.endTime}</td></c:if>
-																<c:if test="${BasicRule.timeType == 2}"><td>最近${BasicRule.relativeValue}${relativeUnitLabel}</td></c:if>
+																<c:if test="${BasicRule.timeType == 2}"><td>最近${BasicRule.relativeValue}${BasicRule.relativeUnitLabel}</td></c:if>
 																<td>${BasicRule.limitTypeLabel}</td>
 																<td>${BasicRule.volume}</td>
 																<td><c:if test="${BasicRule.mobile != '-8' && BasicRule.mobile != '-9'}">${BasicRule.mobile}</c:if><c:if test="${BasicRule.mobile == '-8'}">当前</c:if></td>

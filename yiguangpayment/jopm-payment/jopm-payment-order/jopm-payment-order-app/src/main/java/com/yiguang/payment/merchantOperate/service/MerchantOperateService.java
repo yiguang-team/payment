@@ -13,8 +13,9 @@ public interface MerchantOperateService {
 
 	List<MobileAndTotal> getListMAT(String userName,String beginDate,String endDate);
 
-	List<MerchantOrderVO> getOrderList(String orderId, String mobile,
-			String payAmount, String provinceId, String username,
-			String requestTime, String endDate);
+	List<MerchantOrderVO> getOrderList(String orderId, String merchantOrderId, String mobile, String beginDate,
+			String username, String provinceId, String endDate, String channelId, String carrierId, String merchantId,
+			String cityId, String productId, String payStatus, String deliveryStatus, String chargingPointId,
+			String chargingType, String channelType, String notifyStatus);
 	
 }
