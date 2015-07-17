@@ -269,6 +269,11 @@ public class JunwangController
 			@RequestParam(value = "channelId", defaultValue = "") String channelId, Model model, ServletRequest request)
 	{
 
+		if (channelId == "4")
+		{
+			channelId = "2";
+		}
+		
 		String mobile_regex = "^\\d{11}$";
 		if (!Pattern.matches(mobile_regex, mobile))
 		{
