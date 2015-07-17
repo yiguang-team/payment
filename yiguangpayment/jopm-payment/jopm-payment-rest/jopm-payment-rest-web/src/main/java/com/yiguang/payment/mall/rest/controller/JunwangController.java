@@ -15,6 +15,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -114,6 +115,15 @@ public class JunwangController
 	public @ResponseBody String pointList(@RequestParam(value = "channelId", defaultValue = "-1") long channelId,
 			@RequestParam(value = "chargingType", defaultValue = "-1") int chargingType, Model model)
 	{
+		
+		String provinceId = null;
+		if (channelId == 4)
+		{
+			channelId = 2;
+			provinceId="GD_";
+		}
+		
+		
 		List<Point> pointList = pointService.queryPointByProductId(productId);
 		List<PointChannelRelation> list = pointChannelRelationService.queryPointChannelRelationByChannelId(channelId);
 
@@ -127,9 +137,26 @@ public class JunwangController
 						&& p.getStatus() == CommonConstant.CommonStatus.OPEN && p.getId() == pcr.getPointId()
 						&& chargingType == p.getChargingType())
 				{
-					PointChannelRelationVO vo = pointChannelRelationService.copyPropertiesToVO(pcr);
-					html = html + "<option value=\"" + vo.getPointId() + "\">" + vo.getPointLabel() + "</option>";
-					break;
+					
+					if (null == provinceId)
+					{
+						if (p.getProvinceId() == null || !"GD_".equals(p.getProvinceId()))
+						{
+							PointChannelRelationVO vo = pointChannelRelationService.copyPropertiesToVO(pcr);
+							html = html + "<option value=\"" + vo.getPointId() + "\">" + vo.getPointLabel() + "</option>";
+							break;
+						}
+					}
+					else
+					{
+						if (p.getProvinceId() != null && provinceId.equals(p.getProvinceId()))
+						{
+							PointChannelRelationVO vo = pointChannelRelationService.copyPropertiesToVO(pcr);
+							html = html + "<option value=\"" + vo.getPointId() + "\">" + vo.getPointLabel() + "</option>";
+							break;
+						}
+					}
+					
 				}
 			}
 		}
@@ -297,6 +324,18 @@ public class JunwangController
 			Point point = pointService.queryPoint(pointId);
 			Merchant merchant = merchantService.queryMerchant(point.getMerchantId());
 
+			if (operator == 4 && "GD_".equals(section.getProvince().getProvinceId()))
+			{
+				operator = 2;
+			}
+			else
+			{
+				logger.error("不支持的渠道");
+				model.addAttribute("errorcode", ErrorCodeConst.ErrorCode99998);
+				model.addAttribute("errormsg", MessageResolver.getMessage(ErrorCodeConst.ErrorCode99998));
+				return "mall/junwang/error";
+			}
+			
 			// 联通渠道
 			if (operator == 2)
 			{

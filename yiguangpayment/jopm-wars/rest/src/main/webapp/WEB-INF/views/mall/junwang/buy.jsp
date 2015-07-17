@@ -57,9 +57,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="ne">
 				<div class="dh">
 					<ul>
-						<li><a class="lt">联通手机短信支付</a></li>
-						<li class="cur"><a class="dx">电信手机短信支付</a></li>
-						<li><a class="yd">移动手机短信支付</a></li>
+						<li><a class="lt">联通短信验证码支付</a></li>
+						<li class="cur"><a class="dx">电信短信验证码支付</a></li>
+						<li><a class="gdlt">广东联通短信验证码支付</a></li>
 					</ul>
 				</div>
 
@@ -198,10 +198,10 @@ $(function () {
 			showPointer('3');
 			$('#channelId').val('3');
 		}
-		else if (inArray('yd',optL))
+		else if (inArray('gdlt',optL))
 		{
-			alert("暂不支持中国移动用户充值，业务即将开放~");
-			return;
+			showPointer('4');
+			$('#channelId').val('4');
 		}
 		
 		$('.dh').find('li').removeClass('cur'); 

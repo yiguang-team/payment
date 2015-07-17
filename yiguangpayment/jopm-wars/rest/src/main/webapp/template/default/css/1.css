@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 
 html, body, ul, li, h1, h2, h3, h4, h5, h6, p, fieldset, legend,img,div,table,td,tr {padding:0; margin:0;}
@@ -33,6 +33,9 @@ a:visited{  color:#000; text-decoration: none; }
 .dh .cur .dx ,.dh li .dx:hover{ background-position:30px -300px!important;}
 .lt{ background-position:30px -120px;}
 .dh .cur .lt ,.dh li .lt:hover{background-position:30px -180px!important;}
+
+.gdlt{ background-position:30px -120px;}
+.dh .cur .gdlt ,.dh li .gdlt:hover{background-position:30px -180px!important;}
 
 .zuo{width:582px; height:458px; padding:50px 0 0 40px; border-right:1px #CCC dotted; float:left;}
 .you{float:left; width:280px; padding:40px 40px 0 40px; line-height:30px; }

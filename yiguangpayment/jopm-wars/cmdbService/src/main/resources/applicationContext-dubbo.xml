@@ -22,7 +22,7 @@
 	<!-- 使用multicast广播注册中心暴露发现服务地址 -->
 	<dubbo:registry address="${dubbo.registry.address}" />
 	<!-- 用dubbo协议在20880端口暴露服务 -->
-	<dubbo:protocol name="dubbo" port="${dubbo.protocol.port}"
+	<dubbo:protocol host="${dubbo.protocol.host}" name="dubbo" port="${dubbo.protocol.port}"
 		threadpool="fixed" threads="${dubbo.threads}" />
 
 		
