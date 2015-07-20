@@ -15,7 +15,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -269,7 +268,7 @@ public class JunwangController
 			@RequestParam(value = "channelId", defaultValue = "") String channelId, Model model, ServletRequest request)
 	{
 
-		if (channelId == "4")
+		if ("4".equals(channelId))
 		{
 			channelId = "2";
 		}
@@ -333,7 +332,7 @@ public class JunwangController
 			{
 				operator = 2;
 			}
-			else
+			else if(operator == 4 && !"GD_".equals(section.getProvince().getProvinceId()))
 			{
 				logger.error("不支持的渠道");
 				model.addAttribute("errorcode", ErrorCodeConst.ErrorCode99998);

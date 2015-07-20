@@ -85,15 +85,15 @@ public class PointServiceImpl implements PointService
 			}
 			if (StringUtil.isNotBlank(provinceId) && !"-1".equals(provinceId))
 			{
-				condition = condition + " and p.province_Id = '" + provinceId + "'";
+				condition = condition + " and p.province_id = '" + provinceId + "'";
 			}
 			if (StringUtil.isNotBlank(cityId) && !"-1".equals(cityId))
 			{
-				condition = condition + " and p.city_Id = '" + cityId + "'";
+				condition = condition + " and p.city_id = '" + cityId + "'";
 			}
 			if (StringUtil.isNotBlank(String.valueOf(channelId)) && channelId != -1)
-			{
-				condition = condition + " and p.channel_Id = " + channelId;
+			{									
+				condition = condition + " and channel_id = " + channelId;
 			}
 			if (StringUtil.isNotBlank(String.valueOf(merchantId)) && merchantId != -1)
 			{
@@ -101,11 +101,11 @@ public class PointServiceImpl implements PointService
 			}
 			if (StringUtil.isNotBlank(String.valueOf(productId)) && productId != -1)
 			{
-				condition = condition + " and p.product_Id = " + productId;
+				condition = condition + " and p.product_id = " + productId;
 			}
 			if (StringUtil.isNotBlank(String.valueOf(chargingType)) && chargingType != -1)
 			{
-				condition = condition + " and p.charging_Type = " + chargingType;
+				condition = condition + " and p.charging_type = " + chargingType;
 			}
 			if (StringUtil.isNotBlank(String.valueOf(status)) && status != -1)
 			{
@@ -121,6 +121,7 @@ public class PointServiceImpl implements PointService
 
 			insidesql = insidesql + condition;
 			String sql = "select distinct(id),name,merchant_id,status,product_id,province_id,city_id,remark,face_amount,pay_amount,delivery_amount ,charging_type,charging_code from (" + insidesql + ") where rn>" + startIndex;
+			logger.debug("SQL:"+sql);
 			query = em.createNativeQuery(sql, Point.class);
 			@SuppressWarnings("unchecked")
 			List<Point> list = query.getResultList();
