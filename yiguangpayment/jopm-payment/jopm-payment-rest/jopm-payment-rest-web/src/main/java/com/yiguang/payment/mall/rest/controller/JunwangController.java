@@ -269,7 +269,7 @@ public class JunwangController
 			@RequestParam(value = "channelId", defaultValue = "") String channelId, Model model, ServletRequest request)
 	{
 
-		if (channelId == "4")
+		if ("4".equals(channelId))
 		{
 			channelId = "2";
 		}
