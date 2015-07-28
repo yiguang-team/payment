@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						src="${ctx}/template/default/img/logo.jpg" /></a></strong> <span> <img
 					border="0" SRC="${ctx}/template/default/img/TEL.jpg"> <a
 					target=blank
-					href=http://wpa.qq.com/msgrd?V=1&uin=3157299628&Site=短信支付&Menu=yes><img
+					href=http://wpa.qq.com/msgrd?V=1&uin=1957518051&Site=短信支付&Menu=yes><img
 						border="0" SRC="${ctx}/template/default/img/QQ1.jpg"
 						alt="点击这里给我发消息"></a> <a target=blank
 					href=http://wpa.qq.com/msgrd?V=1&uin=1767508243&Site=短信支付&Menu=yes><img
@@ -135,6 +135,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<b>手机验证码支付说明：</b>
 					</p>
 					<p>
+						注：广东联通用户双日消费限额20元，月消费限额100元；<br />
 						验证码支付：即通过确认手机收到的验证码完成支付扣费；<br />
 						支持中国移动号段：134~139、147、150~152、157~159、182、183、184、187、188；<br />
 						支持中国联通号段： 130-132、145、155、156、185、186；<br /> 支持中国电信号段：
@@ -143,8 +144,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</p>
 					<p>
 						在线客服1：<a target=blank
-							href=http://wpa.qq.com/msgrd?V=1&uin=3157299628&Site=短信支付&Menu=yes><img
-							border="0" SRC=http://wpa.qq.com/pa?p=1:3157299628:1
+							href=http://wpa.qq.com/msgrd?V=1&uin=1957518051&Site=短信支付&Menu=yes><img
+							border="0" SRC=http://wpa.qq.com/pa?p=1:1957518051:1
 							alt="点击这里给我发消息"></a>
 					</p>
 					<p>
