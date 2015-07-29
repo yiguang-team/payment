@@ -53,7 +53,7 @@ public class NotifyServiceImpl implements NotifyService {
 				String result = String.valueOf(merchantOrder.getPayStatus());
 				String sign = MD5Util.getMD5Sign(
 						merchantid + merchantOrderid + payorderid + datetime + payfee + mobile + result + key);
-
+				notifyUrl.append(merchant.getNotifyUrl());
 				notifyUrl.append("?merchantid=").append(merchantid);
 				notifyUrl.append("&orderid=").append(merchantOrderid);
 				notifyUrl.append("&payorderid=").append(payorderid);
