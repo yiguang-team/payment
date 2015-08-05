@@ -115,6 +115,7 @@ public class DepotController
 		List<OptionVO> provinceList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.PROVINCE);
 		List<OptionVO> cityList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.CITY);
 
+		model.addAttribute("cardId", cardId);
 		model.addAttribute("status", status);
 		model.addAttribute("batchId", batchId);
 		model.addAttribute("statusList", statusList);

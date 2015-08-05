@@ -359,7 +359,7 @@ public class ProductDepotServiceImpl implements ProductDepotService
 				
 				if (StringUtil.isNotEmpty(vo.getCardId()))
 				{
-					predicateList.add(cb.equal(root.get("cardId").as(Integer.class), vo.getCardId()));  
+					predicateList.add(cb.equal(root.get("cardId").as(String.class), vo.getCardId()));  
 				}
 				
 				Predicate[] p = new Predicate[predicateList.size()];  

@@ -83,6 +83,7 @@ public class BatchController
 			List<OptionVO> merchantList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.MERCHANT);
 			List<OptionVO> productList = dataSourceService.findOpenOptions(CommonConstant.DataSourceName.PRODUCT);
 
+			model.addAttribute("batchId", batchId);
 			model.addAttribute("status", status);
 			model.addAttribute("statusList", statusList);
 			model.addAttribute("merchantId", merchantId);
