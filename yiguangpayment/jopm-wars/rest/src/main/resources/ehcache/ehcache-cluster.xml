@@ -8,11 +8,11 @@
 	<cacheManagerPeerProviderFactory
 		class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
 		properties="peerDiscovery=automatic, multicastGroupAddress=230.0.0.1,
-		  multicastGroupPort=4446, timeToLive=1,hostName=192.168.0.24" />
+		  multicastGroupPort=4446, timeToLive=1,hostName=192.168.1.42" />
 	  
 	<cacheManagerPeerListenerFactory
 		class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
-		properties="hostName=192.168.0.24, port=40001,
+		properties="hostName=192.168.1.42, port=40001,
 	  socketTimeoutMillis=2000" />
 
 </ehcache>

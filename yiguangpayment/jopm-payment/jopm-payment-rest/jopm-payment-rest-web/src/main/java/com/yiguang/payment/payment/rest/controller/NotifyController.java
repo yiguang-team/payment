@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -29,13 +30,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yiguang.payment.business.product.entity.Point;
+import com.yiguang.payment.business.product.entity.Product;
 import com.yiguang.payment.business.product.service.PointService;
+import com.yiguang.payment.business.product.service.ProductService;
 import com.yiguang.payment.common.CommonConstant;
 import com.yiguang.payment.common.JsonTool;
 import com.yiguang.payment.common.RestConst;
 import com.yiguang.payment.common.errorcode.service.ErrorCodeService;
 import com.yiguang.payment.common.numsection.entity.NumSection;
-import com.yiguang.payment.common.utils.StringUtil;
+import com.yiguang.payment.payment.entity.ChannelChargingCode;
 import com.yiguang.payment.payment.order.entity.MerchantOrder;
 import com.yiguang.payment.payment.order.service.MerchantOrderService;
 import com.yiguang.payment.payment.order.service.ParameterValidateService;
@@ -45,8 +48,7 @@ import com.yiguang.payment.payment.risk.service.RiskService;
 
 @Controller
 @RequestMapping(value = "/notify")
-public class NotifyController
-{
+public class NotifyController {
 	private static Logger logger = LoggerFactory.getLogger(NotifyController.class);
 	@Autowired
 	private DeliveryService deliveryService;
@@ -61,6 +63,8 @@ public class NotifyController
 	@Autowired
 	private PointService pointService;
 	@Autowired
+	private ProductService productService;
+	@Autowired
 	private RiskService riskService;
 
 	/**
@@ -68,19 +72,17 @@ public class NotifyController
 	 */
 	@SuppressWarnings({ "rawtypes" })
 	@RequestMapping(value = "/telecom/smsCallBack", method = RequestMethod.POST)
-	public @ResponseBody String telecom_smsCallBack(Model model, ServletRequest request)
-	{
+	public @ResponseBody String telecom_smsCallBack(Model model, ServletRequest request) {
 
 		Map map = request.getParameterMap();
 		String result = "";
-		try
-		{
+		try {
 			@SuppressWarnings("unchecked")
 			Set<Entry> set = map.entrySet();
 
-			logger.info("TELECOM SMS NOTIFY START----------------------------------------------------------------------");
-			for (Entry e : set)
-			{
+			logger.info(
+					"TELECOM SMS NOTIFY START----------------------------------------------------------------------");
+			for (Entry e : set) {
 				logger.info("TELECOM SMS NOTIFY[" + String.valueOf(e.getKey()) + "]:[" + ((String[]) e.getValue())[0]
 						+ "]");
 			}
@@ -121,28 +123,23 @@ public class NotifyController
 			merchantOrder.setReturnCode(resultcode);
 			merchantOrder.setReturnMessage(resultmessage);
 
-			if (StringUtils.equals(resultcode, "0000"))
-			{
+			if (StringUtils.equals(resultcode, "0000")) {
 				merchantOrder.setPayStatus(CommonConstant.PayStatus.SUCCESS);
-			}
-			else
-			{
+			} else {
 				merchantOrder.setPayStatus(CommonConstant.PayStatus.FAILED);
 			}
 			merchantOrder = merchantOrderService.updateMerchantOrder(merchantOrder);
 
-			if (merchantOrder.getPayStatus() == CommonConstant.PayStatus.SUCCESS)
-			{
+			if (merchantOrder.getPayStatus() == CommonConstant.PayStatus.SUCCESS) {
 				merchantOrder.setDeliveryStatus(CommonConstant.DeliveryStatus.DELIVERYING);
 				merchantOrder = merchantOrderService.updateMerchantOrder(merchantOrder);
 
 				deliveryService.delivery(merchantOrder);
 			}
-			logger.info("TELECOM SMS NOTIFY END------------------------------------------------------------------------");
+			logger.info(
+					"TELECOM SMS NOTIFY END------------------------------------------------------------------------");
 			result = "UPTRANSEQ_" + UPTRANSEQ;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			logger.error("telecom callback error!");
 			logger.error(e.getLocalizedMessage(), e);
 		}
@@ -155,18 +152,15 @@ public class NotifyController
 	 */
 	@SuppressWarnings({ "rawtypes" })
 	@RequestMapping(value = "/iread/smsCallBack", method = RequestMethod.POST)
-	public @ResponseBody String iread_smsCallBack(Model model, ServletRequest request)
-	{
+	public @ResponseBody String iread_smsCallBack(Model model, ServletRequest request) {
 
 		Map<String, String> result = new HashMap<String, String>();
-		try
-		{
+		try {
 			HttpServletRequest httpRequest = (HttpServletRequest) request;
 			ServletInputStream is = httpRequest.getInputStream();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			int i = -1;
-			while ((i = is.read()) != -1)
-			{
+			while ((i = is.read()) != -1) {
 				baos.write(i);
 			}
 
@@ -175,9 +169,9 @@ public class NotifyController
 
 			@SuppressWarnings("unchecked")
 			Set<Entry> set = map.entrySet();
-			logger.info("UNICOM SMSCHARGE NOTIFY START----------------------------------------------------------------------");
-			for (Entry e : set)
-			{
+			logger.info(
+					"UNICOM SMSCHARGE NOTIFY START----------------------------------------------------------------------");
+			for (Entry e : set) {
 				logger.info("UNICOM SMSCHARGE NOTIFY[" + String.valueOf(e.getKey()) + "]:["
 						+ (String.valueOf(e.getValue())) + "]");
 			}
@@ -199,34 +193,32 @@ public class NotifyController
 			merchantOrder.setReturnCode(resultcode);
 			merchantOrder.setReturnMessage(resultmsg);
 
-			if (StringUtils.equals(resultcode, "0000"))
-			{
+			if (StringUtils.equals(resultcode, "0000")) {
 				merchantOrder.setPayStatus(CommonConstant.PayStatus.SUCCESS);
-			}
-			else
-			{
+			} else {
 				merchantOrder.setPayStatus(CommonConstant.PayStatus.FAILED);
 			}
 			merchantOrder = merchantOrderService.updateMerchantOrder(merchantOrder);
 
-			if (merchantOrder.getPayStatus() == CommonConstant.PayStatus.SUCCESS)
-			{
-				merchantOrder = notifyService.notify(merchantOrder);
-				merchantOrderService.updateMerchantOrder(merchantOrder);
+			// 通知
+			merchantOrder = notifyService.notify(merchantOrder);
+			merchantOrderService.updateMerchantOrder(merchantOrder);
+
+			if (merchantOrder.getPayStatus() == CommonConstant.PayStatus.SUCCESS) {
+
 				merchantOrder.setDeliveryStatus(CommonConstant.DeliveryStatus.DELIVERYING);
 				merchantOrder = merchantOrderService.updateMerchantOrder(merchantOrder);
 
 				deliveryService.delivery(merchantOrder);
 			}
 
-			logger.info("UNICOM SMSCHARGE NOTIFY END------------------------------------------------------------------------");
+			logger.info(
+					"UNICOM SMSCHARGE NOTIFY END------------------------------------------------------------------------");
 
 			result.put("code", "0000");
 			result.put("innercode", "0000");
 			result.put("message", "成功");
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			logger.error(e.getLocalizedMessage(), e);
 			result.put("code", "9999");
 			result.put("innercode", "9999");
@@ -237,6 +229,217 @@ public class NotifyController
 		return json;
 	}
 
+	// /**
+	// * 联通短代通知接口
+	// *
+	// * @throws IOException
+	// */
+	// @RequestMapping(value = "/iread/order", method = RequestMethod.POST)
+	// public @ResponseBody void iread_order(Model model, ServletRequest
+	// request, ServletResponse response)
+	// throws IOException
+	// {
+	// String result = null;
+	// HttpServletResponse httpResponse = (HttpServletResponse) response;
+	// try
+	// {
+	// ServletInputStream is = request.getInputStream();
+	// ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	// int i = -1;
+	// while ((i = is.read()) != -1)
+	// {
+	// baos.write(i);
+	// }
+	//
+	// String sms = baos.toString();
+	// logger.info("UNICOM FEE NOTIFY
+	// START----------------------------------------------------------------------");
+	// logger.info("UNICOM FEE NOTIFY[sms][" + sms + "]");
+	// Document doc = (Document) DocumentHelper.parseText(sms);
+	//
+	// String orderid = "";
+	// String ordertime = "";
+	// String cpid = "";
+	// String appid = "";
+	// String fid = "";
+	// String consumeCode = "";
+	// String payfee = "";
+	// String payType = "";
+	// String myid = "";
+	// String phonenum = "";
+	// String hRet = "";
+	// String status = "";
+	// String signMsg = "";
+	//
+	// // 根节点
+	// Element root = doc.getRootElement();
+	//
+	// @SuppressWarnings("rawtypes")
+	// Iterator Elements = root.elementIterator();
+	// while (Elements.hasNext())
+	// {
+	// Element el = (Element) Elements.next();
+	//
+	// if (el.getName().equals("orderid"))
+	// {
+	// orderid = el.getText();
+	// }
+	// else if (el.getName().equals("ordertime"))
+	// {
+	// ordertime = el.getText();
+	// }
+	// else if (el.getName().equals("cpid"))
+	// {
+	// cpid = el.getText();
+	// }
+	// else if (el.getName().equals("appid"))
+	// {
+	// appid = el.getText();
+	// }
+	// else if (el.getName().equals("fid"))
+	// {
+	// fid = el.getText();
+	// }
+	// else if (el.getName().equals("consumeCode"))
+	// {
+	// consumeCode = el.getText();
+	// }
+	// else if (el.getName().equals("payfee"))
+	// {
+	// payfee = el.getText();
+	// }
+	// else if (el.getName().equals("payType"))
+	// {
+	// payType = el.getText();
+	// }
+	// else if (el.getName().equals("myid"))
+	// {
+	// myid = el.getText();
+	// }
+	// else if (el.getName().equals("phonenum"))
+	// {
+	// phonenum = el.getText();
+	// }
+	// else if (el.getName().equals("hRet"))
+	// {
+	// hRet = el.getText();
+	// }
+	// else if (el.getName().equals("status"))
+	// {
+	// status = el.getText();
+	// }
+	// else if (el.getName().equals("signMsg"))
+	// {
+	// signMsg = el.getText();
+	// }
+	// }
+	//
+	// // 校验订单
+	// if (StringUtil.isBlank(cpid))
+	// {
+	// // 短代风控限量
+	// cpid = orderid.substring(0, 4);
+	//
+	// try
+	// {
+	// long not_limit = CommonConstant.RiskSelectType.NON_LIMIT;
+	// riskService.checkBasicRule(not_limit, String.valueOf(not_limit),
+	// String.valueOf(not_limit),
+	// Integer.parseInt(cpid), not_limit, not_limit, String.valueOf(not_limit),
+	// String.valueOf(not_limit), String.valueOf(not_limit), 0);
+	// result = "0";
+	// }
+	// catch (Exception e)
+	// {
+	// result = "1";
+	// }
+	// }
+	// else
+	// {
+	// // 真正的短代通知
+	// StringBuffer signStr = new StringBuffer("");
+	//
+	// signStr.append("orderid=").append(orderid).append("&ordertime=");
+	// signStr.append(ordertime).append("&cpid=").append(cpid);
+	// signStr.append("&appid=").append(appid).append("&fid=");
+	// signStr.append(fid).append("&consumeCode=").append(consumeCode).append("&payfee=");
+	// signStr.append(payfee).append("&payType=").append(payType).append("&myid=");
+	// signStr.append(myid).append("&phonenum=").append(phonenum).append("&hRet=");
+	// signStr.append(hRet).append("&status=").append(status).append("&Key=").append(RestConst.CU_KEY);
+	//
+	// parameterValidateService.checkSign(signStr.toString(), signMsg);
+	//
+	// // 根据通知结果添加支付订单
+	// String channelId = String.valueOf(RestConst.CHANNEL_ID_UNICOM);
+	// NumSection section =
+	// parameterValidateService.checkMobileMatchCarrier(phonenum, channelId);
+	// Point point = pointService.queryPoint(Long.parseLong(appid));
+	//
+	// // 下订单
+	// MerchantOrder merchantOrder = new MerchantOrder();
+	// Date date = new Date();
+	// String timestamp = RestConst.SDF_14.format(date);
+	// Double num = Math.random() * 9000 + 1000;
+	// String random = String.valueOf(num.intValue());
+	// String payOrderId = appid + "00" + timestamp + random;
+	//
+	// merchantOrder.setOrderTimestamp(timestamp);
+	// merchantOrder.setOrderId(payOrderId);
+	// merchantOrder.setMerchantOrderId(orderid);
+	// merchantOrder.setProductId(point.getProductId());
+	// merchantOrder.setChannelId(2);
+	// merchantOrder.setMobile(phonenum);
+	// merchantOrder.setUsername("");
+	// merchantOrder.setChargingType(point.getChargingType());
+	// merchantOrder.setChargingPointId(point.getId());
+	// merchantOrder.setRequestIp("");
+	// merchantOrder.setCarrierId(section.getCarrierInfo().getId());
+	// merchantOrder.setRequestTime(RestConst.SDF_14.parse(ordertime));
+	// merchantOrder.setCompleteTime(new Date());
+	// merchantOrder.setChannelType(CommonConstant.ChannelType.DUANDAI);
+	// merchantOrder.setSubject("");
+	// merchantOrder.setDescription("");
+	// merchantOrder.setNotifyStatus(CommonConstant.NotifyStatus.NOT_NOTIFY);
+	// merchantOrder.setProvinceId(section.getProvince().getProvinceId());
+	// merchantOrder.setCityId(section.getCity().getCityId());
+	// merchantOrder.setFaceAmount(point.getFaceAmount());
+	// merchantOrder.setDeliveryAmount(point.getDeliveryAmount());
+	// merchantOrder.setPayAmount(point.getPayAmount());
+	// merchantOrder.setMerchantId(point.getMerchantId());
+	// merchantOrder.setDeliveryStatus(CommonConstant.DeliveryStatus.NOT_DELIVERY);
+	// merchantOrder.setPayTimestamp(ordertime);
+	// merchantOrder.setReturnCode(hRet);
+	// merchantOrder.setReturnMessage(status);
+	// merchantOrder = merchantOrderService.createMerchantOrder(merchantOrder);
+	// if ("0".equals(hRet))
+	// {
+	// merchantOrder.setPayStatus(CommonConstant.PayStatus.SUCCESS);
+	// merchantOrder = notifyService.notify(merchantOrder);
+	//
+	// }
+	// else
+	// {
+	// merchantOrder.setPayStatus(CommonConstant.PayStatus.FAILED);
+	// }
+	// merchantOrderService.updateMerchantOrder(merchantOrder);
+	// result = "0";
+	// }
+	// logger.info("UNICOM FEE NOTIFY
+	// END------------------------------------------------------------------------");
+	//
+	// }
+	// catch (Exception e)
+	// {
+	// logger.error(e.getLocalizedMessage(), e);
+	// result = "1";
+	// }
+	//
+	// httpResponse.setHeader("Content-type", "text/xml");
+	// httpResponse.getWriter().write(
+	// "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkOrderIdRsp>" + result +
+	// "</checkOrderIdRsp>");
+	// }
+
 	/**
 	 * 联通短代通知接口
 	 * 
@@ -244,202 +447,241 @@ public class NotifyController
 	 */
 	@RequestMapping(value = "/iread/order", method = RequestMethod.POST)
 	public @ResponseBody void iread_order(Model model, ServletRequest request, ServletResponse response)
-			throws IOException
-	{
+			throws IOException {
 		String result = null;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		try
-		{
+		try {
 			ServletInputStream is = request.getInputStream();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			int i = -1;
-			while ((i = is.read()) != -1)
-			{
+			while ((i = is.read()) != -1) {
 				baos.write(i);
 			}
 
 			String sms = baos.toString();
-			logger.info("UNICOM FEE NOTIFY START----------------------------------------------------------------------");
+			logger.info(
+					"UNICOM FEE NOTIFY START----------------------------------------------------------------------");
 			logger.info("UNICOM FEE NOTIFY[sms][" + sms + "]");
 			Document doc = (Document) DocumentHelper.parseText(sms);
-
-			String orderid = "";
-			String ordertime = "";
-			String cpid = "";
-			String appid = "";
-			String fid = "";
-			String consumeCode = "";
-			String payfee = "";
-			String payType = "";
-			String myid = "";
-			String phonenum = "";
-			String hRet = "";
-			String status = "";
-			String signMsg = "";
 
 			// 根节点
 			Element root = doc.getRootElement();
 
-			@SuppressWarnings("rawtypes")
-			Iterator Elements = root.elementIterator();
-			while (Elements.hasNext())
-			{
-				Element el = (Element) Elements.next();
+			if (root.getName().equals("checkOrderIdReq")) {
+				try {
+					String ItfType = "";
+					String Command = "";
+					String FeeType = "";
+					String CPID = "";
+					String ServiceID = "";
+					String ChannelID = "";
+					String appid = "";
+					String MYID = "";
+					String TIME = "";
+					String orderid = "";
+					String Cpcustom = "";
+					String Phonenum = "";
+					String signMsg = "";
 
-				if (el.getName().equals("orderid"))
-				{
-					orderid = el.getText();
-				}
-				else if (el.getName().equals("ordertime"))
-				{
-					ordertime = el.getText();
-				}
-				else if (el.getName().equals("cpid"))
-				{
-					cpid = el.getText();
-				}
-				else if (el.getName().equals("appid"))
-				{
-					appid = el.getText();
-				}
-				else if (el.getName().equals("fid"))
-				{
-					fid = el.getText();
-				}
-				else if (el.getName().equals("consumeCode"))
-				{
-					consumeCode = el.getText();
-				}
-				else if (el.getName().equals("payfee"))
-				{
-					payfee = el.getText();
-				}
-				else if (el.getName().equals("payType"))
-				{
-					payType = el.getText();
-				}
-				else if (el.getName().equals("myid"))
-				{
-					myid = el.getText();
-				}
-				else if (el.getName().equals("phonenum"))
-				{
-					phonenum = el.getText();
-				}
-				else if (el.getName().equals("hRet"))
-				{
-					hRet = el.getText();
-				}
-				else if (el.getName().equals("status"))
-				{
-					status = el.getText();
-				}
-				else if (el.getName().equals("signMsg"))
-				{
-					signMsg = el.getText();
-				}
-			}
+					@SuppressWarnings("rawtypes")
+					Iterator Elements = root.elementIterator();
+					while (Elements.hasNext()) {
+						Element el = (Element) Elements.next();
 
-			// 校验订单
-			if (StringUtil.isBlank(cpid))
-			{
-				// 短代风控限量
-				cpid = orderid.substring(0, 4);
+						if (el.getName().equals("ItfType")) {
+							ItfType = el.getText();
+						} else if (el.getName().equals("Command")) {
+							Command = el.getText();
+						} else if (el.getName().equals("FeeType")) {
+							FeeType = el.getText();
+						} else if (el.getName().equals("CPID")) {
+							CPID = el.getText();
+						} else if (el.getName().equals("ServiceID")) {
+							ServiceID = el.getText();
+						} else if (el.getName().equals("ChannelID")) {
+							ChannelID = el.getText();
+						} else if (el.getName().equals("appid")) {
+							appid = el.getText();
+						} else if (el.getName().equals("MYID")) {
+							MYID = el.getText();
+						} else if (el.getName().equals("TIME")) {
+							TIME = el.getText();
+						} else if (el.getName().equals("orderid")) {
+							orderid = el.getText();
+						} else if (el.getName().equals("Cpcustom")) {
+							Cpcustom = el.getText();
+						} else if (el.getName().equals("Phonenum")) {
+							Phonenum = el.getText();
+						} else if (el.getName().equals("signMsg")) {
+							signMsg = el.getText();
+						}
+					}
 
-				try
-				{
+					// 短代风控限量
+					long longCpcustom = Long.parseLong(Cpcustom);
+					longCpcustom = 1000 + longCpcustom;
+
 					long not_limit = CommonConstant.RiskSelectType.NON_LIMIT;
 					riskService.checkBasicRule(not_limit, String.valueOf(not_limit), String.valueOf(not_limit),
-							Integer.parseInt(cpid), not_limit, not_limit, String.valueOf(not_limit),
-							String.valueOf(not_limit), String.valueOf(not_limit), 0);
+							Integer.parseInt(String.valueOf(longCpcustom)), not_limit, not_limit,
+							String.valueOf(not_limit), String.valueOf(not_limit), String.valueOf(not_limit), 0);
 					result = "0";
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
+					logger.error(e.getLocalizedMessage(), e);
 					result = "1";
 				}
-			}
-			else
-			{
-				// 真正的短代通知
-				StringBuffer signStr = new StringBuffer("");
 
-				signStr.append("orderid=").append(orderid).append("&ordertime=");
-				signStr.append(ordertime).append("&cpid=").append(cpid);
-				signStr.append("&appid=").append(appid).append("&fid=");
-				signStr.append(fid).append("&consumeCode=").append(consumeCode).append("&payfee=");
-				signStr.append(payfee).append("&payType=").append(payType).append("&myid=");
-				signStr.append(myid).append("&phonenum=").append(phonenum).append("&hRet=");
-				signStr.append(hRet).append("&status=").append(status).append("&Key=").append(RestConst.CU_KEY);
+				httpResponse.setHeader("Content-type", "text/xml");
+				httpResponse.getWriter().write(
+						"<?xml version=\"1.0\" encoding=\"utf-8\"?><checkOrderIdRsp>" + result + "</checkOrderIdRsp>");
 
-				parameterValidateService.checkSign(signStr.toString(), signMsg);
+			} else if (root.getName().equals("callbackAckReq")) {
+				try {
+					String orderid = "";
+					String ordertime = "";
+					String cpid = "";
+					String appid = "";
+					String fid = "";
+					String consumeCode = "";
+					String payfee = "";
+					String payType = "";
+					String myid = "";
+					String phonenum = "";
+					String hRet = "";
+					String status = "";
+					String signMsg = "";
+					String cpcustom = "";
 
-				// 根据通知结果添加支付订单
-				String channelId = String.valueOf(RestConst.CHANNEL_ID_UNICOM);
-				NumSection section = parameterValidateService.checkMobileMatchCarrier(phonenum, channelId);
-				Point point = pointService.queryPoint(Long.parseLong(appid));
+					@SuppressWarnings("rawtypes")
+					Iterator Elements = root.elementIterator();
+					while (Elements.hasNext()) {
+						Element el = (Element) Elements.next();
 
-				// 下订单
-				MerchantOrder merchantOrder = new MerchantOrder();
-				Date date = new Date();
-				String timestamp = RestConst.SDF_14.format(date);
-				Double num = Math.random() * 9000 + 1000;
-				String random = String.valueOf(num.intValue());
-				String payOrderId = appid + "00" + timestamp + random;
+						if (el.getName().equals("orderid")) {
+							orderid = el.getText();
+						} else if (el.getName().equals("ordertime")) {
+							ordertime = el.getText();
+						} else if (el.getName().equals("cpid")) {
+							cpid = el.getText();
+						} else if (el.getName().equals("appid")) {
+							appid = el.getText();
+						} else if (el.getName().equals("fid")) {
+							fid = el.getText();
+						} else if (el.getName().equals("consumeCode")) {
+							consumeCode = el.getText();
+						} else if (el.getName().equals("payfee")) {
+							payfee = el.getText();
+						} else if (el.getName().equals("payType")) {
+							payType = el.getText();
+						} else if (el.getName().equals("myid")) {
+							myid = el.getText();
+						} else if (el.getName().equals("phonenum")) {
+							phonenum = el.getText();
+						} else if (el.getName().equals("cpcustom")) {
+							cpcustom = el.getText();
+						} else if (el.getName().equals("hRet")) {
+							hRet = el.getText();
+						} else if (el.getName().equals("status")) {
+							status = el.getText();
+						} else if (el.getName().equals("signMsg")) {
+							signMsg = el.getText();
+						}
+					}
 
-				merchantOrder.setOrderTimestamp(timestamp);
-				merchantOrder.setOrderId(payOrderId);
-				merchantOrder.setMerchantOrderId(orderid);
-				merchantOrder.setProductId(point.getProductId());
-				merchantOrder.setChannelId(2);
-				merchantOrder.setMobile(phonenum);
-				merchantOrder.setUsername("");
-				merchantOrder.setChargingType(point.getChargingType());
-				merchantOrder.setChargingPointId(point.getId());
-				merchantOrder.setRequestIp("");
-				merchantOrder.setCarrierId(section.getCarrierInfo().getId());
-				merchantOrder.setRequestTime(RestConst.SDF_14.parse(ordertime));
-				merchantOrder.setCompleteTime(new Date());
-				merchantOrder.setChannelType(CommonConstant.ChannelType.DUANDAI);
-				merchantOrder.setSubject("");
-				merchantOrder.setDescription("");
-				merchantOrder.setNotifyStatus(CommonConstant.NotifyStatus.NOT_NOTIFY);
-				merchantOrder.setProvinceId(section.getProvince().getProvinceId());
-				merchantOrder.setCityId(section.getCity().getCityId());
-				merchantOrder.setFaceAmount(point.getFaceAmount());
-				merchantOrder.setDeliveryAmount(point.getDeliveryAmount());
-				merchantOrder.setPayAmount(point.getPayAmount());
-				merchantOrder.setMerchantId(point.getMerchantId());
-				merchantOrder.setDeliveryStatus(CommonConstant.DeliveryStatus.NOT_DELIVERY);
-				merchantOrder.setPayTimestamp(ordertime);
-				merchantOrder.setReturnCode(hRet);
-				merchantOrder.setReturnMessage(status);
-				merchantOrder = merchantOrderService.createMerchantOrder(merchantOrder);
-				if ("0".equals(hRet))
-				{
-					merchantOrder.setPayStatus(CommonConstant.PayStatus.SUCCESS);
+					// 真正的短代通知
+					StringBuffer signStr = new StringBuffer("");
+
+					signStr.append("orderid=").append(orderid).append("&ordertime=");
+					signStr.append(ordertime).append("&cpid=").append(cpid);
+					signStr.append("&appid=").append(appid).append("&fid=");
+					signStr.append(fid).append("&consumeCode=").append(consumeCode).append("&payfee=");
+					signStr.append(payfee).append("&payType=").append(payType).append("&myid=");
+					signStr.append(myid).append("&phonenum=").append(phonenum).append("&cpcustom=");
+					signStr.append(cpcustom).append("&hRet=");
+					signStr.append(hRet).append("&status=").append(status).append("&Key=").append(RestConst.CU_KEY);
+
+					parameterValidateService.checkSign(signStr.toString(), signMsg);
+
+					long longCpcustom = Long.parseLong(cpcustom);
+					longCpcustom = 1000 + longCpcustom;
+
+					// 根据通知结果添加支付订单
+					String channelId = String.valueOf(RestConst.CHANNEL_ID_UNICOM);
+					NumSection section = parameterValidateService.checkMobileMatchCarrier(phonenum, channelId);
+
+					ChannelChargingCode ccc = parameterValidateService.checkChannelChargingCode(consumeCode, channelId);
+
+					List<Product> productList = productService.queryProductBySupplierId(longCpcustom);
+					Point point = pointService.queryPointByProductIdAndFaceAmt(productList.get(0).getId(),
+							ccc.getChargingAmount());
+
+					// 下订单
+					MerchantOrder merchantOrder = new MerchantOrder();
+					Date date = new Date();
+					String timestamp = RestConst.SDF_14.format(date);
+					Double num = Math.random() * 9000 + 1000;
+					String random = String.valueOf(num.intValue());
+					String payOrderId = longCpcustom + "00" + timestamp + random;
+
+					merchantOrder.setOrderTimestamp(timestamp);
+					merchantOrder.setOrderId(payOrderId);
+					merchantOrder.setMerchantOrderId(orderid);
+					merchantOrder.setProductId(point.getProductId());
+					merchantOrder.setChannelId(2);
+					merchantOrder.setMobile(phonenum);
+					merchantOrder.setUsername("");
+					merchantOrder.setChargingType(point.getChargingType());
+					merchantOrder.setChargingPointId(point.getId());
+					merchantOrder.setRequestIp("");
+					merchantOrder.setCarrierId(section.getCarrierInfo().getId());
+					merchantOrder.setRequestTime(RestConst.SDF_14.parse(ordertime));
+					merchantOrder.setCompleteTime(new Date());
+					merchantOrder.setChannelType(CommonConstant.ChannelType.DUANDAI);
+					merchantOrder.setSubject("");
+					merchantOrder.setDescription("");
+					merchantOrder.setNotifyStatus(CommonConstant.NotifyStatus.NOT_NOTIFY);
+					merchantOrder.setProvinceId(section.getProvince().getProvinceId());
+					merchantOrder.setCityId(section.getCity().getCityId());
+					merchantOrder.setFaceAmount(point.getFaceAmount());
+					merchantOrder.setDeliveryAmount(point.getDeliveryAmount());
+					merchantOrder.setPayAmount(point.getPayAmount());
+					merchantOrder.setMerchantId(point.getMerchantId());
+					merchantOrder.setDeliveryStatus(CommonConstant.DeliveryStatus.NOT_DELIVERY);
+					merchantOrder.setPayTimestamp(ordertime);
+					merchantOrder.setReturnCode(hRet);
+					merchantOrder.setReturnMessage(status);
+					merchantOrder = merchantOrderService.createMerchantOrder(merchantOrder);
+					if ("0".equals(hRet)) {
+						merchantOrder.setPayStatus(CommonConstant.PayStatus.SUCCESS);
+						merchantOrder = notifyService.notify(merchantOrder);
+
+					} else {
+						merchantOrder.setPayStatus(CommonConstant.PayStatus.FAILED);
+					}
+					merchantOrderService.updateMerchantOrder(merchantOrder);
+
+					// 通知
 					merchantOrder = notifyService.notify(merchantOrder);
-					
-				}
-				else
-				{
-					merchantOrder.setPayStatus(CommonConstant.PayStatus.FAILED);
-				}
-				merchantOrderService.updateMerchantOrder(merchantOrder);
-				result = "0";
-			}
-			logger.info("UNICOM FEE NOTIFY END------------------------------------------------------------------------");
+					merchantOrderService.updateMerchantOrder(merchantOrder);
 
-		}
-		catch (Exception e)
-		{
+					result = "0";
+				} catch (Exception e) {
+					logger.error(e.getLocalizedMessage(), e);
+					result = "1";
+				}
+
+				httpResponse.setHeader("Content-type", "text/xml");
+				httpResponse.getWriter().write(
+						"<?xml version=\"1.0\" encoding=\"utf-8\"?><callbackAckRsp>" + result + "</callbackAckRsp>");
+			}
+
+			logger.info(
+					"UNICOM FEE NOTIFY END------------------------------------------------------------------------");
+
+		} catch (Exception e) {
 			logger.error(e.getLocalizedMessage(), e);
 			result = "1";
 		}
 
-		httpResponse.setHeader("Content-type", "text/xml");
-		httpResponse.getWriter().write(
-				"<?xml version=\"1.0\" encoding=\"utf-8\"?><checkOrderIdRsp>" + result + "</checkOrderIdRsp>");
 	}
-
 }

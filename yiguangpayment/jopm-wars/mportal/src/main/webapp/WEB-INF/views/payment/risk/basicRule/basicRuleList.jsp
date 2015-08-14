@@ -349,6 +349,7 @@
 											<thead>
 												<tr>
 													<th class="center">序号</th>
+													<th>ID</th>
 													<th>限时方式</th>
 													<th>限时条件</th>
 													<th>限量方式</th>
@@ -373,6 +374,7 @@
 															varStatus="status">
 															<tr>
 																<td class="center">${(page-1)*pageSize+status.index+1}</td>
+																<td>${BasicRule.id}</td>
 																<td>${BasicRule.timeTypeLabel}</td>
 																<c:if test="${BasicRule.timeType == 0}"><td>每${BasicRule.timeUnitLabel}</td></c:if>
 																<c:if test="${BasicRule.timeType == 1}"><td>${BasicRule.startTime}-${BasicRule.endTime}</td></c:if>

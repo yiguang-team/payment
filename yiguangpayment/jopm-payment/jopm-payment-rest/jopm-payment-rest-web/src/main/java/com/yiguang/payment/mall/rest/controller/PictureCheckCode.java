@@ -1,17 +1,22 @@
 package com.yiguang.payment.mall.rest.controller;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
-import java.io.*;
-import java.util.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.imageio.ImageIO;
 
 public class PictureCheckCode extends HttpServlet
 {

@@ -27,7 +27,10 @@ public interface ErrorCodeConst
 	public static final int ErrorCode90022 = 90022;
 	public static final int ErrorCode90023 = 90023;
 	public static final int ErrorCode99999 = 99999;
-
+	/**
+	 * 一天一个骏网直充账户只能用5个号码充值
+	 */
+	public static final int ErrorCode11005 = 11005;
 	/**
 	 * 系统异常
 	 */
